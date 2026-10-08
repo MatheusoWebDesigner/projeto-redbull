@@ -1,1 +1,76 @@
-<!doctype html><script type="module" src="/src/main.ts"></script>
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RB22 — Uma nova era | Projeto conceitual</title>
+    <meta name="description" content="Landing conceitual do Red Bull RB22, o carro de Fórmula 1 de 2026. Projeto de portfólio, não afiliado à Red Bull." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/hero/frames/poster_desktop.webp" media="(min-aspect-ratio: 1/1)" />
+    <link rel="preload" as="image" href="/hero/frames/poster_mobile.webp" media="(max-aspect-ratio: 1/1)" />
+  </head>
+  <body>
+    <a class="skip-link" href="#depois-da-hero">Pular introdução</a>
+
+    <div class="loader" role="progressbar" aria-label="Carregando a experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="loader__lights" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p class="loader__label">Aquecendo os motores…</p>
+    </div>
+
+    <main>
+      <section class="hero" aria-label="Apresentação do RB22">
+        <div class="hero__stage">
+          <canvas class="hero__canvas" role="img" aria-label="O carro de Fórmula 1 RB22, azul com os touros da Red Bull, acelera por um túnel de luz."></canvas>
+          <div class="hero__shade" aria-hidden="true"></div>
+
+          <div class="hero__chapters">
+            <article class="chapter" data-chapter="0">
+              <p class="chapter__kicker">01 / 04</p>
+              <h1 class="chapter__title">Uma nova era.</h1>
+              <p class="chapter__body">2026 reescreve a Fórmula 1: carro novo, regras novas, motor novo.</p>
+            </article>
+            <article class="chapter" data-chapter="1">
+              <p class="chapter__kicker">02 / 04</p>
+              <h2 class="chapter__title">Feito em casa.</h2>
+              <p class="chapter__body">Red Bull Ford DM01 — o primeiro power unit da história da Red Bull.</p>
+            </article>
+            <article class="chapter" data-chapter="2">
+              <p class="chapter__kicker">03 / 04</p>
+              <h2 class="chapter__title">50% elétrico.</h2>
+              <p class="chapter__body">400 kW do V6 + 350 kW do MGU-K. Metade da força vem da bateria.</p>
+            </article>
+            <article class="chapter" data-chapter="3">
+              <p class="chapter__kicker">04 / 04</p>
+              <h2 class="chapter__title">RB22.</h2>
+              <p class="chapter__body">Mais leve, mais curto, mais esperto. Role para conhecer.</p>
+            </article>
+          </div>
+
+          <div class="hero__progress" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+
+          <div class="telemetry" aria-hidden="true">
+            <div class="telemetry__item"><span class="telemetry__value" data-speed>0</span><span class="telemetry__unit">km/h</span></div>
+            <div class="telemetry__item"><span class="telemetry__value" data-rpm>4500</span><span class="telemetry__unit">rpm</span></div>
+            <div class="telemetry__item"><span class="telemetry__value" data-gear>N</span><span class="telemetry__unit">marcha</span></div>
+            <p class="telemetry__note">valores ilustrativos</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="depois-da-hero" class="next" tabindex="-1">
+        <p>Próxima seção em construção.</p>
+      </section>
+    </main>
+
+    <footer class="disclaimer">
+      <p>Projeto conceitual de portfólio. Não afiliado à Red Bull GmbH nem à Oracle Red Bull Racing.
+      Modelo 3D base: “F1 2026 concept” por Qvist_designs (CC BY 4.0), pintura e cena próprias.</p>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

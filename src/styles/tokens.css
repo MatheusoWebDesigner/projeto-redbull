@@ -1,0 +1,12 @@
+:root {
+  --c-bg: #03050d;
+  --c-navy: #0b1538;
+  --c-text: #ffffff;
+  --c-text-muted: rgba(255, 255, 255, 0.78);
+  --c-red: #d2003c;
+  --c-yellow: #ffc906;
+  --f-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --f-body: 'Inter', system-ui, sans-serif;
+  --gutter: clamp(1rem, 5vw, 5rem);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
