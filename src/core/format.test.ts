@@ -14,3 +14,16 @@ describe('formatNumber', () => {
     expect(formatNumber(15000.4)).toBe('15.000');
   });
 });
+
+describe('formatNumber nas bordas', () => {
+  it('números grandes agrupam de três em três', () => {
+    expect(formatNumber(1234567)).toBe('1.234.567');
+  });
+  it('negativos mantêm o sinal e o separador', () => {
+    expect(formatNumber(-13200)).toBe('-13.200');
+  });
+  it('negativo que arredonda para zero vira "0", não "-0"', () => {
+    expect(formatNumber(-0.4)).toBe('0');
+    expect(formatNumber(-0)).toBe('0');
+  });
+});
