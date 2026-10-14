@@ -1,7 +1,8 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
-import Lenis from 'lenis';
+import { formatNumber } from '../core/format';
+import { startSmoothScroll } from '../core/scroll';
 import { coverRect } from './cover';
 import { FrameStore, type FrameSet } from './frames';
 import { litLights } from './lights';
@@ -82,10 +83,7 @@ export async function initHero(): Promise<void> {
   await store.load((f) => updateLoader(loader, f));
   await lightsOut(loader);
 
-  const lenis = new Lenis();
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
+  startSmoothScroll();
 
   const chapters = Array.from(document.querySelectorAll<HTMLElement>('.chapter'));
   const bars = Array.from(document.querySelectorAll<HTMLElement>('.hero__progress span'));
@@ -117,8 +115,8 @@ export async function initHero(): Promise<void> {
       currentFrame = frame;
     }
     showChapter(chapterIndexFor(progress));
-    speedEl.textContent = String(speedKmh(progress));
-    rpmEl.textContent = String(rpm(progress));
+    speedEl.textContent = formatNumber(speedKmh(progress));
+    rpmEl.textContent = formatNumber(rpm(progress));
     gearEl.textContent = gear(progress);
   };
 
