@@ -36,3 +36,30 @@ describe('SNAP_POINTS', () => {
     expect(SNAP_POINTS).toEqual([0, 0.25, 0.5, 0.75, 1]);
   });
 });
+
+describe('bordas do progresso', () => {
+  it('cada ponto de encaixe abre o capítulo correspondente', () => {
+    SNAP_POINTS.slice(0, -1).forEach((snap, i) => {
+      expect(chapterIndexFor(snap)).toBe(i);
+    });
+  });
+  it('limita capítulos fora de 0..1', () => {
+    expect(chapterIndexFor(-0.5)).toBe(0);
+    expect(chapterIndexFor(7)).toBe(3);
+  });
+  it('todo quadro é alcançável e a sequência nunca volta', () => {
+    const seen = new Set<number>();
+    let last = -1;
+    for (let i = 0; i <= 2390; i++) {
+      const frame = frameIndexFor(i / 2390);
+      expect(frame).toBeGreaterThanOrEqual(last);
+      seen.add(frame);
+      last = frame;
+    }
+    expect(seen.size).toBe(240);
+  });
+  it('progresso inválido (NaN) cai no início em vez de propagar NaN', () => {
+    expect(frameIndexFor(NaN)).toBe(0);
+    expect(chapterIndexFor(NaN)).toBe(0);
+  });
+});
