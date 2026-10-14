@@ -2,3 +2,5 @@ node_modules/
 dist/
 assets/models/
 *.log
+assets/referencias/
+assets/marcas/
