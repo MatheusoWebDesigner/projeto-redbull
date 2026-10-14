@@ -90,7 +90,7 @@ export async function initHero(): Promise<void> {
   const speedEl = qs<HTMLElement>('[data-speed]');
   const rpmEl = qs<HTMLElement>('[data-rpm]');
   const gearEl = qs<HTMLElement>('[data-gear]');
-  const splits = chapters.map((c) => SplitText.create(c.querySelector('.chapter__title'), { type: 'chars' }));
+  const splits = chapters.map((c) => SplitText.create(c.querySelector('.chapter__title'), { type: 'words,chars' }));
 
   let currentFrame = -1;
   let currentChapter = -1;
