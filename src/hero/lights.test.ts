@@ -15,3 +15,18 @@ describe('litLights', () => {
     expect(litLights(1.3)).toBe(5);
   });
 });
+
+describe('litLights nas bordas', () => {
+  it('fração negativa ou NaN deixa tudo apagado', () => {
+    expect(litLights(-0.5)).toBe(0);
+    expect(litLights(NaN)).toBe(0);
+  });
+  it('nunca diminui enquanto o carregamento avança', () => {
+    let last = 0;
+    for (let i = 0; i <= 100; i++) {
+      const lit = litLights(i / 100);
+      expect(lit).toBeGreaterThanOrEqual(last);
+      last = lit;
+    }
+  });
+});

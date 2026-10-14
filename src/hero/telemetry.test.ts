@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { gear, rpm, speedKmh, TOP_SPEED } from './telemetry';
+import { gear, LAUNCH_PROGRESS, rpm, speedKmh, TOP_SPEED } from './telemetry';
 
 describe('speedKmh', () => {
   it('parado antes da arrancada', () => {
@@ -32,5 +32,36 @@ describe('rpm e marcha', () => {
   });
   it('termina em 8ª marcha', () => {
     expect(gear(1)).toBe('8');
+  });
+});
+
+describe('telemetria em toda a rolagem', () => {
+  const sweep = Array.from({ length: 1001 }, (_, i) => i / 1000);
+
+  it('a marcha nunca reduz e nunca passa da 8ª', () => {
+    let last = 0;
+    for (const p of sweep) {
+      const g = gear(p) === 'N' ? 0 : Number(gear(p));
+      expect(g).toBeGreaterThanOrEqual(last);
+      expect(g).toBeLessThanOrEqual(8);
+      last = g;
+    }
+  });
+  it('o rpm fica sempre entre 4.500 e 15.000', () => {
+    for (const p of sweep) {
+      expect(rpm(p)).toBeGreaterThanOrEqual(4500);
+      expect(rpm(p)).toBeLessThanOrEqual(15000);
+    }
+  });
+  it('parado até o último quadro do carro parado', () => {
+    expect(speedKmh(LAUNCH_PROGRESS)).toBe(0);
+    expect(gear(LAUNCH_PROGRESS)).toBe('N');
+  });
+  it('progresso fora de 0..1 é limitado', () => {
+    expect([speedKmh(-1), gear(-1), rpm(-1)]).toEqual([0, 'N', 4500]);
+    expect([speedKmh(2), gear(2), rpm(2)]).toEqual([TOP_SPEED, '8', 15000]);
+  });
+  it('progresso NaN mostra o carro parado', () => {
+    expect([speedKmh(NaN), gear(NaN), rpm(NaN)]).toEqual([0, 'N', 4500]);
   });
 });
