@@ -23,7 +23,7 @@ O vídeo de fundo avança e volta conforme a rolagem; o texto troca na coluna es
 Faixas verticais nas paredes reforçam a sensação de velocidade (paralaxe).
 
 ## Celular (decidido 2026-10-07)
-Render próprio 9:16 (`camera_mobile`, mesmo arco): carro inteiro no terço de baixo, texto no terço de cima. O mesmo vídeo serve para o Reels.
+Render próprio **9:19,5** (1080×2340, `camera_mobile` do `hero_v16d.blend`, mesmo arco; v16d = v16c com `luz_chave` excluída do piso por light linking, para tirar o reflexo branco no chão perto da câmera — o desktop segue renderizado do v16c): carro inteiro com margem ≥ 6% de cada lado, texto no terço de cima. WebP 720×1560 em `assets/hero/frames/mobile/`. (O 9:16 inicial cortava as laterais em celulares atuais.) Para o Reels, recortar 9:16 do centro.
 
 ## Interações da página (decidido 2026-10-07)
 - Carregamento = largada de F1: 5 luzes vermelhas acendem conforme os quadros carregam; "lights out" revela a Hero.
@@ -41,6 +41,14 @@ Render próprio 9:16 (`camera_mobile`, mesmo arco): carro inteiro no terço de b
 - Título real em `<h1>`; capítulos como texto no DOM (não dentro do canvas), lidos em ordem.
 - `prefers-reduced-motion`: sem scrub — mostra um quadro estático (o do capítulo 4) e os 4 textos empilhados.
 - Contraste do texto ≥ 4.5:1 sobre o degradê; foco visível; nada depende só de cor.
+
+## Fonte da verdade: Figma (decidido 2026-10-08)
+O design final da Hero, com anotações de scroll/animação/interação/acessibilidade, está no Figma ("Projeto F1 RedBull", página **01 · Hero**: telas desktop 1440×900 e celular 390×844, movimento reduzido e o quadro "Linha do tempo do scroll"). O código só é retomado após o usuário aprovar ("Jarvis, tudo aprovado").
+Ajustes nascidos no Figma que o código (já iniciado em `src/`) precisa incorporar:
+- Degradê escuro na base (0 → 82%) para telemetria e barras sobre o reflexo claro do chão.
+- No celular, as barras de progresso ficam no topo (acima do capítulo).
+- No celular, degradê superior de contraste: fundo a 92% → 86% (30% da altura) → 40% (42%) → 0 (55%). Cobre o texto contra as faixas de luz do teto sem escurecer o carro (57–69% da altura).
+- Números da telemetria no formato pt-BR (13.200 rpm).
 
 ## Em aberto
 - Copy final dos capítulos.
