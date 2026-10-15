@@ -62,8 +62,24 @@ html, body { margin: 0; background: var(--c-bg); color: var(--c-text); font-fami
   .telemetry { gap: 1rem; }
 }
 
-/* Movimento reduzido: pôster estático e os 4 capítulos empilhados */
-.reduced .hero__stage { height: auto; min-height: 100svh; }
-.reduced .hero__chapters { position: relative; left: auto; bottom: auto; width: auto; padding: 50svh var(--gutter) 4rem; display: grid; gap: 3rem; }
-.reduced .chapter { position: static; opacity: 1; }
-.reduced .hero__progress, .reduced .telemetry { display: none; }
+/* Capítulos empilhados: movimento reduzido, ou texto que não cabe no palco fixado
+   (zoom alto, espaçamento de texto aumentado). A primeira tela repete a composição
+   animada sobre o pôster — mesmo degradê, mesma posição do capítulo 1 — e os
+   capítulos 2–4 seguem abaixo, sobre o fundo sólido. O canvas fica com a altura da
+   tela para o pôster não ser esticado. */
+.hero--empilhada .hero__stage { height: auto; min-height: 100svh; }
+.hero--empilhada .hero__canvas, .hero--empilhada .hero__shade { bottom: auto; height: 100svh; }
+.hero--empilhada .hero__chapters { position: relative; inset: auto; width: auto; padding: 1.5rem var(--gutter) 4rem; display: grid; gap: 3rem; }
+.hero--empilhada .chapter { position: static; opacity: 1; max-width: min(32rem, 40vw); }
+.hero--empilhada .chapter:first-child {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: calc(100svh - 1.5rem - clamp(4rem, 14vh, 9rem));
+  margin-bottom: clamp(4rem, 14vh, 9rem);
+}
+.hero--empilhada .hero__progress, .hero--empilhada .telemetry { display: none; }
+
+@media (max-aspect-ratio: 1/1) {
+  .hero--empilhada .hero__chapters { padding-top: clamp(5.5rem, 12vh, 7.5rem); }
+  .hero--empilhada .chapter { max-width: none; }
+  .hero--empilhada .chapter:first-child { justify-content: flex-start; min-height: calc(100svh - clamp(5.5rem, 12vh, 7.5rem)); margin-bottom: 0; }
+}
