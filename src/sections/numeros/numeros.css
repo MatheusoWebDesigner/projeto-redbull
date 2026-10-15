@@ -1,0 +1,35 @@
+.numeros__stage { position: relative; height: 100svh; overflow: hidden; padding: 3.5rem var(--gutter); display: flex; flex-direction: column; gap: 1.25rem; }
+.numeros__topo { display: flex; justify-content: space-between; align-items: center; }
+.numeros__progresso { display: flex; align-items: center; gap: 0.75rem; }
+.numeros__barra { position: relative; width: 12.5rem; height: 2px; background: rgba(255, 255, 255, 0.18); }
+.numeros__barra span { position: absolute; inset: 0 auto 0 0; width: calc(var(--nm-p, 0) * 100%); background: var(--c-red); }
+.numeros__trilho { list-style: none; margin: auto 0 0; padding: 0; display: flex; gap: 1.5rem; will-change: transform; }
+.card { flex: none; width: 22.5rem; height: 28.75rem; display: flex; flex-direction: column; justify-content: space-between; padding: 0 2rem 2rem; border-radius: 12px; background: var(--c-navy); border: 1px solid #153380; position: relative; overflow: hidden; }
+.card::before { content: ''; height: 4px; background: var(--c-red); }
+.card[data-tema='energia']::before { background: #3b6cff; }
+.card__indice { margin-top: 1.75rem; color: var(--c-yellow); font: 600 0.8125rem/1.2 var(--f-body); letter-spacing: 0.22em; }
+.card__numero { margin: auto 0 0.75rem; display: flex; align-items: baseline; gap: 0.5rem; }
+.card__valor { font: italic 800 6.75rem/0.88 var(--f-display); font-variant-numeric: tabular-nums; }
+.card__unidade { font: italic 700 2.25rem/1 var(--f-display); color: var(--c-text-muted); }
+.card__rotulo { margin: 0 0 0.75rem; font: 600 0.8125rem/1.3 var(--f-body); letter-spacing: 0.22em; text-transform: uppercase; }
+.card__desc { margin: 0; color: var(--c-text-muted); font-size: 1rem; line-height: 1.6; }
+.card__risco { position: relative; }
+.card__risco::after { content: ''; position: absolute; left: -0.15em; right: -0.15em; top: 50%; height: 2px; background: var(--c-red); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease-out); }
+.card--drs.is-contado .card__risco::after { transform: scaleX(1); }
+.numeros__dica { position: absolute; left: var(--gutter); bottom: 3.5rem; margin: 0; }
+
+@media (max-aspect-ratio: 1/1) {
+  .numeros__stage { padding: 4rem var(--gutter) 2.5rem; }
+  .numeros__barra { width: 5rem; }
+  .card { width: 18.75rem; height: 25rem; }
+  .card__valor { font-size: 5rem; }
+  .numeros__trilho { gap: 1rem; }
+  .numeros__dica { bottom: 2.5rem; }
+}
+
+.reduced .numeros__stage { height: auto; }
+.reduced .numeros__trilho { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); transform: none !important; }
+.reduced .card { width: auto; height: 25rem; }
+.reduced .card__valor { font-size: 5rem; }
+.reduced .card--drs .card__risco::after { transform: scaleX(1); }
+.reduced .numeros__progresso, .reduced .numeros__dica { display: none; }
