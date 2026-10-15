@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { frameUrl, nearestLoaded, splitLoadOrder } from './frames';
+import { frameUrl, getFrameStore, nearestLoaded, splitLoadOrder } from './frames';
 
 describe('frameUrl', () => {
   it('usa numeração de 3 dígitos a partir de 1', () => {
@@ -50,5 +50,15 @@ describe('frames nas bordas', () => {
   it('acha o carregado na ponta oposta da sequência', () => {
     expect(nearestLoaded(new Set([9]), 0, 10)).toBe(9);
     expect(nearestLoaded(new Set([0]), 9, 10)).toBe(0);
+  });
+});
+
+describe('getFrameStore', () => {
+  it('devolve o mesmo armazenamento para o mesmo conjunto (Hero e Fechamento dividem os quadros)', () => {
+    expect(getFrameStore('desktop')).toBe(getFrameStore('desktop'));
+    expect(getFrameStore('mobile')).toBe(getFrameStore('mobile'));
+  });
+  it('separa desktop e celular', () => {
+    expect(getFrameStore('desktop')).not.toBe(getFrameStore('mobile'));
   });
 });

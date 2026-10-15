@@ -4,7 +4,7 @@ import { SplitText } from 'gsap/SplitText';
 import { formatNumber } from '../core/format';
 import { startSmoothScroll } from '../core/scroll';
 import { coverRect } from './cover';
-import { FrameStore, type FrameSet } from './frames';
+import { getFrameStore, type FrameSet } from './frames';
 import { litLights } from './lights';
 import { textoCabeNoPalco } from './layout';
 import { chapterIndexFor, FRAME_COUNT, frameIndexFor, SNAP_POINTS } from './scrub';
@@ -126,7 +126,7 @@ async function montarHero(loader: HTMLElement): Promise<void> {
     return;
   }
 
-  const store = new FrameStore(set);
+  const store = getFrameStore(set);
   await store.load((f) => updateLoader(loader, f));
   await lightsOut(loader);
 

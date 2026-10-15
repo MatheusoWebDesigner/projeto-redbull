@@ -3,7 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LINKS } from '../../config';
 import { prefersReducedMotion } from '../../core/motion';
 import { startSmoothScroll } from '../../core/scroll';
-import { FrameStore, type FrameSet } from '../../hero/frames';
+import { getFrameStore, type FrameSet } from '../../hero/frames';
 import { FRAME_COUNT } from '../../hero/scrub';
 import { REVEAL_AT, reverseFrame, titleScale } from './mask';
 import './fechamento.css';
@@ -43,7 +43,13 @@ export async function initFechamento(): Promise<void> {
 
   section.querySelector<HTMLAnchorElement>('[data-link="estudo-de-caso"]')?.setAttribute('href', LINKS.estudoDeCaso);
   section.querySelector<HTMLButtonElement>('[data-topo]')?.addEventListener('click', () => {
-    startSmoothScroll().scrollTo(0, { onComplete: () => document.querySelector<HTMLElement>('h1')?.focus() });
+    const focarTitulo = () => document.querySelector<HTMLElement>('h1')?.focus();
+    if (prefersReducedMotion()) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      focarTitulo();
+      return;
+    }
+    startSmoothScroll().scrollTo(0, { onComplete: focarTitulo });
   });
 
   const mobile = window.matchMedia('(max-aspect-ratio: 1/1)').matches;
@@ -52,7 +58,7 @@ export async function initFechamento(): Promise<void> {
   const ajustar = () => { canvas.width = Math.round(canvas.clientWidth * dpr); canvas.height = Math.round(canvas.clientHeight * dpr); };
   ajustar();
   await document.fonts.load('italic 800 100px "Barlow Condensed"');
-  const store = new FrameStore(set);
+  const store = getFrameStore(set);
   await store.load(() => {});
 
   if (prefersReducedMotion()) {

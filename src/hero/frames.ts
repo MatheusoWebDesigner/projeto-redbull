@@ -30,13 +30,22 @@ const BATCH = 6;
 export class FrameStore {
   private readonly images: (HTMLImageElement | null)[];
   private readonly loaded = new Set<number>();
+  private loading: Promise<void> | null = null;
 
   constructor(private readonly set: FrameSet, private readonly count = FRAME_COUNT) {
     this.images = new Array(count).fill(null);
   }
 
-  /** Resolve quando os quadros prioritários carregam; o resto continua em segundo plano. */
-  async load(onPriorityProgress: (fraction: number) => void): Promise<void> {
+  /**
+   * Resolve quando os quadros prioritários carregam; o resto continua em segundo plano.
+   * Chamadas seguintes reaproveitam o mesmo carregamento (o progresso só é avisado à primeira).
+   */
+  load(onPriorityProgress: (fraction: number) => void): Promise<void> {
+    this.loading ??= this.loadAll(onPriorityProgress);
+    return this.loading;
+  }
+
+  private async loadAll(onPriorityProgress: (fraction: number) => void): Promise<void> {
     const { priority, rest } = splitLoadOrder(this.count);
     let done = 0;
     for (let k = 0; k < priority.length; k += BATCH) {
@@ -73,4 +82,16 @@ export class FrameStore {
       img.src = frameUrl(this.set, i);
     });
   }
+}
+
+const stores = new Map<FrameSet, FrameStore>();
+
+/** Armazenamento único por conjunto: a Hero e o Fechamento dividem os mesmos quadros na memória. */
+export function getFrameStore(set: FrameSet): FrameStore {
+  let store = stores.get(set);
+  if (!store) {
+    store = new FrameStore(set);
+    stores.set(set, store);
+  }
+  return store;
 }

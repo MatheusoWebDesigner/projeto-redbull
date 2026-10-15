@@ -9,7 +9,12 @@ import { initLegado } from './sections/legado/legado';
 import { initFechamento } from './sections/fechamento/fechamento';
 
 async function start(): Promise<void> {
-  await initHero();
+  try {
+    await initHero();
+  } catch (erro) {
+    // A Hero já se recompõe empilhada em caso de erro; as outras seções seguem funcionando.
+    console.error('Falha ao iniciar a Hero:', erro);
+  }
   initManifesto();
   initNumeros();
   initLegado();
