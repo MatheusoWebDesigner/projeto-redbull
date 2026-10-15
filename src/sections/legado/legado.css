@@ -1,0 +1,26 @@
+.legado { padding: 6rem var(--gutter) 4.5rem; background: radial-gradient(70% 90% at 50% 120%, rgba(11, 21, 56, 0.9), var(--c-bg) 70%); }
+.legado__inner { display: grid; gap: 2.5rem; }
+.legado__titulo { margin: 0; font: italic 800 clamp(2.9rem, 6.1vw, 5.5rem)/0.92 var(--f-display); text-transform: uppercase; }
+.legado__corpo { max-width: 40rem; }
+.legado__numeros { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 15rem)); gap: 1.5rem 4rem; }
+.legado__numeros div { display: flex; flex-direction: column-reverse; gap: 0.25rem; }
+.legado__numeros dd { margin: 0; }
+.legado__valor { font: italic 800 6rem/0.88 var(--f-display); font-variant-numeric: tabular-nums; }
+.legado__svg { width: 100%; height: 7.5rem; overflow: visible; }
+.legado__svg text { fill: var(--c-text-muted); font: 500 11px var(--f-body); }
+.legado__marca { opacity: 0.15; transition: opacity 0.3s; }
+.legado.is-visto .legado__marca { opacity: 1; transition-delay: calc(var(--i) * 60ms); }
+.legado__legenda { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin-top: 1rem; }
+.legado__q, .legado__c { display: inline-block; width: 10px; height: 10px; margin-right: 0.5rem; vertical-align: middle; }
+.legado__q { background: var(--c-red); border-radius: 2px; }
+.legado__c { background: var(--c-yellow); border-radius: 50%; }
+
+@media (max-aspect-ratio: 1/1) {
+  .legado { padding: 4.5rem var(--gutter) 3rem; }
+  .legado__titulo { font-size: 2.95rem; }
+  .legado__numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .legado__valor { font-size: 4rem; }
+  .legado__svg { height: 6rem; }
+}
+
+.reduced .legado__marca { opacity: 1; }
