@@ -1,0 +1,492 @@
+{
+  "gerado_em": "2026-10-14T21:27:16",
+  "gerador": "05_scripts/web/web_manifesto_v01.py (pasta de trabalho D:\\Projeto RedBull - Arquivos Brutos (Blender))",
+  "unidade": "metro",
+  "eixos": "glTF/Three.js: Y para cima, frente do carro = -X, lado esquerdo do carro = +Z. Blender (Z para cima) -> glTF: (x, y, z) -> (x, z, -y). Escala 1:1 (sem escala nos nos).",
+  "decodificadores": {
+    "draco": "DRACOLoader (KHR_draco_mesh_compression obrigatorio nos dois GLB)",
+    "webp": "EXT_texture_webp obrigatorio no rb22.glb (sem fallback PNG)"
+  },
+  "ambiente": {
+    "arquivo": "/env/studio_small_09_escuro_1k.hdr",
+    "carregador": "RGBELoader + PMREMGenerator",
+    "rotacao_z_graus_no_blender_showroom": 220,
+    "rotacao_z_graus_no_blender_dm01": 285,
+    "intensidade_blender": 1.4,
+    "aviso_rotacao": "valores do Mapping do Blender; a equivalencia em scene.environmentRotation.y deve ser conferida visualmente",
+    "nota": "versao escurecida do Studio Small 09 (Poly Haven, CC0), 1024x512"
+  },
+  "rb22": {
+    "arquivo": "/models/rb22.glb",
+    "bytes": 3367988,
+    "mb": 3.212,
+    "triangulos": 235207,
+    "extensoes": [
+      "EXT_texture_webp",
+      "KHR_draco_mesh_compression",
+      "KHR_materials_clearcoat"
+    ],
+    "extensoes_obrigatorias": [
+      "EXT_texture_webp",
+      "KHR_draco_mesh_compression"
+    ],
+    "nos": [
+      {
+        "nome": "aero_diant_flap1",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.9239,
+          0.0752,
+          -0.0004
+        ],
+        "triangulos": 5000,
+        "materiais": [
+          "pintura_rb22"
+        ],
+        "morph_targets": [
+          "reta"
+        ]
+      },
+      {
+        "nome": "aero_diant_flap2",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.822,
+          0.1328,
+          -0.0004
+        ],
+        "triangulos": 5000,
+        "materiais": [
+          "pintura_rb22"
+        ],
+        "morph_targets": [
+          "reta"
+        ]
+      },
+      {
+        "nome": "aero_tras_flap1",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          3.7545,
+          0.752,
+          0
+        ],
+        "triangulos": 5000,
+        "materiais": [
+          "pintura_rb22"
+        ],
+        "morph_targets": [
+          "reta"
+        ]
+      },
+      {
+        "nome": "aero_tras_flap2",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          3.8764,
+          0.8004,
+          0
+        ],
+        "triangulos": 5000,
+        "materiais": [
+          "pintura_rb22"
+        ],
+        "morph_targets": [
+          "reta"
+        ]
+      },
+      {
+        "nome": "carroceria",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          1.398,
+          0.5342,
+          0
+        ],
+        "triangulos": 187207,
+        "materiais": [
+          "pintura_rb22",
+          "luz_chuva",
+          "detalhe_carbono"
+        ]
+      },
+      {
+        "nome": "hotspot_asa-dianteira",
+        "tipo": "vazio (ancora)",
+        "translacao_gltf_m": [
+          -0.9787,
+          0.1442,
+          0.4186
+        ]
+      },
+      {
+        "nome": "hotspot_asa-traseira",
+        "tipo": "vazio (ancora)",
+        "translacao_gltf_m": [
+          3.9569,
+          0.8777,
+          0.2996
+        ]
+      },
+      {
+        "nome": "hotspot_assoalho-difusor",
+        "tipo": "vazio (ancora)",
+        "translacao_gltf_m": [
+          3.7839,
+          0.3095,
+          0.35
+        ]
+      },
+      {
+        "nome": "hotspot_halo",
+        "tipo": "vazio (ancora)",
+        "translacao_gltf_m": [
+          1.0604,
+          0.8631,
+          0
+        ]
+      },
+      {
+        "nome": "hotspot_sidepod-esquerdo",
+        "tipo": "vazio (ancora)",
+        "translacao_gltf_m": [
+          1.5504,
+          0.5,
+          0.6798
+        ]
+      },
+      {
+        "nome": "roda_frente_dir",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.055,
+          0.3287,
+          -0.7635
+        ],
+        "triangulos": 7000,
+        "materiais": [
+          "pneu"
+        ]
+      },
+      {
+        "nome": "roda_frente_esq",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.055,
+          0.3287,
+          0.7635
+        ],
+        "triangulos": 7000,
+        "materiais": [
+          "pneu"
+        ]
+      },
+      {
+        "nome": "roda_tras_dir",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          3.345,
+          0.3286,
+          -0.7277
+        ],
+        "triangulos": 7000,
+        "materiais": [
+          "pneu"
+        ]
+      },
+      {
+        "nome": "roda_tras_esq",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          3.345,
+          0.3286,
+          0.7277
+        ],
+        "triangulos": 7000,
+        "materiais": [
+          "pneu"
+        ]
+      }
+    ],
+    "texturas": [
+      {
+        "nome": "rb22_verniz_1024",
+        "tipo": "image/webp",
+        "kb": 68.6
+      },
+      {
+        "nome": "rb22_orm_2048",
+        "tipo": "image/webp",
+        "kb": 391.4
+      },
+      {
+        "nome": "rb22_cor_4096",
+        "tipo": "image/webp",
+        "kb": 1288.1
+      }
+    ],
+    "materiais": [
+      "pintura_rb22",
+      "luz_chuva",
+      "detalhe_carbono",
+      "pneu"
+    ],
+    "orcamento": {
+      "triangulos_max": 250000,
+      "mb_max": 5.0
+    },
+    "morph": {
+      "nome": "reta",
+      "malhas": [
+        "aero_tras_flap1",
+        "aero_tras_flap2",
+        "aero_diant_flap1",
+        "aero_diant_flap2"
+      ],
+      "uso": "mesh.morphTargetInfluences[mesh.morphTargetDictionary.reta] = 0 (curva) .. 1 (reta)",
+      "angulos_reta_graus": {
+        "aero_tras_flap1": 15.0,
+        "aero_tras_flap2": 30.0,
+        "aero_diant_flap1": 10.0,
+        "aero_diant_flap2": 15.0
+      },
+      "nota": "flap 1 dianteiro reduzido de 12 para 10 graus; pontas dos 4 flaps aparadas em Y (envergadura) onde entravam na placa lateral",
+      "correcao_ponta_placa": {
+        "aero_tras_flap1": {
+          "vertices_corrigidos": 1,
+          "deslocamento_max_mm": 0.238,
+          "so_eixo": "Y (envergadura)"
+        },
+        "aero_tras_flap2": {
+          "vertices_corrigidos": 11,
+          "deslocamento_max_mm": 0.937,
+          "so_eixo": "Y (envergadura)"
+        },
+        "aero_diant_flap1": {
+          "vertices_corrigidos": 21,
+          "deslocamento_max_mm": 1.342,
+          "so_eixo": "Y (envergadura)"
+        },
+        "aero_diant_flap2": {
+          "vertices_corrigidos": 32,
+          "deslocamento_max_mm": 2.934,
+          "so_eixo": "Y (envergadura)"
+        }
+      },
+      "interpenetracao_max_mm_por_peso": {
+        "0.0": 0.0,
+        "0.25": 0.0,
+        "0.5": 0.0,
+        "0.75": 0.0,
+        "1.0": 0.0
+      }
+    },
+    "rodas": {
+      "nos": [
+        "roda_frente_dir",
+        "roda_frente_esq",
+        "roda_tras_dir",
+        "roda_tras_esq"
+      ],
+      "pivo": "origem no centro do eixo",
+      "eixo_de_giro_local_gltf": "Z (Blender Y); rotacionar node.rotation.z"
+    },
+    "ancoras_hotspot": [
+      "hotspot_asa-dianteira",
+      "hotspot_asa-traseira",
+      "hotspot_assoalho-difusor",
+      "hotspot_halo",
+      "hotspot_sidepod-esquerdo"
+    ],
+    "material_pintura": {
+      "nome": "pintura_rb22",
+      "baseColor": "rb22_cor_4096 (sRGB; livery + bico + sol + carbono + detalhes + jacquard assados; ja multiplicada pela tinta azulada do verniz)",
+      "metallicRoughness_e_occlusion": "rb22_orm_2048 (R = oclusao, G = rugosidade, B = metalico)",
+      "clearcoat": "KHR_materials_clearcoat: fator 1 x rb22_verniz_1024 (R; 1.0 pintura, 0.4 carbono), rugosidade 0.02",
+      "three": "GLTFLoader cria MeshPhysicalMaterial; uv do aoMap = uv principal (glTF texCoord 0)"
+    }
+  },
+  "dm01": {
+    "arquivo": "/models/dm01.glb",
+    "bytes": 191480,
+    "mb": 0.183,
+    "triangulos": 59200,
+    "extensoes": [
+      "KHR_draco_mesh_compression",
+      "KHR_materials_clearcoat",
+      "KHR_materials_emissive_strength"
+    ],
+    "extensoes_obrigatorias": [
+      "KHR_draco_mesh_compression"
+    ],
+    "nos": [
+      {
+        "nome": "dm01_bateria",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.8,
+          0.085,
+          -0.0135
+        ],
+        "triangulos": 3036,
+        "materiais": [
+          "dm01_carbono",
+          "dm01_emissao_azul",
+          "dm01_azul_anod",
+          "dm01_laranja_hv"
+        ]
+      },
+      {
+        "nome": "dm01_eletronica",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.691,
+          0.2175,
+          -0.12
+        ],
+        "triangulos": 1728,
+        "materiais": [
+          "dm01_alu_escuro",
+          "dm01_alu_medio",
+          "dm01_emissao_azul",
+          "dm01_laranja_hv"
+        ]
+      },
+      {
+        "nome": "dm01_mgu_k",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.4333,
+          0.1485,
+          -0.07
+        ],
+        "triangulos": 8656,
+        "materiais": [
+          "dm01_azul_anod",
+          "dm01_alu_medio",
+          "dm01_alu_claro",
+          "dm01_emissao_azul",
+          "dm01_alu_escuro",
+          "dm01_laranja_hv"
+        ]
+      },
+      {
+        "nome": "dm01_turbo",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          0.593,
+          0.3029,
+          0.032
+        ],
+        "triangulos": 12588,
+        "materiais": [
+          "dm01_turbina_quente",
+          "dm01_escape_quente",
+          "dm01_alu_medio",
+          "dm01_vermelho",
+          "dm01_alu_claro",
+          "dm01_preto",
+          "dm01_titanio"
+        ]
+      },
+      {
+        "nome": "dm01_v6",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          -0.0125,
+          0.26,
+          0
+        ],
+        "triangulos": 5784,
+        "materiais": [
+          "dm01_alu_escuro",
+          "dm01_alu_medio",
+          "dm01_alu_claro",
+          "dm01_carbono",
+          "dm01_vermelho"
+        ]
+      },
+      {
+        "nome": "dm01_v6_cabecote_dir",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          0,
+          0.4269,
+          -0.2521
+        ],
+        "triangulos": 4172,
+        "materiais": [
+          "dm01_titanio",
+          "dm01_carbono",
+          "dm01_vermelho",
+          "dm01_preto",
+          "dm01_placa",
+          "dm01_texto"
+        ]
+      },
+      {
+        "nome": "dm01_v6_cabecote_esq",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          0,
+          0.4269,
+          0.2521
+        ],
+        "triangulos": 3396,
+        "materiais": [
+          "dm01_titanio",
+          "dm01_carbono",
+          "dm01_vermelho",
+          "dm01_preto"
+        ]
+      },
+      {
+        "nome": "dm01_v6_coletor_dir",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          0.1742,
+          0.1757,
+          -0.1456
+        ],
+        "triangulos": 9920,
+        "materiais": [
+          "dm01_escape_quente"
+        ]
+      },
+      {
+        "nome": "dm01_v6_coletor_esq",
+        "tipo": "malha",
+        "translacao_gltf_m": [
+          0.2123,
+          0.1792,
+          0.2258
+        ],
+        "triangulos": 9920,
+        "materiais": [
+          "dm01_escape_quente"
+        ]
+      }
+    ],
+    "texturas": [],
+    "materiais": [
+      "dm01_carbono",
+      "dm01_emissao_azul",
+      "dm01_azul_anod",
+      "dm01_laranja_hv",
+      "dm01_alu_escuro",
+      "dm01_alu_medio",
+      "dm01_alu_claro",
+      "dm01_turbina_quente",
+      "dm01_escape_quente",
+      "dm01_vermelho",
+      "dm01_preto",
+      "dm01_titanio",
+      "dm01_placa",
+      "dm01_texto"
+    ],
+    "orcamento": {
+      "mb_max": 1.5
+    },
+    "nota": "pecas com os mesmos nomes do dm01_v02.blend; origem = centro da caixa de cada peca (= centro_E0 do explosao.json). Deslocamentos por estado: 07_quadros-para-figma/dm01/explosao.json (campos *_threejs). Cabos de alta tensao NAO incluidos (a web gera). Emissivos: dm01_emissao_azul usa KHR_materials_emissive_strength = 7 (#3B6CFF); escape/turbina/laranja com emissao fraca constante (estado E0)."
+  }
+}

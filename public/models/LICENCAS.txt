@@ -1,0 +1,23 @@
+LICENÇAS E ATRIBUIÇÕES — arquivos 3D da landing RB22 (projeto conceitual, sem fins comerciais)
+
+rb22.glb
+  Modelo base: "F1 2026 Concept" por Qvist_designs (Sketchfab)
+  Licença: Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)
+           https://creativecommons.org/licenses/by/4.0/
+  Modificações deste projeto: malha decimada para a web (~235 mil triângulos), flaps das asas
+  dianteira e traseira separados e móveis (morph target "reta"), UV da asa dianteira refeita,
+  atlas UV novo, pintura/livery própria assada em textura (cor base, ORM e máscara de verniz),
+  compressão Draco e texturas WebP.
+  O crédito ao autor original deve permanecer visível no site (seção de créditos).
+
+dm01.glb
+  Representação esquemática original deste projeto (não é a geometria real do motor DM01).
+  Sem material de terceiros.
+
+../env/studio_small_09_escuro_1k.hdr
+  "Studio Small 09" por Sergej Majboroda — Poly Haven (https://polyhaven.com/a/studio_small_09)
+  Licença: CC0 1.0 (domínio público). Versão derivada: escurecida e reduzida para 1024x512.
+
+Marcas
+  Nomes e logotipos Red Bull, Ford e afins pertencem aos seus titulares e aparecem apenas
+  como ilustração neste projeto conceitual; não fazem parte das licenças acima.
