@@ -7,6 +7,6 @@ export function titleMarks(inicio: number, fim: number, construtores: readonly n
   const total = fim - inicio;
   return Array.from({ length: total + 1 }, (_, i) => {
     const ano = inicio + i;
-    return { ano, x: i / total, construtores: construtores.includes(ano), pilotos: pilotos.includes(ano) };
+    return { ano, x: total > 0 ? i / total : 0, construtores: construtores.includes(ano), pilotos: pilotos.includes(ano) };
   });
 }

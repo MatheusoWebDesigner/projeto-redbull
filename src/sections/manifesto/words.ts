@@ -4,7 +4,7 @@ export const DIM = 0.2;
 export const LIT_END = 0.8;
 
 export function wordOpacity(index: number, count: number, progress: number): number {
-  const p = Math.min(1, Math.max(0, progress));
+  const p = Math.min(1, Math.max(0, progress)) || 0; // || 0: NaN vira o início
   const lit = (p / LIT_END) * count - index;
   if (lit >= 1) return 1;
   if (lit <= 0) return DIM;

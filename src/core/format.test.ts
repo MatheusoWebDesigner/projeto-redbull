@@ -26,4 +26,6 @@ describe('formatNumber nas bordas', () => {
     expect(formatNumber(-0.4)).toBe('0');
     expect(formatNumber(-0)).toBe('0');
   });
+  it('-0,5 fica na fronteira do arredondamento e ainda vira "0"', () => expect(formatNumber(-0.5)).toBe('0'));
+  it('arredondamento que cruza o milhar ganha separador', () => expect(formatNumber(999.5)).toBe('1.000'));
 });

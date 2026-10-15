@@ -23,4 +23,10 @@ describe('titleMarks', () => {
       expect(a?.construtores).toBe(false);
     }
   });
+  it('anos espaçados por igual', () => {
+    for (let i = 1; i < m.length; i++) expect(m[i].x - m[i - 1].x).toBeCloseTo(1 / 21);
+  });
+  it('intervalo de um ano só não gera posição inválida', () => {
+    expect(titleMarks(2010, 2010, CONSTRUTORES, PILOTOS)).toEqual([{ ano: 2010, x: 0, construtores: true, pilotos: true }]);
+  });
 });

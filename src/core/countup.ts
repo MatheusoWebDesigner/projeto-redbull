@@ -13,8 +13,9 @@ const easeOut = (t: number) => 1 - (1 - t) * (1 - t);
 
 /** Texto do contador no instante t (0 → 1), já no formato pt-BR. */
 export function countFrame(v: ParsedValue, t: number): string {
-  const k = easeOut(Math.min(1, Math.max(0, t)));
-  const n = v.number * k;
+  const k = easeOut(Math.min(1, Math.max(0, t)) || 0); // || 0: NaN vira o início
   const fmt = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: v.decimals, maximumFractionDigits: v.decimals });
-  return `${n > 0 ? v.prefix : ''}${fmt.format(n)}${v.suffix}`;
+  const texto = fmt.format(v.number * k);
+  const sinal = texto === fmt.format(0) ? '' : v.prefix; // sem "−0%" enquanto o número exibido ainda é zero
+  return `${sinal}${texto}${v.suffix}`;
 }
