@@ -30,7 +30,7 @@
           <div class="hero__chapters">
             <article class="chapter" data-chapter="0">
               <p class="chapter__kicker">01 / 04</p>
-              <h1 class="chapter__title">Uma nova era.</h1>
+              <h1 class="chapter__title" tabindex="-1">Uma nova era.</h1>
               <p class="chapter__body">2026 reescreve a Fórmula 1: carro novo, regras novas, motor novo.</p>
             </article>
             <article class="chapter" data-chapter="1">
@@ -115,11 +115,28 @@
           </figure>
         </div>
       </section>
+      <section id="fechamento" class="secao fechamento" aria-labelledby="fechamento-titulo">
+        <div class="fechamento__stage">
+          <canvas class="fechamento__canvas" aria-hidden="true"></canvas>
+          <h2 id="fechamento-titulo" class="fechamento__titulo">Te dá asas.</h2>
+          <div class="fechamento__acoes">
+            <p class="corpo">Um carro novo, um motor próprio e uma pintura que voltou a brilhar.</p>
+            <div class="fechamento__botoes">
+              <a class="btn btn--primario" data-link="estudo-de-caso" href="#fechamento">Ver estudo de caso</a>
+              <button class="btn btn--secundario" type="button" data-topo>Voltar ao topo <span aria-hidden="true">↑</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <footer class="disclaimer">
-      <p>Projeto conceitual de portfólio. Não afiliado à Red Bull GmbH nem à Oracle Red Bull Racing.
-      Modelo 3D base: “F1 2026 concept” por Qvist_designs (CC BY 4.0), pintura e cena próprias.</p>
+    <footer class="rodape">
+      <div class="rodape__colunas">
+        <div><h2 class="kicker">Projeto</h2><p>Projeto conceitual de portfólio. Não é afiliado, patrocinado nem endossado pela Red Bull GmbH, pela Oracle Red Bull Racing ou pela Ford. Marcas, nomes e logotipos pertencem aos seus donos.</p></div>
+        <div><h2 class="kicker">Créditos</h2><p>Modelo 3D: “F1 2026 Concept” por Qvist_designs (Sketchfab), licença CC BY 4.0 — modificado: pintura, UV da asa dianteira, flaps móveis. Iluminação: “Studio Small 09” por Sergej Majboroda (Poly Haven, CC0). Motor DM01: representação esquemática própria. Fontes: Barlow Condensed e Inter (SIL OFL).</p></div>
+        <div><h2 class="kicker">Dados</h2><p>Números de fontes públicas, conferidos em outubro de 2026. Valores marcados “aprox.” são aproximados; cores das pinturas antigas também.</p></div>
+      </div>
+      <div class="rodape__base"><p class="kicker">RB22 · 2026</p><p class="rotulo">Design e desenvolvimento: Matheus Reis</p></div>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

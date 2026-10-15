@@ -41,9 +41,6 @@ html, body { margin: 0; background: var(--c-bg); color: var(--c-text); font-fami
 .telemetry__unit, .telemetry__note { font-size: 0.6875rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-text-muted); }
 .telemetry__note { position: absolute; right: 0; top: 100%; margin: 0.25rem 0 0; white-space: nowrap; }
 
-.next { min-height: 60vh; display: grid; place-items: center; color: var(--c-text-muted); }
-.disclaimer { padding: 2rem var(--gutter); font-size: 0.8125rem; color: var(--c-text-muted); border-top: 1px solid rgba(255, 255, 255, 0.08); }
-
 /* Celular (vídeo 9:16): texto no terço de cima */
 @media (max-aspect-ratio: 1/1) {
   .hero__shade {
