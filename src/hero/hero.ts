@@ -19,6 +19,29 @@ function qs<T extends Element>(sel: string): T {
   return el;
 }
 
+function qsIn<T extends Element>(root: Element, sel: string): T {
+  const el = root.querySelector<T>(sel);
+  if (!el) throw new Error(`Elemento não encontrado: ${sel}`);
+  return el;
+}
+
+/**
+ * Separa o título em duas camadas: o texto real para leitura (visualmente oculto) e uma
+ * cópia visual, escondida da tecnologia assistiva, que o SplitText pode picar em letras.
+ * Assim o nome do heading é texto de verdade, sem depender de aria-label.
+ */
+function prepararTitulo(title: HTMLElement): HTMLElement {
+  const texto = title.textContent?.trim() ?? '';
+  const leitura = document.createElement('span');
+  leitura.className = 'sr-only';
+  leitura.textContent = texto;
+  const visual = document.createElement('span');
+  visual.setAttribute('aria-hidden', 'true');
+  visual.textContent = texto;
+  title.replaceChildren(leitura, visual);
+  return visual;
+}
+
 function setupCanvas(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Canvas 2D indisponível');
@@ -90,7 +113,7 @@ export async function initHero(): Promise<void> {
   const speedEl = qs<HTMLElement>('[data-speed]');
   const rpmEl = qs<HTMLElement>('[data-rpm]');
   const gearEl = qs<HTMLElement>('[data-gear]');
-  const splits = chapters.map((c) => SplitText.create(c.querySelector('.chapter__title'), { type: 'words,chars' }));
+  const splits = chapters.map((c) => SplitText.create(prepararTitulo(qsIn(c, '.chapter__title')), { type: 'words,chars', aria: 'none' }));
 
   let currentFrame = -1;
   let currentChapter = -1;
@@ -98,10 +121,12 @@ export async function initHero(): Promise<void> {
   const showChapter = (index: number) => {
     if (index === currentChapter) return;
     const prev = chapters[currentChapter];
-    if (prev) gsap.to(prev, { autoAlpha: 0, y: -24, duration: 0.3, ease: 'power2.in', onComplete: () => prev.classList.remove('is-active') });
+    // Só opacidade (nunca visibility/aria-hidden): os 4 capítulos ficam sempre na árvore de
+    // acessibilidade, em ordem, como no modo empilhado — o leitor de tela não depende da rolagem.
+    if (prev) gsap.to(prev, { opacity: 0, y: -24, duration: 0.3, ease: 'power2.in', onComplete: () => prev.classList.remove('is-active') });
     const next = chapters[index];
     next.classList.add('is-active');
-    gsap.fromTo(next, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power3.out' });
+    gsap.fromTo(next, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
     gsap.from(splits[index].chars, { yPercent: 110, opacity: 0, duration: 0.6, stagger: 0.025, ease: 'power3.out' });
     bars.forEach((b, i) => b.classList.toggle('is-on', i <= index));
     currentChapter = index;
