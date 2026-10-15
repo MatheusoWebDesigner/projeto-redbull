@@ -15,3 +15,8 @@ export function visibleRange(progress: number, count: number, perView: number): 
 export function rangeLabel(first: number, last: number, count: number): string {
   return first === last ? `${dois(first)} / ${dois(count)}` : `${dois(first)}–${dois(last)} / ${dois(count)}`;
 }
+
+/** O cartão "entrou" quando ao menos 60% da largura dele está dentro da tela. */
+export function cardEntrou(left: number, width: number, viewport: number): boolean {
+  return left <= viewport - width * 0.6;
+}

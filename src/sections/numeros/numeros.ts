@@ -2,7 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { countFrame, parseValue } from '../../core/countup';
 import { prefersReducedMotion } from '../../core/motion';
-import { rangeLabel, trackShift, visibleRange } from './track';
+import { cardEntrou, rangeLabel, trackShift, visibleRange } from './track';
 import './numeros.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -34,8 +34,7 @@ export function initNumeros(): void {
     stage.style.setProperty('--nm-p', String(p));
     const [a, b] = visibleRange(p, cards.length, perView);
     contador.textContent = rangeLabel(a, b, cards.length);
-    const limite = window.innerWidth * 0.6;
-    cards.forEach((c) => { if (c.getBoundingClientRect().left < limite) contar(c); });
+    cards.forEach((c) => { const r = c.getBoundingClientRect(); if (cardEntrou(r.left, r.width, window.innerWidth)) contar(c); });
   };
 
   ScrollTrigger.create({

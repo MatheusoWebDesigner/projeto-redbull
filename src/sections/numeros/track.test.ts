@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { rangeLabel, trackShift, visibleRange } from './track';
+import { cardEntrou, rangeLabel, trackShift, visibleRange } from './track';
 
 describe('trackShift', () => {
   it('não anda no início e anda tudo no fim', () => {
@@ -22,4 +22,16 @@ describe('visibleRange', () => {
 describe('rangeLabel', () => {
   it('faixa no desktop', () => expect(rangeLabel(1, 3, 8)).toBe('01–03 / 08'));
   it('um cartão no celular', () => expect(rangeLabel(6, 6, 8)).toBe('06 / 08'));
+});
+
+describe('cardEntrou', () => {
+  it('conta quando 60% do cartão está dentro da tela', () => {
+    expect(cardEntrou(1440 - 360 * 0.6, 360, 1440)).toBe(true);
+    expect(cardEntrou(1440 - 360 * 0.5, 360, 1440)).toBe(false);
+  });
+  it('o último cartão conta no fim do trilho (desktop e celular)', () => {
+    expect(cardEntrou(1440 - 72 - 360, 360, 1440)).toBe(true);
+    expect(cardEntrou(24, 300, 390)).toBe(true);
+  });
+  it('cartão ainda fora da tela não conta', () => expect(cardEntrou(1500, 360, 1440)).toBe(false));
 });
