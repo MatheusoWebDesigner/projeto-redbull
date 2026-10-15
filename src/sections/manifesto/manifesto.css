@@ -1,0 +1,21 @@
+.manifesto__stage { position: relative; height: 100svh; overflow: hidden; display: grid; align-items: center; padding: 0 var(--gutter);
+  --mf-glow: 0; --mf-wm-x: 0px; --mf-wm-op: 0.05; }
+.manifesto__glow { position: absolute; inset: 0; opacity: var(--mf-glow);
+  background: radial-gradient(70% 90% at 85% 100%, rgba(21, 51, 128, 0.6) 0%, rgba(11, 21, 56, 0.35) 45%, rgba(11, 21, 56, 0) 100%); }
+.manifesto__watermark { position: absolute; right: -4vw; bottom: -10vh; margin: 0; font: italic 800 clamp(14rem, 39vw, 35rem)/0.9 var(--f-display);
+  color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, var(--mf-wm-op)); transform: translateX(var(--mf-wm-x)); pointer-events: none; user-select: none; }
+.manifesto__content { position: relative; display: grid; gap: 2.5rem; max-width: 65.5rem; }
+.manifesto__frase { margin: 0; font: italic 800 clamp(2.375rem, 4.72vw, 4.25rem)/0.98 var(--f-display); text-transform: uppercase; }
+.manifesto__dm01 { color: var(--c-red); }
+.manifesto__assinatura { display: grid; gap: 0.5rem; opacity: 0; transform: translateY(12px); }
+.manifesto__assinatura .rotulo, .manifesto__assinatura .corpo { margin: 0; }
+.manifesto.is-assinado .manifesto__assinatura { opacity: 1; transform: none; transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }
+
+@media (max-aspect-ratio: 1/1) {
+  .manifesto__stage { align-items: start; padding-top: 6rem; }
+  .manifesto__content { gap: 1.75rem; }
+  .manifesto__watermark { font-size: 14.4rem; right: -2rem; bottom: -3rem; -webkit-text-stroke-width: 1px; }
+}
+
+.reduced .manifesto__stage { height: auto; min-height: 100svh; padding-block: 6rem; --mf-glow: 1; --mf-wm-op: 0.14; --mf-wm-x: -80px; }
+.reduced .manifesto__assinatura { opacity: 1; transform: none; }
