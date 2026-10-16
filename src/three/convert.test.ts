@@ -1,0 +1,35 @@
+import { describe, expect, it } from 'vitest';
+import { blenderToThree, fitFov, viewOffset } from './convert';
+
+describe('blenderToThree', () => {
+  it('troca Z para cima por Y para cima: (x, y, z) -> (x, z, -y)', () => {
+    expect(blenderToThree([1, 2, 3])).toEqual([1, 3, -2]);
+  });
+  it('não produz -0', () => {
+    expect(Object.is(blenderToThree([0, 0, 0])[2], 0)).toBe(true);
+  });
+});
+
+describe('viewOffset', () => {
+  it('desloca em fração do maior lado; y invertido (tela cresce para baixo)', () => {
+    const o = viewOffset(-0.1965, -0.0362, 1440, 900);
+    expect(o.x).toBeCloseTo(-282.96, 2);
+    expect(o.y).toBeCloseTo(52.128, 2);
+  });
+  it('em retrato o maior lado é a altura', () => {
+    const o = viewOffset(0.0358, 0.2204, 390, 844);
+    expect(o.x).toBeCloseTo(30.215, 2);
+    expect(o.y).toBeCloseTo(-186.018, 2);
+  });
+});
+
+describe('fitFov', () => {
+  it('mantém o fov vertical quando a tela é igual ou mais larga que o render', () => {
+    expect(fitFov(31.312, 1.6, 1.6)).toBe(31.312);
+    expect(fitFov(31.312, 1.6, 2.2)).toBe(31.312);
+  });
+  it('abre o fov vertical quando a tela é mais estreita, para não cortar nas laterais', () => {
+    expect(fitFov(31.312, 1.6, 1.2)).toBeCloseTo(40.979, 2);
+    expect(fitFov(48.119, 1080 / 2340, 0.4)).toBeCloseTo(54.512, 2);
+  });
+});
