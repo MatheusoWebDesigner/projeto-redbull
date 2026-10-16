@@ -172,7 +172,7 @@ salvar("perfil.json", {
         **{modo: {p: {k: d[modo][p][k] for k in ("bordo_de_ataque", "bordo_de_fuga") } for p in PECAS} for modo in ("curva", "reta")},
         "dobradica_flap2": d["curva"]["tras_flap2"]["dobradica"],
     }
-    for ap, d in perfil.items()
+    for ap, d in perfil.items() if ap in ("desktop", "mobile")
 })
 print("ok")
 ```
