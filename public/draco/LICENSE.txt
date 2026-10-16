@@ -1,0 +1,4 @@
+Draco 3D Data Compression — decodificador WebAssembly (draco_decoder.js, draco_decoder.wasm, draco_wasm_wrapper.js)
+Copyright Google LLC. Licença Apache 2.0: https://www.apache.org/licenses/LICENSE-2.0
+Código-fonte: https://github.com/google/draco
+Arquivos copiados sem modificação de three@0.186.1 (examples/jsm/libs/draco/gltf/).

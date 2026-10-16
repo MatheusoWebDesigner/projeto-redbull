@@ -76,15 +76,15 @@ export function criarPalco(canvas: HTMLCanvasElement, ambiente: { rotacaoGraus: 
       const draco = new DRACOLoader().setDecoderPath('/draco/');
       const gltf = new GLTFLoader().setDRACOLoader(draco);
       const pmrem = new PMREMGenerator(renderer);
+      // finally: o worker do Draco e o PMREM são liberados mesmo se o carregamento falhar
       const [hdr, modelo] = await Promise.all([
         new HDRLoader().loadAsync('/env/studio_small_09_escuro_1k.hdr'),
         gltf.loadAsync('/models/rb22.glb', (e) => { if (e.total) onProgresso(e.loaded / e.total); }),
-      ]);
+      ]).finally(() => draco.dispose());
       hdr.mapping = EquirectangularReflectionMapping;
       scene.environment = pmrem.fromEquirectangular(hdr).texture;
       hdr.dispose();
       pmrem.dispose();
-      draco.dispose();
       scene.add(modelo.scene);
       modelo.scene.traverse((o) => {
         nos.set(o.name, o);
