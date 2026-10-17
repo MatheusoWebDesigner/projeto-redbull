@@ -73,6 +73,7 @@ def tj(v):
 
 ex = json.loads((ORIGEM / "dm01" / "explosao.json").read_text(encoding="utf-8"))
 cams = json.loads((ORIGEM / "dm01" / "dm01_cameras.json").read_text(encoding="utf-8"))
+rot = json.loads((ORIGEM / "dm01" / "rotulos.json").read_text(encoding="utf-8"))
 pecas = {}
 for grupo in ("pecas", "subpecas"):
     for chave, p in ex[grupo].items():
@@ -94,6 +95,8 @@ salvar("dm01.json", {
         {"nome": "luz_quente_termico", "pos": [1.7, 1.6, 1.4], "euler": [61.9, 0, 144.3], "tam": [1.6, 1.0], "cor": [1.0, 0.4, 0.12], "watts": {"E0": 0, "E1": 0, "E2": 0, "E3": 190}},
         {"nome": "luz_fria_eletrico", "pos": [-2.7, -0.3, 1.4], "euler": [55.6, 0, -79.7], "tam": [1.6, 1.0], "cor": [0.28, 0.45, 1.0], "watts": {"E0": 0, "E1": 0, "E2": 0, "E3": 380}},
     ],
+    # posição de cada peça nos renders E0–E3 (px do render), para as linhas guia do plano B
+    "ancoras_render": {ap: {e: {peca: [v["x"], v["y"]] for peca, v in pecas_e.items()} for e, pecas_e in estados.items()} for ap, estados in rot.items() if ap in ("desktop", "mobile")},
     "emissao": {
         "dm01_escape_quente": {"E0": 1.0, "E1": 1.15, "E2": 1.15, "E3": 1.9},
         "dm01_turbina_quente": {"E0": 1.0, "E1": 1.15, "E2": 1.15, "E3": 1.9},

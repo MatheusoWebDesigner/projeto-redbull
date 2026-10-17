@@ -1,0 +1,109 @@
+.dm01 { --dm01-azul: #3b6cff; background: radial-gradient(55% 60% at 72% 50%, rgba(11, 21, 56, 0.5), transparent 70%), var(--c-bg); }
+.dm01__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); overflow: clip; }
+.dm01__render, .dm01__canvas, .dm01__guias { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.dm01__render { object-fit: cover; transition: opacity 0.4s var(--ease-out); }
+/* saturate + contrast: equivalente ao look "AgX - Punchy" dos renders aprovados */
+.dm01__canvas { opacity: 0; filter: saturate(1.2) contrast(1.15); transition: opacity 0.4s var(--ease-out); }
+.dm01.is-3d .dm01__canvas { opacity: 1; }
+.dm01.is-3d .dm01__render { opacity: 0; }
+.dm01__guias { pointer-events: none; overflow: visible; }
+.dm01__guias line { stroke-width: 1.25; opacity: 0; transition: opacity 0.4s var(--ease-out); }
+.dm01__guias circle { opacity: 0; transition: opacity 0.4s var(--ease-out); }
+.dm01__guias [data-grupo='termico'] { stroke: var(--c-red); fill: var(--c-red); }
+.dm01__guias [data-grupo='eletrico'] { stroke: var(--dm01-azul); fill: var(--dm01-azul); }
+.dm01__guias .is-visivel { opacity: 1; }
+
+.dm01__stage > .kicker { position: relative; z-index: 2; }
+.dm01__progresso { position: absolute; z-index: 2; top: 3.75rem; right: var(--gutter); display: flex; gap: 0.5rem; }
+.dm01__progresso span { width: 3rem; height: 2px; background: rgba(255, 255, 255, 0.18); }
+.dm01__progresso span.is-vista { background: rgba(255, 255, 255, 0.5); }
+.dm01__progresso span.is-ativa { background: var(--c-red); }
+
+.dm01__etapas { position: absolute; z-index: 2; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(28rem, 34vw); }
+.etapa-dm01 { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; pointer-events: none; }
+.etapa-dm01.is-active { opacity: 1; pointer-events: auto; z-index: 1; }
+.etapa-dm01__titulo { margin: 0 0 1rem; font: italic 800 clamp(2.75rem, 5.6vw, 5rem)/0.92 var(--f-display); text-transform: uppercase; }
+.etapa-dm01__titulo--fogo { color: var(--c-red); }
+.etapa-dm01__titulo--faisca { color: var(--dm01-azul); }
+.dm01__nota { margin: 1.5rem 0 0; color: var(--c-text-muted); }
+.dados--dm01 { flex-wrap: wrap; gap: 1rem 2rem; }
+.dados--dm01 dd { white-space: nowrap; }
+.dm01__figura { margin: 0; }
+
+.barra-5050 { margin-top: 1.5rem; }
+.barra-5050__rotulos { display: flex; justify-content: space-between; gap: 1rem; margin: 0 0 0.5rem; }
+.barra-5050__fogo { color: #ff4d6d; }
+.barra-5050__faisca { color: #7c9bff; }
+.barra-5050__trilho { display: flex; gap: 4px; height: 4px; }
+.barra-5050__parte { display: block; height: 100%; transform: scaleX(var(--dm01-barra, 0)); }
+.barra-5050__parte--fogo { flex: 0 0 calc(var(--dm01-fogo, 0.533) * 100% - 2px); background: var(--c-red); transform-origin: left; }
+.barra-5050__parte--faisca { flex: 1; background: var(--dm01-azul); transform-origin: right; }
+.dm01__total { margin: 1rem 0 0; display: flex; align-items: baseline; gap: 0.75rem; }
+.dm01__total-valor { font: italic 800 2.25rem/1 var(--f-display); font-variant-numeric: tabular-nums; }
+
+/* No modo animado a lista de peças é só para leitor de tela; os rótulos visuais estão no palco */
+.dm01__pecas { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.dm01__rotulos { list-style: none; margin: 0; padding: 0; }
+.rotulo-peca {
+  position: absolute; z-index: 2; left: var(--rx, 50%); top: var(--ry, 50%);
+  display: grid; gap: 0.125rem; padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--c-red);
+  background: rgba(3, 5, 13, 0.85); opacity: 0; pointer-events: none;
+  transition: opacity 0.4s var(--ease-out), left 0.4s var(--ease-out), top 0.4s var(--ease-out);
+}
+.rotulo-peca[data-grupo='eletrico'] { border-color: var(--dm01-azul); }
+.rotulo-peca.is-visivel { opacity: 1; }
+.rotulo-peca strong { font: 600 0.8125rem/1.2 var(--f-body); letter-spacing: 0.12em; white-space: nowrap; }
+.rotulo-peca > span { color: var(--c-text-muted); font-size: 0.6875rem; letter-spacing: 0.08em; white-space: nowrap; }
+.dm01__dica { position: absolute; z-index: 2; left: var(--gutter); bottom: 3.5rem; margin: 0; }
+.dm01__carga { position: absolute; z-index: 2; left: 62%; top: 48%; margin: 0; }
+
+@media (max-aspect-ratio: 1/1) {
+  .dm01__stage { padding: 4rem var(--gutter) 2rem; }
+  .dm01__progresso { top: 2.5rem; left: var(--gutter); }
+  .dm01__progresso span { flex: 1; width: auto; }
+  .dm01__stage > .kicker { margin-top: 1rem; }
+  .dm01__etapas { top: 7.5rem; transform: none; width: auto; right: var(--gutter); }
+  .etapa-dm01 { top: 0; transform: none; }
+  .etapa-dm01__titulo { font-size: clamp(2.25rem, 10vw, 3rem); }
+  .rotulo-peca { padding: 0.375rem 0.5rem; }
+  .rotulo-peca > span, .rotulo-peca__resto { display: none; }
+  .dm01__dica { display: none; }
+  /* dados em duas colunas para o texto não descer até os rótulos do motor */
+  .dados--dm01 { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; gap: 0.75rem 2rem; margin-top: 1rem; }
+  .dados--dm01 dd { font-size: 1.625rem; }
+  .dm01__carga { left: var(--gutter); top: 70%; }
+}
+
+/* Tela baixa na horizontal: versão compacta, como no Showroom e na Aero */
+@media (min-aspect-ratio: 1001/1000) and (max-height: 45rem) {
+  .dm01__stage { padding-top: 2rem; padding-bottom: 2rem; }
+  .dm01__progresso { top: 2.25rem; }
+  .etapa-dm01__titulo { font-size: clamp(2.25rem, 4vw, 3.5rem); margin-bottom: 0.625rem; }
+  .dm01__etapas .corpo { font-size: 0.9375rem; line-height: 1.5; }
+  .dados--dm01 dd { font-size: 1.75rem; }
+  .dm01__dica { bottom: 1.5rem; }
+}
+
+/* Movimento reduzido ou tela que não comporta o pin: tudo empilhado, com os renders (quadro 100:20) */
+.dm01.is-empilhado .so-reduzido { display: revert !important; }
+.dm01.is-empilhado .so-animado { display: none !important; }
+:is(.reduced, .dm01.is-empilhado) .dm01__stage { height: auto; padding-bottom: 5rem; }
+:is(.reduced, .dm01.is-empilhado) :is(.dm01__render, .dm01__canvas, .dm01__guias, .dm01__rotulos, .dm01__progresso, .dm01__dica, .dm01__carga) { display: none; }
+:is(.reduced, .dm01.is-empilhado) .dm01__etapas { position: static; transform: none; width: auto; margin-top: 2rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3rem 2.5rem; }
+:is(.reduced, .dm01.is-empilhado) .etapa-dm01 { position: static; transform: none; opacity: 1; pointer-events: auto; }
+:is(.reduced, .dm01.is-empilhado) .etapa-dm01[data-etapa='0'], :is(.reduced, .dm01.is-empilhado) .etapa-dm01[data-etapa='3'] { grid-column: 1 / -1; }
+:is(.reduced, .dm01.is-empilhado) .etapa-dm01[data-etapa='0'] .etapa-dm01__titulo br { display: none; }
+:is(.reduced, .dm01.is-empilhado) .etapa-dm01[data-etapa='0'] .dm01__nota { display: none; }
+:is(.reduced, .dm01.is-empilhado) .dm01__figura { margin-top: 2rem; }
+:is(.reduced, .dm01.is-empilhado) .dm01__figura img { width: 100%; height: auto; display: block; border-radius: 8px; }
+:is(.reduced, .dm01.is-empilhado) .barra-5050__parte { transform: none; }
+:is(.reduced, .dm01.is-empilhado) .dm01__pecas { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; display: flex; flex-wrap: wrap; gap: 0.75rem 1.75rem; margin: 2rem 0 0; }
+:is(.reduced, .dm01.is-empilhado) .dm01__pecas div { display: flex; align-items: baseline; gap: 0.5rem; }
+:is(.reduced, .dm01.is-empilhado) .dm01__pecas div::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-red); align-self: center; }
+:is(.reduced, .dm01.is-empilhado) .dm01__pecas div[data-grupo='eletrico']::before { background: var(--dm01-azul); }
+:is(.reduced, .dm01.is-empilhado) .dm01__pecas dt { font: 600 0.8125rem/1.2 var(--f-body); letter-spacing: 0.12em; }
+:is(.reduced, .dm01.is-empilhado) .dm01__pecas dd { margin: 0; color: var(--c-text-muted); font-size: 0.75rem; }
+@media (max-width: 40rem) {
+  :is(.reduced, .dm01.is-empilhado) .dm01__etapas { grid-template-columns: minmax(0, 1fr); }
+}
