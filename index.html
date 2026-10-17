@@ -75,7 +75,150 @@
           </div>
         </div>
       </section>
-      <!-- Fase 4: #showroom e #aero entram aqui · Fase 5: #dm01 entra aqui -->
+      <div class="palco3d" data-palco3d>
+        <div class="palco3d__fundo" aria-hidden="true">
+          <img class="palco3d__render" src="/showroom/desktop/sr_00.webp" alt="" width="1920" height="1200" />
+          <canvas class="palco3d__canvas"></canvas>
+          <div class="palco3d__perfil">
+            <img data-perfil="curva" src="/aero/desktop/B_curva.webp" alt="" width="1920" height="1200" loading="lazy" />
+            <img data-perfil="reta" src="/aero/desktop/B_reta.webp" alt="" width="1920" height="1200" loading="lazy" />
+            <div class="palco3d__perfil-svg"></div>
+          </div>
+        </div>
+
+        <section id="showroom" class="secao showroom" aria-labelledby="showroom-titulo">
+          <div class="showroom__stage">
+            <h2 id="showroom-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Showroom 3D</h2>
+            <p class="rotulo showroom__dica" aria-hidden="true">← Arraste para girar →</p>
+            <div class="showroom__paradas">
+              <article class="parada is-active" data-parada="0">
+                <h3 class="parada__titulo parada__titulo--grande">O carro. Por inteiro.</h3>
+                <p class="corpo">Menor, mais leve e com asas que se mexem. <span class="so-animado">Role para passar pelas peças; arraste para girar o carro.</span><span class="so-reduzido">Cinco peças que mudaram para 2026.</span></p>
+                <dl class="dados">
+                  <div><dt class="rotulo">entre-eixos · −200 mm</dt><dd>3.400 mm</dd></div>
+                  <div><dt class="rotulo">largura · −100 mm</dt><dd>1.900 mm</dd></div>
+                </dl>
+                <img class="parada__render" src="/showroom/desktop/sr_00.webp" alt="" width="1920" height="1200" loading="lazy" />
+              </article>
+              <article class="parada" data-parada="1">
+                <p class="parada__indice">01 / 05</p>
+                <h3 class="parada__titulo">Asa dianteira</h3>
+                <p class="corpo">100 mm mais estreita, com um flap de dois elementos que muda de ângulo sozinho: deita na reta, levanta na curva.</p>
+                <dl class="dados"><div><dt class="rotulo">de largura</dt><dd>−100 mm</dd></div></dl>
+                <img class="parada__render" src="/showroom/desktop/sr_01.webp" alt="" width="1920" height="1200" loading="lazy" />
+              </article>
+              <article class="parada" data-parada="2">
+                <p class="parada__indice">02 / 05</p>
+                <h3 class="parada__titulo">Cockpit e halo</h3>
+                <p class="corpo">A célula de sobrevivência ficou mais forte: estrutura frontal em dois estágios, mais proteção lateral e o arco de capotamento testado a 20 G (antes, 16 G).</p>
+                <dl class="dados"><div><dt class="rotulo">teste do arco de capotamento</dt><dd>20 G</dd></div></dl>
+                <img class="parada__render" src="/showroom/desktop/sr_02.webp" alt="" width="1920" height="1200" loading="lazy" />
+              </article>
+              <article class="parada" data-parada="3">
+                <p class="parada__indice">03 / 05</p>
+                <h3 class="parada__titulo">Sidepods</h3>
+                <p class="corpo">Arrefecimento redesenhado para caber um sistema de bateria maior dentro de um carro menor.</p>
+                <dl class="dados"><div><dt class="rotulo">do MGU-K elétrico</dt><dd>350 kW</dd></div></dl>
+                <img class="parada__render" src="/showroom/desktop/sr_03.webp" alt="" width="1920" height="1200" loading="lazy" />
+              </article>
+              <article class="parada" data-parada="4">
+                <p class="parada__indice">04 / 05</p>
+                <h3 class="parada__titulo">Assoalho</h3>
+                <p class="corpo">Parcialmente plano e com difusor menos potente: menos efeito-solo e carros menos rígidos. No total, cerca de 30% menos pressão aerodinâmica.</p>
+                <dl class="dados"><div><dt class="rotulo">pressão aerodinâmica (aprox.)</dt><dd>−30%</dd></div></dl>
+                <img class="parada__render" src="/showroom/desktop/sr_04.webp" alt="" width="1920" height="1200" loading="lazy" />
+              </article>
+              <article class="parada" data-parada="5">
+                <p class="parada__indice">05 / 05</p>
+                <h3 class="parada__titulo">Asa traseira ativa</h3>
+                <p class="corpo">Três elementos que se movem: abre na reta para cortar o arrasto, fecha na curva para dar aderência. Substitui o DRS.</p>
+                <dl class="dados"><div><dt class="rotulo">arrasto (aprox.)</dt><dd>−55%</dd></div></dl>
+                <a class="parada__link rotulo so-animado" href="#aero">Ver a aerodinâmica ativa <span aria-hidden="true">↓</span></a>
+                <img class="parada__render" src="/showroom/desktop/sr_05.webp" alt="" width="1920" height="1200" loading="lazy" />
+              </article>
+            </div>
+            <nav class="showroom__barras" aria-label="Peças do carro">
+              <button type="button" data-ir="1"><span class="showroom__barra" aria-hidden="true"></span>01 Asa dianteira</button>
+              <button type="button" data-ir="2"><span class="showroom__barra" aria-hidden="true"></span>02 Cockpit e halo</button>
+              <button type="button" data-ir="3"><span class="showroom__barra" aria-hidden="true"></span>03 Sidepods</button>
+              <button type="button" data-ir="4"><span class="showroom__barra" aria-hidden="true"></span>04 Assoalho</button>
+              <button type="button" data-ir="5"><span class="showroom__barra" aria-hidden="true"></span>05 Asa traseira ativa</button>
+            </nav>
+            <div class="showroom__hotspots" aria-hidden="true">
+              <span class="hotspot" data-peca="asa-dianteira"><span class="hotspot__rotulo">01 Asa dianteira</span><span class="hotspot__ponto"></span></span>
+              <span class="hotspot" data-peca="halo"><span class="hotspot__rotulo">02 Cockpit e halo</span><span class="hotspot__ponto"></span></span>
+              <span class="hotspot" data-peca="sidepod-esquerdo"><span class="hotspot__rotulo">03 Sidepods</span><span class="hotspot__ponto"></span></span>
+              <span class="hotspot" data-peca="assoalho-difusor"><span class="hotspot__rotulo">04 Assoalho</span><span class="hotspot__ponto"></span></span>
+              <span class="hotspot" data-peca="asa-traseira"><span class="hotspot__rotulo">05 Asa traseira ativa</span><span class="hotspot__ponto"></span></span>
+            </div>
+            <div class="showroom__carregando" role="status" hidden>
+              <span class="rotulo">Carregando o carro em 3D</span>
+              <span class="showroom__carga" aria-hidden="true"><span></span></span>
+              <span class="showroom__pct">0%</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="aero" class="secao aero" aria-labelledby="aero-titulo">
+          <div class="aero__stage">
+            <h2 id="aero-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Aerodinâmica ativa</h2>
+            <div class="aero__progresso" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+            <div class="aero__etapas">
+              <article class="etapa is-active" data-etapas="0 1">
+                <h3 class="etapa__titulo">Duas asas.<br />Duas personalidades.</h3>
+                <p class="corpo">Em 2026 o DRS sai de cena. As asas dianteira e traseira mudam de ângulo durante a volta: um modo para a curva, outro para a reta.</p>
+                <div class="aero__cartoes">
+                  <figure class="aero__figura so-reduzido"><img src="/aero/desktop/A_curva.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
+                  <div class="cartao-modo" data-modo="curva" aria-live="polite">
+                    <p class="cartao-modo__cabecalho rotulo"><span class="cartao-modo__ponto" aria-hidden="true"></span><span data-cabecalho>Modo curva · padrão</span></p>
+                    <p class="cartao-modo__texto" data-texto>Flaps inclinados: mais pressão aerodinâmica para frear e contornar.</p>
+                    <dl class="cartao-modo__medidores">
+                      <div><dt class="rotulo">Pressão aerodinâmica</dt><dd class="rotulo" data-nivel>Alta</dd><span class="medidor" aria-hidden="true"><span></span></span></div>
+                      <div><dt class="rotulo">Arrasto</dt><dd class="rotulo" data-nivel>Alta</dd><span class="medidor" aria-hidden="true"><span></span></span></div>
+                    </dl>
+                    <p class="rotulo cartao-modo__nota">Comparação qualitativa</p>
+                  </div>
+                  <figure class="aero__figura so-reduzido"><img src="/aero/desktop/A_reta.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
+                  <div class="cartao-modo so-reduzido" data-modo="reta">
+                    <p class="cartao-modo__cabecalho rotulo"><span class="cartao-modo__ponto" aria-hidden="true"></span>Modo reta</p>
+                    <p class="cartao-modo__texto">Flaps deitados: menos arrasto nas zonas de ativação marcadas pela FIA.</p>
+                    <dl class="cartao-modo__medidores">
+                      <div><dt class="rotulo">Pressão aerodinâmica</dt><dd class="rotulo">Baixa</dd><span class="medidor" aria-hidden="true"><span></span></span></div>
+                      <div><dt class="rotulo">Arrasto</dt><dd class="rotulo">Baixa</dd><span class="medidor" aria-hidden="true"><span></span></span></div>
+                    </dl>
+                    <p class="rotulo cartao-modo__nota">Comparação qualitativa</p>
+                  </div>
+                </div>
+              </article>
+              <article class="etapa" data-etapas="2">
+                <h3 class="etapa__titulo">Mesma asa,<br />outro ângulo.</h3>
+                <p class="corpo so-animado">No modo reta, a fenda entre os elementos se abre e o ar passa com menos resistência. Antes da curva, tudo volta à posição padrão.</p>
+                <p class="rotulo so-animado">Ângulos ilustrativos</p>
+                <div class="aero__perfis so-reduzido">
+                  <figure><img src="/aero/desktop/B_curva.webp" alt="" width="1920" height="1200" loading="lazy" /><figcaption class="rotulo">Modo curva · corte da seção central da asa traseira</figcaption></figure>
+                  <figure><img src="/aero/desktop/B_reta.webp" alt="" width="1920" height="1200" loading="lazy" /><figcaption class="rotulo">Modo reta · flap superior ≈ 30° mais deitado (ilustrativo)</figcaption></figure>
+                </div>
+              </article>
+              <article class="etapa" data-etapas="3">
+                <h3 class="etapa__titulo">As duas juntas.</h3>
+                <p class="corpo">Dianteira e traseira se movem em sincronia, em toda volta e para qualquer piloto: não depende de estar a 1 segundo do carro da frente, como era com o DRS.</p>
+                <p class="rotulo aero__nota so-animado">O modo ultrapassagem é outra ferramenta: energia elétrica extra para quem está a menos de 1 s do carro da frente.</p>
+                <figure class="aero__figura so-reduzido"><img src="/aero/desktop/C_reta.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
+              </article>
+            </div>
+            <p class="rotulo aero__legenda-perfil" aria-hidden="true">Corte da seção central da asa traseira · frente do carro à esquerda</p>
+            <p class="rotulo aero__angulo" aria-hidden="true"><span class="aero__angulo-titulo">Flap superior ≈ 30°</span><span>– – curva &nbsp; —— reta · ilustrativo</span></p>
+            <div class="aero__controle so-animado">
+              <div class="seletor-modo" role="radiogroup" aria-label="Modo das asas">
+                <button type="button" role="radio" aria-checked="true" data-modo="curva">Modo curva</button>
+                <button type="button" role="radio" aria-checked="false" tabindex="-1" data-modo="reta">Modo reta</button>
+              </div>
+              <p class="rotulo">Toque para trocar · ou role para ver as asas mudarem</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <!-- Fase 5: #dm01 entra aqui -->
       <section id="numeros" class="secao numeros" aria-labelledby="numeros-titulo">
         <div class="numeros__stage">
           <header class="numeros__topo">

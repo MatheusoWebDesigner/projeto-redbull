@@ -4,6 +4,7 @@ import './styles/hero.css';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { initHero } from './hero/hero';
 import { initManifesto } from './sections/manifesto/manifesto';
+import { initPalco3D } from './sections/palco3d/palco3d';
 import { initNumeros } from './sections/numeros/numeros';
 import { initLegado } from './sections/legado/legado';
 import { initFechamento } from './sections/fechamento/fechamento';
@@ -16,6 +17,7 @@ async function start(): Promise<void> {
     console.error('Falha ao iniciar a Hero:', erro);
   }
   initManifesto();
+  await initPalco3D();
   initNumeros();
   initLegado();
   await initFechamento();

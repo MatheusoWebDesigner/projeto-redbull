@@ -1,0 +1,54 @@
+.aero__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); }
+.aero__progresso { position: absolute; top: 3.75rem; right: var(--gutter); display: flex; gap: 0.5rem; }
+.aero__progresso span { width: 3rem; height: 2px; background: rgba(255, 255, 255, 0.18); }
+.aero__progresso span.is-vista { background: rgba(255, 255, 255, 0.5); }
+.aero__progresso span.is-ativa { background: var(--c-red); }
+.aero__etapas { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(26rem, 34vw); }
+.etapa { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; pointer-events: none; }
+.etapa.is-active { opacity: 1; pointer-events: auto; z-index: 1; }
+.etapa__titulo { margin: 0 0 1rem; font: italic 800 clamp(2.5rem, 4.4vw, 4rem)/0.95 var(--f-display); text-transform: uppercase; }
+.aero__cartoes { margin-top: 1.5rem; }
+.cartao-modo { padding: 1.25rem 1rem; border-radius: 8px; background: var(--c-navy); transition: opacity 0.3s; }
+.cartao-modo__cabecalho { display: flex; align-items: center; gap: 0.625rem; margin: 0 0 0.75rem; color: var(--c-text); }
+.cartao-modo__ponto { width: 6px; height: 6px; border-radius: 50%; background: var(--c-red); }
+.cartao-modo[data-modo='reta'] .cartao-modo__ponto { background: var(--c-yellow); }
+.cartao-modo__texto { margin: 0 0 1rem; color: var(--c-text-muted); font-size: 0.875rem; line-height: 1.6; }
+.cartao-modo__medidores { margin: 0; display: grid; gap: 0.75rem; }
+.cartao-modo__medidores div { display: grid; grid-template-columns: 1fr auto; row-gap: 0.375rem; }
+.cartao-modo__medidores dd { margin: 0; }
+.medidor { grid-column: 1 / -1; height: 3px; background: rgba(255, 255, 255, 0.18); }
+.medidor span { display: block; height: 100%; width: 50%; background: var(--c-red); transition: width 0.6s var(--ease-out), background 0.3s; }
+.cartao-modo[data-modo='reta'] .medidor span { width: 25%; background: var(--c-yellow); }
+.cartao-modo__nota { margin: 0.75rem 0 0; }
+.aero__nota { margin-top: 1.25rem; max-width: 24rem; }
+.aero__legenda-perfil { position: absolute; left: 31%; top: 65%; margin: 0; opacity: var(--palco-perfil, 0); }
+.aero__angulo { position: absolute; left: 66%; top: 38%; margin: 0; display: grid; gap: 0.25rem; padding: 0.5rem 0.625rem; background: rgba(3, 5, 13, 0.85); opacity: var(--palco-perfil, 0); }
+.aero__angulo-titulo { color: var(--c-yellow); }
+.palco3d__perfil-svg { opacity: var(--palco-perfil, 0); }
+.aero__controle { position: absolute; left: var(--gutter); bottom: 3.5rem; display: flex; align-items: center; gap: 1.25rem; }
+.seletor-modo { display: flex; gap: 0.25rem; padding: 0.25rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.24); }
+.seletor-modo button { padding: 0.75rem 1.25rem; border: 0; border-radius: 999px; background: transparent; color: var(--c-text); font: 600 0.8125rem/1 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
+.seletor-modo button[aria-checked='true'] { background: var(--c-yellow); color: #000; }
+.seletor-modo button:focus-visible { outline: 2px solid var(--c-yellow); outline-offset: 3px; }
+
+@media (max-aspect-ratio: 1/1) {
+  .aero__stage { padding: 4rem var(--gutter) 2rem; }
+  .aero__progresso { top: 2.5rem; left: var(--gutter); }
+  .aero__progresso span { flex: 1; width: auto; }
+  .aero__etapas { top: 6.5rem; transform: none; width: auto; right: var(--gutter); }
+  .etapa { top: 0; transform: none; }
+  .etapa__titulo { font-size: clamp(2.25rem, 10vw, 3rem); }
+  .aero__controle { flex-direction: column; align-items: flex-start; gap: 0.5rem; bottom: 2rem; }
+  .aero__legenda-perfil { left: var(--gutter); top: auto; bottom: 9rem; }
+  .aero__angulo { left: auto; right: var(--gutter); top: 55%; }
+}
+
+.reduced .aero__stage { height: auto; padding-bottom: 5rem; }
+.reduced .aero__etapas { position: static; transform: none; width: auto; margin-top: 2rem; display: grid; gap: 4rem; }
+.reduced .etapa { position: static; transform: none; opacity: 1; pointer-events: auto; }
+.reduced .aero__cartoes, .reduced .aero__perfis { display: grid !important; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
+.reduced .aero__figura, .reduced .aero__perfis figure { margin: 0; }
+.reduced .aero__figura img, .reduced .aero__perfis img { width: 100%; height: auto; border-radius: 8px; display: block; }
+.reduced .aero__cartoes .cartao-modo { grid-row: 2; }
+.reduced .aero__progresso, .reduced .aero__legenda-perfil, .reduced .aero__angulo { display: none; }
+@media (max-aspect-ratio: 1/1) { .reduced .aero__cartoes, .reduced .aero__perfis { grid-template-columns: 1fr; } .reduced .aero__cartoes .cartao-modo { grid-row: auto; } }
