@@ -14,7 +14,13 @@ export function initManifesto(): void {
   const frase = section?.querySelector<HTMLElement>('.manifesto__frase');
   if (!section || !stage || !frase) return;
 
-  const words = SplitText.create(frase, { type: 'words' }).words as HTMLElement[];
+  // A frase dividida em palavras fica oculta para leitores de tela; eles leem esta cópia inteira, logo depois.
+  // (aria-label em <p> é ignorado pelos leitores, então o 'auto' do SplitText deixaria a frase muda.)
+  const leitura = document.createElement('p');
+  leitura.className = 'sr-only';
+  leitura.textContent = (frase.textContent ?? '').replace(/\s+/g, ' ').trim();
+  frase.after(leitura);
+  const words = SplitText.create(frase, { type: 'words', aria: 'hidden' }).words as HTMLElement[];
   const mobile = window.matchMedia('(max-aspect-ratio: 1/1)').matches;
 
   const render = (p: number) => {

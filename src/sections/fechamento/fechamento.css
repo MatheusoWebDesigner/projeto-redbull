@@ -1,8 +1,10 @@
-.fechamento__stage { position: relative; height: 100svh; display: grid; place-items: center; align-content: center; gap: 2.5rem; padding: 0 var(--gutter); overflow: hidden; }
+.fechamento__stage { position: relative; min-height: 100svh; display: grid; place-items: center; align-content: center; gap: 2.5rem; padding: 0 var(--gutter); overflow: hidden; }
 .fechamento__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .fechamento__titulo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .fechamento__acoes { position: relative; display: grid; gap: 1.5rem; justify-items: center; text-align: center; margin-top: 34vh; opacity: 0; transform: translateY(16px); transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }
 .fechamento.is-revelado .fechamento__acoes { opacity: 1; transform: none; }
+/* Foco por teclado antes da revelação: o botão nunca fica focado e invisível */
+.fechamento__acoes:focus-within { opacity: 1; transform: none; }
 .fechamento__botoes { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
 
 .rodape { padding: 3.5rem var(--gutter); border-top: 1px solid rgba(255, 255, 255, 0.15); display: grid; gap: 2rem; color: var(--c-text-muted); }
@@ -18,6 +20,11 @@
   .fechamento__botoes { flex-direction: column; align-items: center; }
   .rodape__colunas { grid-template-columns: 1fr; gap: 1.5rem; }
   .rodape__base { flex-direction: column; align-items: flex-start; }
+}
+
+/* Janela estreita na horizontal (zoom de 400%): as 3 colunas do rodapé geravam rolagem horizontal */
+@media (max-width: 40rem) {
+  .rodape__colunas { grid-template-columns: 1fr; gap: 1.5rem; }
 }
 
 .reduced .fechamento__acoes { opacity: 1; transform: none; }

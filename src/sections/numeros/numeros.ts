@@ -1,11 +1,17 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { countFrame, parseValue } from '../../core/countup';
-import { prefersReducedMotion } from '../../core/motion';
 import { cardEntrou, rangeLabel, trackShift, visibleRange } from './track';
 import './numeros.css';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * Altura mínima para o trilho fixado caber sem cortar o cartão (medida: 500px na horizontal, 640px na vertical).
+ * Abaixo disso — zoom de 200%/400%, notebook baixo, celular pequeno — a seção fica empilhada (is-estatico).
+ * Reavaliada a cada mudança de zoom ou de janela pelo gsap.matchMedia.
+ */
+const PIN_CABE = '(prefers-reduced-motion: no-preference) and (min-aspect-ratio: 1001/1000) and (min-height: 32rem), (prefers-reduced-motion: no-preference) and (min-height: 40rem)';
 
 function contar(card: HTMLElement): void {
   if (card.classList.contains('is-contado')) return;
@@ -18,7 +24,6 @@ function contar(card: HTMLElement): void {
 }
 
 export function initNumeros(): void {
-  if (prefersReducedMotion()) return;
   const section = document.querySelector<HTMLElement>('.numeros');
   const stage = section?.querySelector<HTMLElement>('.numeros__stage');
   const trilho = section?.querySelector<HTMLElement>('.numeros__trilho');
@@ -37,13 +42,20 @@ export function initNumeros(): void {
     cards.forEach((c) => { const r = c.getBoundingClientRect(); if (cardEntrou(r.left, r.width, window.innerWidth)) contar(c); });
   };
 
-  ScrollTrigger.create({
-    trigger: section,
-    start: 'top top',
-    end: mobile ? '+=300%' : '+=250%',
-    pin: stage,
-    scrub: true,
-    onUpdate: (self) => render(self.progress),
-    onRefresh: (self) => render(self.progress),
+  gsap.matchMedia().add({ fixar: PIN_CABE, sempre: 'all' }, (ctx) => {
+    if (!ctx.conditions?.fixar) {
+      section.classList.add('is-estatico');
+      return () => section.classList.remove('is-estatico');
+    }
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: mobile ? '+=300%' : '+=250%',
+      pin: stage,
+      scrub: true,
+      onUpdate: (self) => render(self.progress),
+      onRefresh: (self) => render(self.progress),
+    });
+    return undefined;
   });
 }

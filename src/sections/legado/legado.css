@@ -23,4 +23,10 @@
   .legado__svg { height: 6rem; }
 }
 
+/* Janela estreita na horizontal (zoom de 175% a 400% em notebook): os valores de 6rem vazavam a coluna e se sobrepunham */
+@media (max-width: 56rem) {
+  .legado__numeros { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+  .legado__valor { font-size: 4rem; }
+}
+
 .reduced .legado__marca { opacity: 1; }

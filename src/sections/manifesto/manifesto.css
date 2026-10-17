@@ -1,4 +1,4 @@
-.manifesto__stage { position: relative; height: 100svh; overflow: hidden; display: grid; align-items: center; padding: 0 var(--gutter);
+.manifesto__stage { position: relative; min-height: 100svh; overflow: hidden; display: grid; align-items: center; padding: 0 var(--gutter);
   --mf-glow: 0; --mf-wm-x: 0px; --mf-wm-op: 0.05; }
 .manifesto__glow { position: absolute; inset: 0; opacity: var(--mf-glow);
   background: radial-gradient(70% 90% at 85% 100%, rgba(21, 51, 128, 0.6) 0%, rgba(11, 21, 56, 0.35) 45%, rgba(11, 21, 56, 0) 100%); }
