@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { emParalelo, frameUrl, getFrameStore, nearestLoaded, splitLoadOrder } from './frames';
+import { emParalelo, frameUrl, getFrameStore, nearestLoaded, PASSO_PRIORITARIO, splitLoadOrder } from './frames';
 
 describe('emParalelo', () => {
   const adiado = () => {
@@ -47,6 +47,9 @@ describe('frameUrl', () => {
   it('usa numeração de 3 dígitos a partir de 1', () => {
     expect(frameUrl('desktop', 0)).toBe('/hero/frames/desktop/f_001.webp');
     expect(frameUrl('mobile', 239)).toBe('/hero/frames/mobile/f_240.webp');
+  });
+  it('pede o AVIF quando o navegador decodifica AVIF', () => {
+    expect(frameUrl('desktop', 0, 'avif')).toBe('/hero/frames/desktop/f_001.avif');
   });
 });
 
@@ -102,5 +105,12 @@ describe('getFrameStore', () => {
   });
   it('separa desktop e celular', () => {
     expect(getFrameStore('desktop')).not.toBe(getFrameStore('mobile'));
+  });
+});
+
+describe('PASSO_PRIORITARIO', () => {
+  it('a abertura espera 1 a cada 8 quadros e o último (31 de 240), metade do que esperava antes', () => {
+    expect(PASSO_PRIORITARIO).toBe(8);
+    expect(splitLoadOrder(240, PASSO_PRIORITARIO).priority).toHaveLength(31);
   });
 });

@@ -2,10 +2,27 @@ import { FRAME_COUNT } from './scrub';
 import { asset } from '../core/url';
 
 export type FrameSet = 'desktop' | 'mobile';
+export type Formato = 'avif' | 'webp';
 
-export function frameUrl(set: FrameSet, index: number): string {
+/** A abertura espera 1 a cada 8 quadros (e o último); os outros carregam enquanto a pessoa lê o capítulo 1. */
+export const PASSO_PRIORITARIO = 8;
+
+export function frameUrl(set: FrameSet, index: number, formato: Formato = 'webp'): string {
   const n = String(index + 1).padStart(3, '0');
-  return asset(`/hero/frames/${set}/f_${n}.webp`);
+  return asset(`/hero/frames/${set}/f_${n}.${formato}`);
+}
+
+/** AVIF de 1×1 px: se o navegador decodifica, os quadros vêm em AVIF (~45% menores); senão, em WebP. */
+const AVIF_1PX = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUIAAADrbWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAAAAAAAOcGl0bQAAAAAAAQAAAB5pbG9jAAAAAEQAAAEAAQAAAAEAAAETAAAAIQAAAChpaW5mAAAAAAABAAAAGmluZmUCAAAAAAEAAGF2MDFDb2xvcgAAAABqaXBycAAAAEtpcGNvAAAAFGlzcGUAAAAAAAAAAQAAAAEAAAAQcGl4aQAAAAADCAgIAAAADGF2MUOBAAwAAAAAE2NvbHJuY2x4AAEADQAGgAAAABdpcG1hAAAAAAAAAAEAAQQBAoMEAAAAKW1kYXQSAAoIGAAGiAhoNCAyExlHh4Yhh5555oAAAJBAyRxhQr4=';
+let formato: Promise<Formato> | null = null;
+function formatoDosQuadros(): Promise<Formato> {
+  formato ??= new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img.width > 0 ? 'avif' : 'webp');
+    img.onerror = () => resolve('webp');
+    img.src = AVIF_1PX;
+  });
+  return formato;
 }
 
 export function splitLoadOrder(count: number, stride = 4): { priority: number[]; rest: number[] } {
@@ -42,6 +59,7 @@ export class FrameStore {
   private readonly images: (HTMLImageElement | null)[];
   private readonly loaded = new Set<number>();
   private loading: Promise<void> | null = null;
+  private formato: Formato = 'webp';
 
   constructor(private readonly set: FrameSet, private readonly count = FRAME_COUNT) {
     this.images = new Array(count).fill(null);
@@ -57,7 +75,8 @@ export class FrameStore {
   }
 
   private async loadAll(onPriorityProgress: (fraction: number) => void): Promise<void> {
-    const { priority, rest } = splitLoadOrder(this.count);
+    this.formato = await formatoDosQuadros();
+    const { priority, rest } = splitLoadOrder(this.count, PASSO_PRIORITARIO);
     let done = 0;
     await emParalelo(priority, PARALELO, async (i) => {
       await this.loadOne(i);
@@ -82,7 +101,7 @@ export class FrameStore {
         resolve();
       };
       img.onerror = () => resolve();
-      img.src = frameUrl(this.set, i);
+      img.src = frameUrl(this.set, i, this.formato);
     });
   }
 }
