@@ -154,7 +154,7 @@
             <div class="showroom__carregando" role="status" hidden>
               <span class="rotulo">Carregando o carro em 3D</span>
               <span class="showroom__carga" aria-hidden="true"><span></span></span>
-              <span class="showroom__pct">0%</span>
+              <span class="showroom__pct" aria-hidden="true">0%</span>
             </div>
           </div>
         </section>
@@ -169,7 +169,7 @@
                 <p class="corpo">Em 2026 o DRS sai de cena. As asas dianteira e traseira mudam de ângulo durante a volta: um modo para a curva, outro para a reta.</p>
                 <div class="aero__cartoes">
                   <figure class="aero__figura so-reduzido"><img src="/aero/desktop/A_curva.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
-                  <div class="cartao-modo" data-modo="curva" aria-live="polite">
+                  <div class="cartao-modo" data-modo="curva" aria-live="polite" aria-atomic="true">
                     <p class="cartao-modo__cabecalho rotulo"><span class="cartao-modo__ponto" aria-hidden="true"></span><span data-cabecalho>Modo curva · padrão</span></p>
                     <p class="cartao-modo__texto" data-texto>Flaps inclinados: mais pressão aerodinâmica para frear e contornar.</p>
                     <dl class="cartao-modo__medidores">
@@ -192,7 +192,7 @@
               </article>
               <article class="etapa" data-etapas="2">
                 <h3 class="etapa__titulo">Mesma asa,<br />outro ângulo.</h3>
-                <p class="corpo so-animado">No modo reta, a fenda entre os elementos se abre e o ar passa com menos resistência. Antes da curva, tudo volta à posição padrão.</p>
+                <p class="corpo">No modo reta, a fenda entre os elementos se abre e o ar passa com menos resistência. Antes da curva, tudo volta à posição padrão.</p>
                 <p class="rotulo so-animado">Ângulos ilustrativos</p>
                 <div class="aero__perfis so-reduzido">
                   <figure><img src="/aero/desktop/B_curva.webp" alt="" width="1920" height="1200" loading="lazy" /><figcaption class="rotulo">Modo curva · corte da seção central da asa traseira</figcaption></figure>
@@ -202,7 +202,7 @@
               <article class="etapa" data-etapas="3">
                 <h3 class="etapa__titulo">As duas juntas.</h3>
                 <p class="corpo">Dianteira e traseira se movem em sincronia, em toda volta e para qualquer piloto: não depende de estar a 1 segundo do carro da frente, como era com o DRS.</p>
-                <p class="rotulo aero__nota so-animado">O modo ultrapassagem é outra ferramenta: energia elétrica extra para quem está a menos de 1 s do carro da frente.</p>
+                <p class="rotulo aero__nota">O modo ultrapassagem é outra ferramenta: energia elétrica extra para quem está a menos de 1 s do carro da frente.</p>
                 <figure class="aero__figura so-reduzido"><img src="/aero/desktop/C_reta.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
               </article>
             </div>

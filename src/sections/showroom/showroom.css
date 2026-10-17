@@ -1,4 +1,4 @@
-.showroom__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); overflow: clip; touch-action: pan-y; cursor: grab; }
+.showroom__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); overflow: clip; touch-action: pan-y pinch-zoom; cursor: grab; } /* pinch-zoom: o arraste não pode travar o zoom do celular */
 .showroom__stage.is-arrastando { cursor: grabbing; }
 .showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); margin: 0; padding: 0.5rem 0.875rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); white-space: nowrap; }
 .showroom__paradas { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(24rem, 32vw); }
@@ -14,6 +14,8 @@
 .parada__link:focus-visible, .showroom__barras button:focus-visible { outline: 2px solid var(--c-yellow); outline-offset: 4px; }
 .parada__render { display: none; }
 .showroom__barras { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 3.5rem; display: flex; gap: 1rem; }
+/* Véu atrás dos rótulos: sobre a carroceria clara (parada 02) o texto caía para 1,5:1. Com ele, ≥ 4,5:1. */
+.showroom__barras::before { content: ''; position: absolute; z-index: -1; left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter)); top: -1.5rem; bottom: -3.5rem; background: linear-gradient(to top, rgba(3, 5, 13, 0.8) 70%, rgba(3, 5, 13, 0)); pointer-events: none; }
 .showroom__barras button { flex: 0 1 10rem; display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0; background: none; border: 0; color: var(--c-text-muted); font: 500 0.6875rem/1.2 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; text-align: left; cursor: pointer; }
 .showroom__barra { height: 3px; background: rgba(255, 255, 255, 0.18); }
 .showroom__barras [data-estado='vista'] .showroom__barra { background: rgba(255, 255, 255, 0.5); }
@@ -36,6 +38,7 @@
 @media (max-aspect-ratio: 1/1) {
   .showroom__stage { padding: 4rem var(--gutter) 2.5rem; }
   .showroom__barras { top: 2.5rem; bottom: auto; gap: 0.375rem; }
+  .showroom__barras::before { content: none; } /* no celular as barras não têm rótulo visível */
   .showroom__barras button { flex: 1; font-size: 0; gap: 0; }
   .showroom__stage > .kicker { margin-top: 1.5rem; }
   .showroom__paradas { top: 9rem; transform: none; width: auto; right: var(--gutter); }
@@ -47,12 +50,17 @@
   .showroom__carregando { left: var(--gutter); top: 72%; }
 }
 
-.reduced .showroom__stage { height: auto; padding-bottom: 5rem; cursor: auto; }
-.reduced .showroom__paradas { position: static; transform: none; width: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 1.5rem; margin-top: 2rem; }
-.reduced .parada:not([data-parada='0']) .parada__titulo { font-size: clamp(1.75rem, 2.4vw, 2.25rem); }
-@media (max-width: 48rem) { .reduced .showroom__paradas { grid-template-columns: 1fr; } }
-.reduced .parada { position: static; transform: none; opacity: 1; pointer-events: auto; display: flex; flex-direction: column; }
-.reduced .parada[data-parada='0'] { grid-column: 1 / -1; }
-.reduced .parada[data-parada='0'] .parada__render { order: 1; margin: 2rem 0 0; }
-.reduced .parada__render { display: block; order: -1; width: 100%; height: auto; margin-bottom: 1.25rem; border-radius: 8px; }
-.reduced .showroom__barras, .reduced .showroom__hotspots, .reduced .showroom__dica, .reduced .showroom__carregando { display: none; }
+:is(.reduced, .is-empilhado) .showroom__stage { height: auto; padding-bottom: 5rem; cursor: auto; }
+:is(.reduced, .is-empilhado) .showroom__paradas { position: static; transform: none; width: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 1.5rem; margin-top: 2rem; }
+:is(.reduced, .is-empilhado) .parada:not([data-parada='0']) .parada__titulo { font-size: clamp(1.75rem, 2.4vw, 2.25rem); }
+/* minmax(0, …) e dados quebrando linha: sem isso a coluna cresce até os números e a página rola de lado (zoom 200% no celular). */
+@media (max-width: 48rem) { :is(.reduced, .is-empilhado) .showroom__paradas { grid-template-columns: minmax(0, 1fr); } }
+:is(.reduced, .is-empilhado) .dados { flex-wrap: wrap; row-gap: 1rem; }
+:is(.reduced, .is-empilhado) .parada { position: static; transform: none; opacity: 1; pointer-events: auto; display: flex; flex-direction: column; }
+:is(.reduced, .is-empilhado) .parada[data-parada='0'] { grid-column: 1 / -1; }
+:is(.reduced, .is-empilhado) .parada[data-parada='0'] .parada__render { order: 1; margin: 2rem 0 0; }
+:is(.reduced, .is-empilhado) .parada__render { display: block; order: -1; width: 100%; height: auto; margin-bottom: 1.25rem; border-radius: 8px; }
+:is(.reduced, .is-empilhado) .showroom__barras, :is(.reduced, .is-empilhado) .showroom__hotspots, :is(.reduced, .is-empilhado) .showroom__dica, :is(.reduced, .is-empilhado) .showroom__carregando { display: none; }
+
+/* Sem 3D (carregando ou plano B) não há o que arrastar */
+.palco3d:not(.is-3d) .showroom__dica { display: none; }

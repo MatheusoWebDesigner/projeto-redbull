@@ -39,19 +39,27 @@
   .etapa { top: 0; transform: none; }
   .etapa__titulo { font-size: clamp(2.25rem, 10vw, 3rem); }
   .aero__controle { bottom: 2rem; }
-  /* Celular (quadro 67:122): só título + cartão, para a asa aparecer inteira; sem a dica de toque */
-  .etapa[data-etapas='0 1'] > .corpo, .aero__controle > .rotulo { display: none; }
+  /* Celular (quadro 67:122): só título + cartão, para a asa aparecer inteira; sem a dica de toque.
+     O parágrafo sai da tela, mas continua para o leitor de tela (é a única frase sobre o fim do DRS). */
+  .etapa[data-etapas='0 1'] > .corpo { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .aero__controle > .rotulo { display: none; }
   .aero__cartoes { margin-top: 1rem; }
   .aero__legenda-perfil { left: var(--gutter); top: auto; bottom: 9rem; }
   .aero__angulo { left: auto; right: var(--gutter); top: 55%; }
 }
 
-.reduced .aero__stage { height: auto; padding-bottom: 5rem; }
-.reduced .aero__etapas { position: static; transform: none; width: auto; margin-top: 2rem; display: grid; gap: 4rem; }
-.reduced .etapa { position: static; transform: none; opacity: 1; pointer-events: auto; }
-.reduced .aero__cartoes, .reduced .aero__perfis { display: grid !important; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
-.reduced .aero__figura, .reduced .aero__perfis figure { margin: 0; }
-.reduced .aero__figura img, .reduced .aero__perfis img { width: 100%; height: auto; border-radius: 8px; display: block; }
-.reduced .aero__cartoes .cartao-modo { grid-row: 2; }
-.reduced .aero__progresso, .reduced .aero__legenda-perfil, .reduced .aero__angulo { display: none; }
-@media (max-aspect-ratio: 1/1) { .reduced .aero__cartoes, .reduced .aero__perfis { grid-template-columns: 1fr; } .reduced .aero__cartoes .cartao-modo { grid-row: auto; } }
+:is(.reduced, .is-empilhado) .aero__stage { height: auto; padding-bottom: 5rem; }
+:is(.reduced, .is-empilhado) .aero__etapas { position: static; transform: none; width: auto; margin-top: 2rem; display: grid; gap: 4rem; }
+:is(.reduced, .is-empilhado) .etapa { position: static; transform: none; opacity: 1; pointer-events: auto; }
+/* Abaixo de 320px (celular a 200%), palavra longa de título quebra em vez de empurrar a página para o lado. */
+:is(.reduced, .is-empilhado) :is(.etapa__titulo, .parada__titulo) { overflow-wrap: anywhere; }
+:is(.reduced, .is-empilhado) .aero__cartoes, :is(.reduced, .is-empilhado) .aero__perfis { display: grid !important; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
+:is(.reduced, .is-empilhado) .aero__figura, :is(.reduced, .is-empilhado) .aero__perfis figure { margin: 0; }
+:is(.reduced, .is-empilhado) .aero__perfis, :is(.reduced, .is-empilhado) .etapa > .aero__figura { margin-top: 1.5rem; }
+:is(.reduced, .is-empilhado) .aero__figura img, :is(.reduced, .is-empilhado) .aero__perfis img { width: 100%; height: auto; border-radius: 8px; display: block; }
+:is(.reduced, .is-empilhado) .aero__cartoes .cartao-modo { grid-row: 2; }
+/* Empilhado há espaço: o parágrafo da etapa 1 volta a aparecer também no celular. */
+:is(.reduced, .is-empilhado) .etapa[data-etapas='0 1'] > .corpo { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip-path: none; white-space: normal; }
+:is(.reduced, .is-empilhado) .aero__progresso, :is(.reduced, .is-empilhado) .aero__legenda-perfil, :is(.reduced, .is-empilhado) .aero__angulo { display: none; }
+/* Uma coluna também em tela estreita na horizontal (zoom 400%): dois cartões lado a lado não cabem e a página rolava de lado. */
+@media (max-aspect-ratio: 1/1), (max-width: 40rem) { :is(.reduced, .is-empilhado) .aero__cartoes, :is(.reduced, .is-empilhado) .aero__perfis { grid-template-columns: minmax(0, 1fr); } :is(.reduced, .is-empilhado) .aero__cartoes .cartao-modo { grid-row: auto; } }

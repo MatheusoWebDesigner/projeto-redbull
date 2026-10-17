@@ -2,17 +2,18 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { startSmoothScroll } from '../../core/scroll';
 import hotspotsData from '../../data/hotspots.json';
-import type { Contexto } from '../palco3d/palco3d';
+import type { Contexto, Fixar } from '../palco3d/palco3d';
 import { arrasto, type Orbita } from './orbit';
 import { estadoHotspot, ladoDoRotulo, PECAS } from './hotspots';
 import { encaixeMaisProximo, estadoBarras, paradaAtiva, poseNoTrilho, PONTOS_SHOWROOM } from './rail';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function initShowroom(ctx: Contexto): void {
+/** Prepara o Showroom e devolve `fixar`, que liga o pin quando o palco cabe na tela (ver PALCO_CABE). */
+export function initShowroom(ctx: Contexto): Fixar {
   const section = document.querySelector<HTMLElement>('#showroom');
   const stage = section?.querySelector<HTMLElement>('.showroom__stage');
-  if (!section || !stage) return;
+  if (!section || !stage) return () => () => {};
   const paradas = Array.from(stage.querySelectorAll<HTMLElement>('.parada'));
   const barras = Array.from(stage.querySelectorAll<HTMLButtonElement>('.showroom__barras button'));
   const hotspots = PECAS.map((peca) => stage.querySelector<HTMLElement>(`.hotspot[data-peca="${peca}"]`)!);
@@ -61,35 +62,29 @@ export function initShowroom(ctx: Contexto): void {
     palco.definirPose(poseNoTrilho(ctx.posesShowroom, progresso), orbita);
   };
 
-  const st = ScrollTrigger.create({
-    trigger: section,
-    start: 'top top',
-    end: ctx.aparelho === 'mobile' ? '+=380%' : '+=450%',
-    pin: stage,
-    scrub: true,
-    onUpdate: (self) => {
-      progresso = self.progress;
-      if (orbita.giro || orbita.inclina) gsap.to(orbita, { giro: 0, inclina: 0, duration: 0.6, ease: 'power2.inOut', overwrite: true, onUpdate: render });
-      render();
-    },
-    onRefresh: (self) => { progresso = self.progress; render(); },
-  });
+  // Só existe com o palco fixado; empilhado (zoom alto, janela baixa) as paradas ficam todas à vista.
+  let st: ScrollTrigger | null = null;
+  const irPara = (i: number) => {
+    if (st) lenis.scrollTo(st.start + (i / 5) * (st.end - st.start), { duration: 0.8 });
+  };
 
   ScrollTrigger.addEventListener('scrollEnd', () => {
-    if (!st.isActive) return;
+    if (!st?.isActive) return;
     const alvo = st.start + encaixeMaisProximo(st.progress, PONTOS_SHOWROOM) * (st.end - st.start);
     if (Math.abs(alvo - window.scrollY) > 2) lenis.scrollTo(alvo, { duration: 0.5 });
   });
 
-  barras.forEach((b) => b.addEventListener('click', () => {
-    const i = Number(b.dataset.ir);
-    lenis.scrollTo(st.start + (i / 5) * (st.end - st.start), { duration: 0.8 });
-  }));
+  barras.forEach((b) => b.addEventListener('click', () => irPara(Number(b.dataset.ir))));
+  // Foco por teclado (ou leitor de tela) num artigo oculto, como o link da parada 05: leva até a parada dele.
+  textos.addEventListener('focusin', (e) => {
+    const alvo = (e.target as Element).closest<HTMLElement>('.parada');
+    if (alvo && !alvo.classList.contains('is-active')) irPara(Number(alvo.dataset.parada));
+  });
 
   if (ctx.usa3D) {
     let inicio: { x: number; y: number; base: Orbita } | null = null;
     stage.addEventListener('pointerdown', (e) => {
-      if (!ctx.palco() || (e.target as Element).closest('button, a')) return;
+      if (!st || !ctx.palco() || (e.target as Element).closest('button, a')) return;
       inicio = { x: e.clientX, y: e.clientY, base: { ...orbita } };
       stage.setPointerCapture(e.pointerId);
       stage.classList.add('is-arrastando');
@@ -109,4 +104,21 @@ export function initShowroom(ctx: Contexto): void {
     render();
   });
   trocarTexto(0);
+
+  return () => {
+    st = ScrollTrigger.create({
+      trigger: section,
+      start: 'top top',
+      end: ctx.aparelho === 'mobile' ? '+=380%' : '+=450%',
+      pin: stage,
+      scrub: true,
+      onUpdate: (self) => {
+        progresso = self.progress;
+        if (orbita.giro || orbita.inclina) gsap.to(orbita, { giro: 0, inclina: 0, duration: 0.6, ease: 'power2.inOut', overwrite: true, onUpdate: render });
+        render();
+      },
+      onRefresh: (self) => { progresso = self.progress; render(); },
+    });
+    return () => { st = null; };
+  };
 }

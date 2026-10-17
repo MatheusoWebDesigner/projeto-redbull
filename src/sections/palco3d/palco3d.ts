@@ -17,6 +17,17 @@ export type Aparelho = 'desktop' | 'mobile';
 /** Seção que manda no render de fundo: a que está ocupando a tela. */
 export type Dono = 'showroom' | 'aero';
 
+/** Liga o pin de uma seção e devolve como desligá-lo. */
+export type Fixar = () => () => void;
+
+/**
+ * Altura mínima para o texto das paradas e etapas caber no palco fixado (100svh), medida no Chrome:
+ * 40rem na horizontal; 37,5rem × 17,5rem na vertical. Abaixo disso — zoom de 200%/400%, janela baixa,
+ * celular pequeno — as duas seções ficam empilhadas como no movimento reduzido (classe is-empilhado).
+ * Reavaliada a cada mudança de zoom ou de janela pelo gsap.matchMedia.
+ */
+export const PALCO_CABE = '(min-aspect-ratio: 1001/1000) and (min-height: 40rem), (max-aspect-ratio: 1/1) and (min-height: 37.5rem) and (min-width: 17.5rem)';
+
 /** O que as seções compartilham: o palco 3D (quando houver) e o render de fundo. */
 export interface Contexto {
   aparelho: Aparelho;
@@ -80,11 +91,19 @@ export async function initPalco3D(): Promise<void> {
     vigia.observe(raiz);
   }
 
-  initShowroom(ctx);
-  initAero(ctx);
-  // A Aero assume o fundo quando chega à metade da tela; a volta devolve ao Showroom.
+  const fixarShowroom = initShowroom(ctx);
+  const fixarAero = initAero(ctx);
   const trocarDono = (novo: Dono) => { dono = novo; aplicarRender(); };
-  ScrollTrigger.create({ trigger: '#aero', start: 'top center', onEnter: () => trocarDono('aero'), onLeaveBack: () => trocarDono('showroom') });
+  gsap.matchMedia().add({ cabe: PALCO_CABE, sempre: 'all' }, (mm) => {
+    if (!mm.conditions?.cabe) {
+      raiz.classList.add('is-empilhado');
+      return () => raiz.classList.remove('is-empilhado');
+    }
+    const desfazer = [fixarShowroom(), fixarAero()];
+    // A Aero assume o fundo quando chega à metade da tela; a volta devolve ao Showroom.
+    ScrollTrigger.create({ trigger: '#aero', start: 'top center', onEnter: () => trocarDono('aero'), onLeaveBack: () => trocarDono('showroom') });
+    return () => desfazer.forEach((f) => f());
+  });
 }
 
 /** Troca os renders de desktop pelos de celular quando for o caso. */

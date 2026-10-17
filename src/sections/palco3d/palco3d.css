@@ -11,6 +11,6 @@
 .palco3d > .secao { position: relative; z-index: 1; background: transparent; }
 
 .so-reduzido { display: none !important; }
-.reduced .so-reduzido { display: revert !important; }
-.reduced .so-animado { display: none !important; }
-.reduced .palco3d__fundo { display: none; }
+:is(.reduced, .is-empilhado) .so-reduzido { display: revert !important; }
+:is(.reduced, .is-empilhado) .so-animado { display: none !important; }
+:is(.reduced, .is-empilhado) .palco3d__fundo { display: none; }
