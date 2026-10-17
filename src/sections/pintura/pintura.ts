@@ -9,11 +9,12 @@ import './pintura.css';
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Altura mínima para o texto da era caber entre o título da seção e a linha do tempo com o pin (100svh).
+ * Onde o pin cabe (medido no Chrome): na horizontal, o texto da era entre o título e a linha do tempo a partir
+ * de 35rem de altura; no celular, o texto mais alto (≈ 26rem) acima de um chip de pelo menos ~7rem.
  * Abaixo disso — zoom de 200%/400%, janela baixa, celular pequeno — as eras ficam empilhadas como no
  * movimento reduzido (classe is-empilhado). Reavaliada a cada mudança de zoom ou de janela pelo gsap.matchMedia.
  */
-export const PINTURA_CABE = '(min-aspect-ratio: 1001/1000) and (min-height: 35rem) and (min-width: 48rem), (max-aspect-ratio: 1/1) and (min-height: 40rem) and (min-width: 20rem)';
+export const PINTURA_CABE = '(min-aspect-ratio: 1001/1000) and (min-height: 35rem) and (min-width: 48rem), (max-aspect-ratio: 1/1) and (min-height: 40rem) and (min-width: 22.5rem), (max-aspect-ratio: 1/1) and (min-height: 43.75rem) and (min-width: 20rem)';
 const CELULAR = '(max-aspect-ratio: 1/1)';
 
 /** Seção Pintura: 5 eras contadas por um chip de cor; na última, o chip vira o render do RB22. */
@@ -82,7 +83,8 @@ export function initPintura(): void {
   botoes.forEach((b) => b.addEventListener('click', () => irPara(Number(b.dataset.ir))));
   render(0);
 
-  gsap.matchMedia().add({ cabe: PINTURA_CABE, celular: CELULAR }, (mm) => {
+  // `sempre` garante que a função rode mesmo quando nenhuma das outras condições bate (aí ela empilha).
+  gsap.matchMedia().add({ cabe: PINTURA_CABE, celular: CELULAR, sempre: 'all' }, (mm) => {
     if (!mm.conditions?.cabe) {
       section.classList.add('is-empilhado');
       return () => section.classList.remove('is-empilhado');

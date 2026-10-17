@@ -79,7 +79,8 @@ html:not(.reduced) .pintura:not(.is-empilhado) .era[data-era='4'].is-active .sel
 
 /* ---------- Celular ---------- */
 @media (max-aspect-ratio: 1/1) {
-  .pintura__stage { --chip-t: 57%; --chip-b: 14%; --chip-l: var(--gutter); --chip-r: var(--gutter); padding: 4rem var(--gutter) 2rem; }
+  /* O chip começa abaixo do texto mais alto (≈ 26rem em 320–412px de largura) mesmo em celular baixo */
+  .pintura__stage { --chip-t: max(57%, 27.5rem); --chip-b: 14%; --chip-l: var(--gutter); --chip-r: var(--gutter); padding: 4rem var(--gutter) 2rem; }
   .pintura__nota { top: 4rem; }
   .pintura__eras { top: 6.75rem; bottom: auto; right: var(--gutter); width: auto; align-items: start; }
   .era__ano { margin-bottom: 0.75rem; }
@@ -89,6 +90,11 @@ html:not(.reduced) .pintura:not(.is-empilhado) .era[data-era='4'].is-active .sel
   .selo { margin-top: 1rem; }
   .pintura__linha { bottom: 1.5rem; }
   .pintura__linha button { letter-spacing: 0.1em; }
+}
+
+/* Celular estreito (320px ou zoom alto): o texto ganha uma linha, então o chip desce mais um pouco */
+@media (max-aspect-ratio: 1/1) and (max-width: 22.49rem) {
+  .pintura__stage { --chip-t: max(57%, 29rem); }
 }
 
 /* Tela baixa na horizontal (notebook 1280×720 ou 1366×768): versão compacta para o texto caber com o pin */
@@ -110,6 +116,7 @@ html:not(.reduced) .pintura:not(.is-empilhado) .era[data-era='4'].is-active .sel
 :is(.reduced, .pintura.is-empilhado) .pintura__eras { position: static; width: auto; display: grid; gap: 4rem; margin-top: 2.5rem; }
 :is(.reduced, .pintura.is-empilhado) .era { grid-area: auto; opacity: 1; pointer-events: auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(1.5rem, 4vw, 4rem); align-content: center; }
 :is(.reduced, .pintura.is-empilhado) .era > :not(.era__visual) { grid-column: 2; }
+:is(.reduced, .pintura.is-empilhado) .selo { justify-self: start; }
 :is(.reduced, .pintura.is-empilhado) .era__visual { display: block; grid-column: 1; grid-row: 1 / span 6; align-self: center; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; }
 :is(.reduced, .pintura.is-empilhado) .era__chip { background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 36%), linear-gradient(0deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0) 48%), var(--era-cor); }
 /* Reflexo parado no brilhante; luz difusa no fosco */
