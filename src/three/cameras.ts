@@ -35,7 +35,7 @@ const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 const mix3 = (a: Vec3, b: Vec3, t: number): Vec3 => [mix(a[0], b[0], t), mix(a[1], b[1], t), mix(a[2], b[2], t)];
 
 export function lerpPose(a: Pose, b: Pose, t: number): Pose {
-  if (t <= 0) return a;
+  if (!(t > 0)) return a; // inclui NaN: começa do início
   if (t >= 1) return b;
   return {
     pos: mix3(a.pos, b.pos, t),

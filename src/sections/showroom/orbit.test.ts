@@ -12,6 +12,11 @@ describe('arrasto', () => {
     expect(arrasto({ giro: 0, inclina: 0 }, 10000, 10000)).toEqual({ giro: GIRO_MAX, inclina: INCLINA_MAX });
     expect(arrasto({ giro: 0, inclina: 0 }, -10000, -10000)).toEqual({ giro: -GIRO_MAX, inclina: -INCLINA_MAX });
   });
+  it('o limite vale para a órbita resultante: partindo do limite, arrastar de volta responde na hora', () => {
+    const r = arrasto({ giro: GIRO_MAX, inclina: -INCLINA_MAX }, -100, 20);
+    expect(r.giro).toBeCloseTo(10, 10);
+    expect(r.inclina).toBeCloseTo(-7, 10);
+  });
 });
 
 describe('orbitar', () => {
@@ -30,5 +35,34 @@ describe('orbitar', () => {
   });
   it('inclinação positiva sobe a câmera', () => {
     expect(orbitar([3, 1, 0], alvo, 0, 10)[1]).toBeGreaterThan(1);
+  });
+});
+
+describe('orbitar nas bordas', () => {
+  const alvo: Vec3 = [1, 0, 0];
+  const horizontal = (p: Vec3) => Math.hypot(p[0] - alvo[0], p[2] - alvo[2]);
+
+  it('câmera sobre o próprio alvo (r = 0) não vira NaN', () => {
+    expect(orbitar(alvo, alvo, 20, 8)).toEqual(alvo);
+  });
+  it('câmera exatamente no polo sai do eixo vertical, mantendo a distância', () => {
+    const r = orbitar([1, 3, 0], alvo, 0, 0);
+    r.forEach((v) => expect(Number.isFinite(v)).toBe(true));
+    expect(dist(r, alvo)).toBeCloseTo(3, 10);
+    expect(horizontal(r)).toBeGreaterThan(0.1);
+  });
+  it('inclinação extrema perto do polo para antes dele e não vira para o outro lado', () => {
+    const p: Vec3 = [1 + 3 * Math.sin(0.03), 3 * Math.cos(0.03), 0]; // a ~1,7° do eixo
+    const r = orbitar(p, alvo, 0, 10);
+    expect(dist(r, alvo)).toBeCloseTo(3, 10);
+    expect(horizontal(r)).toBeGreaterThan(0.1);
+    expect(r[0] - alvo[0]).toBeGreaterThan(0); // mesmo lado de onde partiu
+  });
+  it('o mesmo vale embaixo, com inclinação negativa', () => {
+    const p: Vec3 = [1 + 3 * Math.sin(0.03), -3 * Math.cos(0.03), 0];
+    const r = orbitar(p, alvo, 0, -10);
+    expect(dist(r, alvo)).toBeCloseTo(3, 10);
+    expect(horizontal(r)).toBeGreaterThan(0.1);
+    expect(r[0] - alvo[0]).toBeGreaterThan(0);
   });
 });

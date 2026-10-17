@@ -21,6 +21,7 @@ export function arrasto(base: Orbita, dx: number, dy: number): Orbita {
 export function orbitar(pos: Vec3, alvo: Vec3, giroGraus: number, inclinaGraus: number): Vec3 {
   const rel = [pos[0] - alvo[0], pos[1] - alvo[1], pos[2] - alvo[2]];
   const r = Math.hypot(rel[0], rel[1], rel[2]);
+  if (r === 0) return [pos[0], pos[1], pos[2]]; // sem raio não há órbita
   const theta = Math.atan2(rel[0], rel[2]) + (giroGraus * Math.PI) / 180;
   const phi = Math.min(Math.PI - POLO, Math.max(POLO, Math.acos(rel[1] / r) - (inclinaGraus * Math.PI) / 180));
   return [

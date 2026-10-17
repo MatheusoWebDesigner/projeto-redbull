@@ -15,6 +15,15 @@ describe('estadoHotspot', () => {
     expect(estadoHotspot({ ...base, parada: 3, x: 400 }).visivel).toBe(false);
     expect(estadoHotspot({ ...base, x: 400 }).visivel).toBe(true);
   });
+  it('cada parada de 1 a 5 ativa só a sua peça', () => {
+    [1, 2, 3, 4, 5].forEach((parada) => {
+      const ativos = PECAS.map((_, i) => estadoHotspot({ ...base, indice: i, parada }).ativo);
+      expect(ativos).toEqual(PECAS.map((_, i) => i === parada - 1));
+    });
+  });
+  it('no celular (sem coluna de texto, zonaTexto 0) os inativos no quadro aparecem', () => {
+    expect(estadoHotspot({ ...base, parada: 3, x: 40, zonaTexto: 0 }).visivel).toBe(true);
+  });
   it('na visão geral (parada 0) nenhum é ativo', () => {
     PECAS.forEach((_, i) => expect(estadoHotspot({ ...base, indice: i, parada: 0 }).ativo).toBe(false));
   });
@@ -26,5 +35,8 @@ describe('ladoDoRotulo', () => {
   });
   it('vira para a direita quando invadiria a zona do texto', () => {
     expect(ladoDoRotulo(640, 160, 520)).toBe('direita');
+  });
+  it('no celular (zonaTexto 0) vira para a direita em vez de sair pela borda esquerda', () => {
+    expect(ladoDoRotulo(100, 160, 0)).toBe('direita');
   });
 });

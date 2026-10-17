@@ -21,6 +21,10 @@ describe('viewOffset', () => {
     expect(o.x).toBeCloseTo(30.215, 2);
     expect(o.y).toBeCloseTo(-186.018, 2);
   });
+  it('sem shift não desloca (e não gera -0)', () => {
+    const o = viewOffset(0, 0, 1440, 900);
+    expect(Object.is(o.x, 0) && Object.is(o.y, 0)).toBe(true);
+  });
 });
 
 describe('fitFov', () => {
@@ -31,6 +35,15 @@ describe('fitFov', () => {
   it('abre o fov vertical quando a tela é mais estreita, para não cortar nas laterais', () => {
     expect(fitFov(31.312, 1.6, 1.2)).toBeCloseTo(40.979, 2);
     expect(fitFov(48.119, 1080 / 2340, 0.4)).toBeCloseTo(54.512, 2);
+  });
+  it('não salta ao cruzar o aspecto do render', () => {
+    expect(fitFov(31.312, 1.6, 1.6 - 1e-9)).toBeCloseTo(31.312, 6);
+  });
+  it('quanto mais estreita a tela, mais aberto o fov, sem chegar a 180°', () => {
+    const aspectos = [1.5, 1.2, 0.9, 0.6, 0.3, 0.1, 0.01];
+    const fovs = aspectos.map((a) => fitFov(31.312, 1.6, a));
+    fovs.slice(1).forEach((f, k) => expect(f).toBeGreaterThan(fovs[k]));
+    expect(fovs[fovs.length - 1]).toBeLessThan(180);
   });
 });
 

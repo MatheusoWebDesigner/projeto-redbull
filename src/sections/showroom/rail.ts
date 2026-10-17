@@ -60,6 +60,9 @@ export function estadoBarras(parada: number, total = PARADAS - 1): EstadoBarra[]
   return Array.from({ length: total }, (_, i) => (i + 1 < parada ? 'vista' : i + 1 === parada ? 'ativa' : 'apagada'));
 }
 
+const EMPATE = 1e-12; // absorve o erro de ponto flutuante (0,4 − 0,3 ≠ 0,3 − 0,2)
+
+/** Ponto de encaixe mais próximo; no empate vai para o seguinte, como o Math.round de `paradaAtiva`. */
 export function encaixeMaisProximo(progress: number, pontos: number[]): number {
-  return pontos.reduce((melhor, p) => (Math.abs(p - progress) < Math.abs(melhor - progress) ? p : melhor), pontos[0]);
+  return pontos.reduce((melhor, p) => (Math.abs(p - progress) <= Math.abs(melhor - progress) + EMPATE ? p : melhor), pontos[0]);
 }

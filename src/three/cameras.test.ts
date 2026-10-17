@@ -25,6 +25,13 @@ describe('lerpPose', () => {
     expect(lerpPose(a, b, 0)).toEqual(a);
     expect(lerpPose(a, b, 1)).toEqual(b);
   });
+  it('fora de 0..1 não extrapola', () => {
+    expect(lerpPose(a, b, -0.5)).toEqual(a);
+    expect(lerpPose(a, b, 1.5)).toEqual(b);
+  });
+  it('t NaN é o início, como no resto do trilho', () => {
+    expect(lerpPose(a, b, Number.NaN)).toEqual(a);
+  });
   it('no meio faz a média de cada campo', () => {
     const m = lerpPose(a, b, 0.5);
     expect(m.fov).toBeCloseTo(36.312, 6);
