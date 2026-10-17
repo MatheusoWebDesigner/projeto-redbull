@@ -21,3 +21,9 @@ export function fitFov(fovV: number, refAspect: number, aspect: number): number 
   const meio = (fovV * Math.PI) / 360;
   return (Math.atan(Math.tan(meio) * (refAspect / aspect)) * 360) / Math.PI;
 }
+
+/** Luz de área do Blender (potência em W, lados em m) -> radiância usada como intensidade da RectAreaLight. */
+export function radianciaArea(watts: number, largura: number, altura: number): number {
+  const area = largura * altura;
+  return area > 0 ? watts / (Math.PI * area) : 0;
+}

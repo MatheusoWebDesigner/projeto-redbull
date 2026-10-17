@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { blenderToThree, fitFov, viewOffset } from './convert';
+import { blenderToThree, fitFov, radianciaArea, viewOffset } from './convert';
 
 describe('blenderToThree', () => {
   it('troca Z para cima por Y para cima: (x, y, z) -> (x, z, -y)', () => {
@@ -31,5 +31,14 @@ describe('fitFov', () => {
   it('abre o fov vertical quando a tela é mais estreita, para não cortar nas laterais', () => {
     expect(fitFov(31.312, 1.6, 1.2)).toBeCloseTo(40.979, 2);
     expect(fitFov(48.119, 1080 / 2340, 0.4)).toBeCloseTo(54.512, 2);
+  });
+});
+
+describe('radianciaArea', () => {
+  it('espalha a potência da luz de área do Blender pela área e pelo hemisfério (P / (π·A))', () => {
+    expect(radianciaArea(1200, 6.5, 3)).toBeCloseTo(1200 / (Math.PI * 19.5), 10);
+  });
+  it('área zero não vira infinito', () => {
+    expect(radianciaArea(100, 0, 1)).toBe(0);
   });
 });

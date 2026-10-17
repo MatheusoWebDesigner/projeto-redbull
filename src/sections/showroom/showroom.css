@@ -1,6 +1,6 @@
-.showroom__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); touch-action: pan-y; cursor: grab; }
+.showroom__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); overflow: clip; touch-action: pan-y; cursor: grab; }
 .showroom__stage.is-arrastando { cursor: grabbing; }
-.showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); margin: 0; padding: 0.5rem 0.875rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); }
+.showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); margin: 0; padding: 0.5rem 0.875rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); white-space: nowrap; }
 .showroom__paradas { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(24rem, 32vw); }
 .parada { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; pointer-events: none; }
 .parada.is-active { opacity: 1; pointer-events: auto; z-index: 1; }
@@ -27,6 +27,7 @@
 .hotspot[data-lado='direita'] .hotspot__rotulo { right: auto; left: 1.5rem; }
 .hotspot.is-ativo .hotspot__ponto { border-color: var(--c-yellow); background: radial-gradient(circle, var(--c-yellow) 0 40%, rgba(3, 5, 13, 0.5) 42%); box-shadow: 0 0 0 6px rgba(255, 201, 6, 0.25); }
 .hotspot.is-ativo .hotspot__rotulo { opacity: 1; }
+.showroom__carregando[hidden] { display: none; }
 .showroom__carregando { position: absolute; left: 62%; top: 46%; display: grid; gap: 0.5rem; justify-items: start; }
 .showroom__carga { width: 9rem; height: 2px; background: rgba(255, 255, 255, 0.2); }
 .showroom__carga span { display: block; height: 100%; width: calc(var(--carga, 0) * 100%); background: var(--c-red); }
@@ -41,6 +42,8 @@
   .parada { top: 0; transform: none; }
   .parada__titulo--grande { font-size: clamp(2.5rem, 12vw, 3.5rem); }
   .showroom__dica { top: auto; bottom: 2.5rem; right: 50%; transform: translateX(50%); }
+  .dados { gap: 1.5rem; }
+  .dados dd { font-size: 1.75rem; white-space: nowrap; }
   .showroom__carregando { left: var(--gutter); top: 72%; }
 }
 

@@ -2,7 +2,8 @@
 .palco3d__fundo { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; z-index: 0; overflow: hidden; pointer-events: none; }
 .palco3d__render, .palco3d__canvas, .palco3d__perfil, .palco3d__perfil img, .palco3d__perfil-svg, .palco3d__perfil-svg svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .palco3d__render, .palco3d__perfil img { object-fit: cover; }
-.palco3d__canvas { opacity: 0; transition: opacity 0.4s var(--ease-out); }
+/* saturate + contrast: equivalente ao look "AgX - Punchy" dos renders aprovados */
+.palco3d__canvas { opacity: 0; transition: opacity 0.4s var(--ease-out); filter: saturate(1.2) contrast(1.15); }
 .palco3d.is-3d .palco3d__canvas { opacity: var(--palco-canvas, 1); transition: none; }
 .palco3d.is-3d .palco3d__render { opacity: 0; transition: opacity 0.4s var(--ease-out); }
 .palco3d__perfil { opacity: var(--palco-perfil, 0); }
