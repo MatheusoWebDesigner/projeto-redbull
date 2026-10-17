@@ -4,3 +4,5 @@ assets/models/
 *.log
 assets/referencias/
 assets/marcas/
+playwright-report/
+test-results/
