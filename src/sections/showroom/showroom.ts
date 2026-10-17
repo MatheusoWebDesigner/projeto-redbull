@@ -6,6 +6,7 @@ import type { Contexto, Fixar } from '../palco3d/palco3d';
 import { arrasto, type Orbita } from './orbit';
 import { estadoHotspot, ladoDoRotulo, PECAS } from './hotspots';
 import { encaixeMaisProximo, estadoBarras, paradaAtiva, poseNoTrilho, PONTOS_SHOWROOM } from './rail';
+import { asset } from '../../core/url';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,7 +36,7 @@ export function initShowroom(ctx: Contexto): Fixar {
       barras[i].dataset.estado = e;
       if (e === 'ativa') barras[i].setAttribute('aria-current', 'step'); else barras[i].removeAttribute('aria-current');
     });
-    ctx.mostrarRender(`/showroom/${ctx.aparelho}/sr_0${nova}.webp`, 'showroom');
+    ctx.mostrarRender(asset(`/showroom/${ctx.aparelho}/sr_0${nova}.webp`), 'showroom');
   };
 
   const desenharHotspots = () => {

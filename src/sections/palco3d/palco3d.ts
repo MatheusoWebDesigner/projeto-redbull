@@ -10,6 +10,7 @@ import { initAero } from '../aero/aero';
 import './palco3d.css';
 import '../showroom/showroom.css';
 import '../aero/aero.css';
+import { asset } from '../../core/url';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,7 +51,7 @@ export async function initPalco3D(): Promise<void> {
   const carregando = raiz.querySelector<HTMLElement>('.showroom__carregando')!;
   let palco: Palco | null = null;
   let dono: Dono = 'showroom';
-  const ultimos: Record<Dono, string> = { showroom: `/showroom/${aparelho}/sr_00.webp`, aero: `/aero/${aparelho}/A_curva.webp` };
+  const ultimos: Record<Dono, string> = { showroom: asset(`/showroom/${aparelho}/sr_00.webp`), aero: asset(`/aero/${aparelho}/A_curva.webp`) };
   const aplicarRender = () => { if (!render.src.endsWith(ultimos[dono])) render.src = ultimos[dono]; };
   const ouvintes: ((p: Palco) => void)[] = [];
 

@@ -9,6 +9,7 @@ import type { Contexto, Fixar } from '../palco3d/palco3d';
 import { catmullRom, encaixeMaisProximo } from '../showroom/rail';
 import { etapaAero, linhaAero, modoDoPeso, pesoAutomatico, PONTOS_AERO, type Modo } from './linha';
 import { geometriaPerfil, svgPerfil, type DadosPerfil } from './perfil';
+import { asset } from '../../core/url';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -95,7 +96,7 @@ export function initAero(ctx: Contexto): Fixar {
         if (focoNoSeletor()) tweenLaco.pause();
       }
       const fundo = nova === 3 ? 'C_reta' : `A_${modoDoPeso(pesoAtual())}`;
-      ctx.mostrarRender(`/aero/${ctx.aparelho}/${fundo}.webp`, 'aero');
+      ctx.mostrarRender(asset(`/aero/${ctx.aparelho}/${fundo}.webp`), 'aero');
     }
     const w = pesoAtual();
     const { perfil, viagem } = linhaAero(p);
@@ -104,7 +105,7 @@ export function initAero(ctx: Contexto): Fixar {
     raiz.style.setProperty('--palco-peso', String(w));
     stage.style.setProperty('--palco-perfil', String(perfil));
     mostrarModo(modoDoPeso(w));
-    if (etapa < 2) ctx.mostrarRender(`/aero/${ctx.aparelho}/A_${modoDoPeso(w)}.webp`, 'aero');
+    if (etapa < 2) ctx.mostrarRender(asset(`/aero/${ctx.aparelho}/A_${modoDoPeso(w)}.webp`), 'aero');
     const palco = ctx.palco();
     if (!palco) return;
     palco.definirPeso(w);

@@ -5,6 +5,7 @@ import type { Vec3 } from './convert';
 import dados from '../data/dm01.json';
 import { pontosBezier } from '../sections/dm01/cabos';
 import { giroGraus, interpolarNumero, interpolarVetor, type Estado } from '../sections/dm01/estados';
+import { asset } from '../core/url';
 
 type Tabela<T> = Record<Estado, T>;
 interface DadosPeca extends Tabela<Vec3> { chave: string }
@@ -64,7 +65,7 @@ export function criarPalcoDm01(canvas: HTMLCanvasElement): PalcoDm01 {
 
   return {
     async carregar(onProgresso) {
-      raiz = await estudio.carregar('/models/dm01.glb', onProgresso);
+      raiz = await estudio.carregar(asset('/models/dm01.glb'), onProgresso);
       raiz.traverse((o) => {
         nos.set(o.name, o);
         if (PECAS[o.name]) base.set(o.name, o.position.clone());

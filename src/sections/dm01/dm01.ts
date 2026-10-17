@@ -12,6 +12,7 @@ import { encaixeMaisProximo } from '../showroom/rail';
 import { barra5050, etapaDm01, PONTOS_DM01, PROPORCAO_FOGO, rotulosVisiveis } from './estados';
 import { POSICOES_ROTULOS, pontoDeSaida, pontoNoCover } from './rotulos';
 import './dm01.css';
+import { asset } from '../../core/url';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,7 +118,7 @@ export async function initDm01(): Promise<void> {
     etapas[nova].querySelectorAll<HTMLElement>('[data-contar]').forEach((el) => contar(el));
     if (nova < 3) totalContado = false;
     posicionarRotulos(nova);
-    const url = `/dm01/${aparelho}/E${nova}.webp`;
+    const url = asset(`/dm01/${aparelho}/E${nova}.webp`);
     if (!render.src.endsWith(url)) render.src = url;
   };
 

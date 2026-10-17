@@ -9,6 +9,7 @@ import { litLights } from './lights';
 import { textoCabeNoPalco } from './layout';
 import { chapterIndexFor, FRAME_COUNT, frameIndexFor, SNAP_POINTS } from './scrub';
 import { gear, rpm, speedKmh } from './telemetry';
+import { asset } from '../core/url';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -68,7 +69,7 @@ function loadPoster(set: FrameSet): Promise<HTMLImageElement> {
     const img = new Image();
     img.onload = () => resolve(img);
     img.onerror = reject;
-    img.src = `/hero/frames/poster_${set}.webp`;
+    img.src = asset(`/hero/frames/poster_${set}.webp`);
   });
 }
 

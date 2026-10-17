@@ -2,6 +2,7 @@ import { Mesh, Object3D, Vector3 } from 'three';
 import { criarEstudio, type LuzBlender, type Projecao } from './base';
 import type { Pose } from './cameras';
 import type { Orbita } from '../sections/showroom/orbit';
+import { asset } from '../core/url';
 
 export type { Projecao } from './base';
 
@@ -32,7 +33,7 @@ export function criarPalco(canvas: HTMLCanvasElement, ambiente: { rotacaoGraus: 
 
   return {
     async carregar(onProgresso) {
-      const modelo = await estudio.carregar('/models/rb22.glb', onProgresso);
+      const modelo = await estudio.carregar(asset('/models/rb22.glb'), onProgresso);
       modelo.traverse((o) => {
         nos.set(o.name, o);
         if (FLAPS.includes(o.name) && (o as Mesh).isMesh) flaps.push(o as Mesh);

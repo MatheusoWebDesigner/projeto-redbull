@@ -1,10 +1,11 @@
 import { FRAME_COUNT } from './scrub';
+import { asset } from '../core/url';
 
 export type FrameSet = 'desktop' | 'mobile';
 
 export function frameUrl(set: FrameSet, index: number): string {
   const n = String(index + 1).padStart(3, '0');
-  return `/hero/frames/${set}/f_${n}.webp`;
+  return asset(`/hero/frames/${set}/f_${n}.webp`);
 }
 
 export function splitLoadOrder(count: number, stride = 4): { priority: number[]; rest: number[] } {

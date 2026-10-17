@@ -9,13 +9,14 @@ import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { alvoAreaBlender, blenderToThree, fitFov, radianciaArea, viewOffset, type Vec3 } from './convert';
 import type { Pose } from './cameras';
 import { orbitar, type Orbita } from '../sections/showroom/orbit';
+import { asset } from '../core/url';
 
 /** Graus somados à rotação do HDRI do Blender (a de 220° bateu com o render sr_00 sem ajuste). */
 export const AJUSTE_AMBIENTE_GRAUS = 0;
 /** Calibração contra o render sr_00 (Fase 4, Task 12): potência do Blender -> RectAreaLight, e força do HDRI. */
 export const FATOR_LUZES = 0.15;
 export const FATOR_AMBIENTE = 1 / 1.4;
-const HDR_URL = '/env/studio_small_09_escuro_1k.hdr';
+const HDR_URL = asset('/env/studio_small_09_escuro_1k.hdr');
 
 /** Luz de área como está na cena do Blender: posição e rotação euler XYZ (graus), em eixos do Blender. */
 export interface LuzBlender {
