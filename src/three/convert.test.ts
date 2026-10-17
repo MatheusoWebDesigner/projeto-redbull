@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { blenderToThree, fitFov, radianciaArea, viewOffset } from './convert';
+import { alvoAreaBlender, blenderToThree, fitFov, radianciaArea, viewOffset } from './convert';
 
 describe('blenderToThree', () => {
   it('troca Z para cima por Y para cima: (x, y, z) -> (x, z, -y)', () => {
@@ -53,5 +53,16 @@ describe('radianciaArea', () => {
   });
   it('área zero não vira infinito', () => {
     expect(radianciaArea(100, 0, 1)).toBe(0);
+  });
+});
+
+describe('alvoAreaBlender', () => {
+  it('sem rotação a luz de área aponta para baixo (−Z do Blender)', () => {
+    const a = alvoAreaBlender([1, 2, 5], [0, 0, 0]);
+    [1, 2, 4].forEach((v, k) => expect(a[k]).toBeCloseTo(v, 10));
+  });
+  it('euler XYZ (72,6°, 0, 119,8°) do recorte traseiro aponta para o carro', () => {
+    const a = alvoAreaBlender([0, 0, 0], [72.6, 0, 119.8]);
+    [-0.828, -0.474, -0.299].forEach((v, k) => expect(a[k]).toBeCloseTo(v, 3));
   });
 });

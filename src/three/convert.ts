@@ -27,3 +27,17 @@ export function radianciaArea(watts: number, largura: number, altura: number): n
   const area = largura * altura;
   return area > 0 ? watts / (Math.PI * area) : 0;
 }
+
+/**
+ * Ponto a 1 m na direção em que uma luz de área do Blender aponta (−Z local),
+ * com rotação euler XYZ em graus. Tudo em eixos do Blender.
+ */
+export function alvoAreaBlender(pos: Vec3, eulerGraus: Vec3): Vec3 {
+  const [rx, ry, rz] = eulerGraus.map((g) => (g * Math.PI) / 180);
+  // v = Rz · Ry · Rx · (0, 0, −1)
+  let [x, y, z] = [0, 0, -1];
+  [y, z] = [y * Math.cos(rx) - z * Math.sin(rx), y * Math.sin(rx) + z * Math.cos(rx)];
+  [x, z] = [x * Math.cos(ry) + z * Math.sin(ry), -x * Math.sin(ry) + z * Math.cos(ry)];
+  [x, y] = [x * Math.cos(rz) - y * Math.sin(rz), x * Math.sin(rz) + y * Math.cos(rz)];
+  return [pos[0] + x, pos[1] + y, pos[2] + z];
+}
