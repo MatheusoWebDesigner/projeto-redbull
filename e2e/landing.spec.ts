@@ -60,14 +60,9 @@ test.describe('Landing RB22', () => {
   });
 
   test('corrida: um quadro longo no meio da navegação das barras não pode cancelá-la', async () => {
-    // BUG conhecido (relatado na Fase 6, Task 4): o ScrollTrigger emite `scrollEnd` quando passa mais de 200 ms
-    // desde a última rolagem, e o Lenis chama ScrollTrigger.update() antes do evento nativo renovar esse relógio.
-    // Assim, o primeiro quadro de um lenis.scrollTo dispara um `scrollEnd` com o progresso antigo quando
-    // (a) um quadro passa de 200 ms (primeiro desenho do 3D, WebGL por software, GC num celular fraco) ou
-    // (b) o clique cai entre ~200 e ~450 ms depois da rolagem anterior parar. O encaixe (`encaixar`) então manda a
-    // página de volta para a parada antiga. Este teste reproduz (a) de forma determinística. Quando o encaixe
-    // passar a ignorar a rolagem programática, ele começa a passar e o Playwright acusa: aí é só tirar o test.fail.
-    test.fail(true, 'encaixe por scrollEnd cancela o lenis.scrollTo das barras quando há um quadro > 200 ms');
+    // Regressão do bug achado na Fase 6 (Task 4): o `scrollEnd` do ScrollTrigger pode sair no primeiro quadro de um
+    // lenis.scrollTo, ou depois de um quadro > 200 ms, com o progresso antigo, e o encaixe mandava a página de volta.
+    // Corrigido em src/core/encaixe.ts (ignora enquanto o Lenis anima e usa a posição atual). Reproduz o quadro longo.
     await landing.abrir('?plano-b');
     await landing.rolarPara(await landing.topoDe('#showroom'));
     await expect(landing.paradaAtiva).toHaveAttribute('data-parada', '0');
@@ -160,11 +155,8 @@ test.describe('Landing RB22', () => {
   });
 
   test('corrida: um quadro longo ao passar pelo DM01 não pode parar o "Voltar ao topo"', async () => {
-    // BUG conhecido (mesma causa do teste "corrida" do Showroom): com o 3D carregado, a subida reativa o palco do
-    // DM01 e o primeiro quadro passa de 200 ms; o `scrollEnd` sai com o progresso antigo do DM01 e o encaixe
-    // dele troca o lenis.scrollTo(0) por um encaixe no meio da seção. A página para no DM01 (etapa 1 ou 2) e o
-    // foco nunca chega ao h1. No headless com 3D isso aconteceu em 5 de 6 tentativas; aqui é determinístico.
-    test.fail(true, 'encaixe do DM01 sequestra o "Voltar ao topo" quando há um quadro > 200 ms dentro do pin');
+    // Regressão do mesmo bug: com o 3D carregado, a subida reativava o DM01, um quadro longo soltava o `scrollEnd` com o
+    // progresso antigo e o encaixe dele trocava o lenis.scrollTo(0) por um encaixe no meio da seção (foco fora do h1).
     await landing.abrir('?plano-b');
     const dm01 = await landing.pinDe('#dm01', '.dm01__stage');
     const fechamento = await landing.pinDe('#fechamento', '.fechamento__stage');

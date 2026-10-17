@@ -1,15 +1,15 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { startSmoothScroll } from '../../core/scroll';
 import { lerpPose, toPose, type Pose, type PoseBruta } from '../../three/cameras';
 import { blenderToThree } from '../../three/convert';
 import aeroCameras from '../../data/aero-cameras.json';
 import perfilData from '../../data/perfil.json';
 import type { Contexto, Fixar } from '../palco3d/palco3d';
-import { catmullRom, encaixeMaisProximo } from '../showroom/rail';
+import { catmullRom } from '../showroom/rail';
 import { etapaAero, linhaAero, modoDoPeso, pesoAutomatico, PONTOS_AERO, type Modo } from './linha';
 import { geometriaPerfil, svgPerfil, type DadosPerfil } from './perfil';
 import { asset } from '../../core/url';
+import { ligarEncaixe } from '../../core/encaixe';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,7 +37,6 @@ export function initAero(ctx: Contexto): Fixar {
   const lateral = blenderToThree(LATERAL_BLENDER);
   const dados = perfilData[ctx.aparelho] as DadosPerfil;
   raiz.querySelector<HTMLElement>('.palco3d__perfil-svg')!.innerHTML = svgPerfil(geometriaPerfil(dados), dados.resolucao);
-  const lenis = startSmoothScroll();
 
   let p = 0;
   let etapa = -1;
@@ -112,11 +111,7 @@ export function initAero(ctx: Contexto): Fixar {
     palco.definirPose(viagem > 0 ? poseDaViagem(viagem) : A);
   };
 
-  ScrollTrigger.addEventListener('scrollEnd', () => {
-    if (!st?.isActive) return;
-    const alvo = st.start + encaixeMaisProximo(st.progress, PONTOS_AERO) * (st.end - st.start);
-    if (Math.abs(alvo - window.scrollY) > 2) lenis.scrollTo(alvo, { duration: 0.5 });
-  });
+  ligarEncaixe(() => st, PONTOS_AERO);
 
   const escolher = (modo: Modo) => {
     tweenLaco?.pause();

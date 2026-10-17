@@ -2,17 +2,16 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { countFrame, parseValue } from '../../core/countup';
 import { prefersReducedMotion } from '../../core/motion';
-import { startSmoothScroll } from '../../core/scroll';
 import { toPose, type PoseBruta } from '../../three/cameras';
 import { lerAmbiente, podeUsar3D } from '../../three/support';
 import type { PalcoDm01 } from '../../three/dm01Palco';
 import dados from '../../data/dm01.json';
 import { PALCO_CABE } from '../palco3d/palco3d';
-import { encaixeMaisProximo } from '../showroom/rail';
 import { barra5050, etapaDm01, PONTOS_DM01, PROPORCAO_FOGO, rotulosVisiveis } from './estados';
 import { POSICOES_ROTULOS, pontoDeSaida, pontoNoCover } from './rotulos';
 import './dm01.css';
 import { asset } from '../../core/url';
+import { ligarEncaixe } from '../../core/encaixe';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,7 +43,6 @@ export async function initDm01(): Promise<void> {
   }
   stage.style.setProperty('--dm01-fogo', String(PROPORCAO_FOGO));
   const pose = toPose(dados.cameras[aparelho] as PoseBruta);
-  const lenis = startSmoothScroll();
   let palco: PalcoDm01 | null = null;
   let p = 0;
   let etapa = -1;
@@ -170,17 +168,12 @@ export async function initDm01(): Promise<void> {
       onUpdate: (self) => { p = self.progress; renderizar(); },
       onRefresh: (self) => { p = self.progress; renderizar(); },
     });
-    const encaixar = () => {
-      if (!st.isActive) return;
-      const alvo = st.start + encaixeMaisProximo(st.progress, PONTOS_DM01) * (st.end - st.start);
-      if (Math.abs(alvo - window.scrollY) > 2) lenis.scrollTo(alvo, { duration: 0.5 });
-    };
+    const desligarEncaixe = ligarEncaixe(() => st, PONTOS_DM01);
     // No resize o texto pode quebrar em outra altura: reposiciona os rótulos antes de redesenhar as guias.
     const aoRedimensionar = () => { if (etapa >= 0) posicionarRotulos(etapa); desenharGuias(); };
-    ScrollTrigger.addEventListener('scrollEnd', encaixar);
     window.addEventListener('resize', aoRedimensionar);
     return () => {
-      ScrollTrigger.removeEventListener('scrollEnd', encaixar);
+      desligarEncaixe();
       window.removeEventListener('resize', aoRedimensionar);
     };
   });

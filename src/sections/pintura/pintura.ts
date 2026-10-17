@@ -2,9 +2,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from '../../core/motion';
 import { startSmoothScroll } from '../../core/scroll';
-import { encaixeMaisProximo } from '../showroom/rail';
 import { brilhoRender, encaixeDaEra, eraAtiva, ERAS, estadoBarras, opacidadeRender, PONTOS_PINTURA, posicaoReflexo, reflexoVisivel } from './eras';
 import './pintura.css';
+import { ligarEncaixe } from '../../core/encaixe';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -84,11 +84,7 @@ export function initPintura(): void {
     });
   };
 
-  ScrollTrigger.addEventListener('scrollEnd', () => {
-    if (!st?.isActive) return;
-    const alvo = st.start + encaixeMaisProximo(st.progress, PONTOS_PINTURA) * (st.end - st.start);
-    if (Math.abs(alvo - window.scrollY) > 2) lenis.scrollTo(alvo, { duration: 0.5 });
-  });
+  ligarEncaixe(() => st, PONTOS_PINTURA);
   botoes.forEach((b) => b.addEventListener('click', () => irPara(Number(b.dataset.ir))));
   render(0);
 

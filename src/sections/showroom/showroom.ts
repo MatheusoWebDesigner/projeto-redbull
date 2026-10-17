@@ -5,8 +5,9 @@ import hotspotsData from '../../data/hotspots.json';
 import type { Contexto, Fixar } from '../palco3d/palco3d';
 import { arrasto, type Orbita } from './orbit';
 import { estadoHotspot, ladoDoRotulo, PECAS } from './hotspots';
-import { encaixeMaisProximo, estadoBarras, paradaAtiva, poseNoTrilho, PONTOS_SHOWROOM } from './rail';
+import { estadoBarras, paradaAtiva, poseNoTrilho, PONTOS_SHOWROOM } from './rail';
 import { asset } from '../../core/url';
+import { ligarEncaixe } from '../../core/encaixe';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -69,11 +70,7 @@ export function initShowroom(ctx: Contexto): Fixar {
     if (st) lenis.scrollTo(st.start + (i / 5) * (st.end - st.start), { duration: 0.8 });
   };
 
-  ScrollTrigger.addEventListener('scrollEnd', () => {
-    if (!st?.isActive) return;
-    const alvo = st.start + encaixeMaisProximo(st.progress, PONTOS_SHOWROOM) * (st.end - st.start);
-    if (Math.abs(alvo - window.scrollY) > 2) lenis.scrollTo(alvo, { duration: 0.5 });
-  });
+  ligarEncaixe(() => st, PONTOS_SHOWROOM);
 
   barras.forEach((b) => b.addEventListener('click', () => irPara(Number(b.dataset.ir))));
   // Foco por teclado (ou leitor de tela) num artigo oculto, como o link da parada 05: leva até a parada dele.
