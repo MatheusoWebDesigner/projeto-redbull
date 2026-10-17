@@ -10,8 +10,9 @@
     <!-- Fontes fora do caminho crítico: baixam já, mas só valem quando o main.ts troca media para all (sem handler inline, por causa da CSP). -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" media="print" data-fontes />
-    <link rel="preload" as="image" href="/hero/frames/poster_desktop.webp" media="(min-aspect-ratio: 1/1)" />
-    <link rel="preload" as="image" href="/hero/frames/poster_mobile.webp" media="(max-aspect-ratio: 1/1)" />
+    <!-- O pôster só aparece logo de cara no movimento reduzido; no resto, o loader espera os quadros. -->
+    <link rel="preload" as="image" href="/hero/frames/poster_desktop.webp" media="(prefers-reduced-motion: reduce) and (min-aspect-ratio: 1/1)" />
+    <link rel="preload" as="image" href="/hero/frames/poster_mobile.webp" media="(prefers-reduced-motion: reduce) and (max-aspect-ratio: 1/1)" />
   </head>
   <body>
     <a class="skip-link" href="#manifesto">Pular introdução</a>
@@ -79,7 +80,7 @@
       </section>
       <div class="palco3d" data-palco3d>
         <div class="palco3d__fundo" aria-hidden="true">
-          <img class="palco3d__render" src="/showroom/desktop/sr_00.webp" alt="" width="1920" height="1200" />
+          <img class="palco3d__render" src="/showroom/desktop/sr_00.webp" alt="" width="1920" height="1200" loading="lazy" />
           <canvas class="palco3d__canvas"></canvas>
           <div class="palco3d__perfil">
             <img data-perfil="curva" src="/aero/desktop/B_curva.webp" alt="" width="1920" height="1200" loading="lazy" />
@@ -222,7 +223,7 @@
       </div>
       <section id="dm01" class="secao dm01" aria-labelledby="dm01-titulo">
         <div class="dm01__stage">
-          <img class="dm01__render" src="/dm01/desktop/E0.webp" alt="" width="1920" height="1200" aria-hidden="true" />
+          <img class="dm01__render" src="/dm01/desktop/E0.webp" alt="" width="1920" height="1200" aria-hidden="true" loading="lazy" />
           <canvas class="dm01__canvas" aria-hidden="true"></canvas>
           <svg class="dm01__guias" aria-hidden="true"></svg>
           <h2 id="dm01-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Red Bull Ford DM01</h2>
