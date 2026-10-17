@@ -38,7 +38,10 @@
   .aero__etapas { top: 6.5rem; transform: none; width: auto; right: var(--gutter); }
   .etapa { top: 0; transform: none; }
   .etapa__titulo { font-size: clamp(2.25rem, 10vw, 3rem); }
-  .aero__controle { flex-direction: column; align-items: flex-start; gap: 0.5rem; bottom: 2rem; }
+  .aero__controle { bottom: 2rem; }
+  /* Celular (quadro 67:122): só título + cartão, para a asa aparecer inteira; sem a dica de toque */
+  .etapa[data-etapas='0 1'] > .corpo, .aero__controle > .rotulo { display: none; }
+  .aero__cartoes { margin-top: 1rem; }
   .aero__legenda-perfil { left: var(--gutter); top: auto; bottom: 9rem; }
   .aero__angulo { left: auto; right: var(--gutter); top: 55%; }
 }
