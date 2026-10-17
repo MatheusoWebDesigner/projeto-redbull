@@ -82,7 +82,7 @@ export function initAero(ctx: Contexto): void {
       tweenLaco = null;
       if (nova === 2) tweenLaco = gsap.fromTo(laco, { w: 0 }, { w: 1, duration: 1.2, ease: 'power2.inOut', yoyo: true, repeat: -1, onUpdate: render });
       const fundo = nova === 3 ? 'C_reta' : `A_${modoDoPeso(pesoAtual())}`;
-      ctx.mostrarRender(`/aero/${ctx.aparelho}/${fundo}.webp`);
+      ctx.mostrarRender(`/aero/${ctx.aparelho}/${fundo}.webp`, 'aero');
     }
     const w = pesoAtual();
     const { perfil, viagem } = linhaAero(p);
@@ -91,7 +91,7 @@ export function initAero(ctx: Contexto): void {
     raiz.style.setProperty('--palco-peso', String(w));
     stage.style.setProperty('--palco-perfil', String(perfil));
     mostrarModo(modoDoPeso(w));
-    if (etapa < 2) ctx.mostrarRender(`/aero/${ctx.aparelho}/A_${modoDoPeso(w)}.webp`);
+    if (etapa < 2) ctx.mostrarRender(`/aero/${ctx.aparelho}/A_${modoDoPeso(w)}.webp`, 'aero');
     const palco = ctx.palco();
     if (!palco) return;
     palco.definirPeso(w);

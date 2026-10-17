@@ -14,6 +14,8 @@ import '../aero/aero.css';
 gsap.registerPlugin(ScrollTrigger);
 
 export type Aparelho = 'desktop' | 'mobile';
+/** Seção que manda no render de fundo: a que está ocupando a tela. */
+export type Dono = 'showroom' | 'aero';
 
 /** O que as seções compartilham: o palco 3D (quando houver) e o render de fundo. */
 export interface Contexto {
@@ -22,7 +24,7 @@ export interface Contexto {
   usa3D: boolean;
   palco: () => Palco | null;
   aoCarregar: (fn: (palco: Palco) => void) => void;
-  mostrarRender: (url: string) => void;
+  mostrarRender: (url: string, quem: Dono) => void;
   posesShowroom: Pose[];
 }
 
@@ -36,6 +38,9 @@ export async function initPalco3D(): Promise<void> {
   const canvas = raiz.querySelector<HTMLCanvasElement>('.palco3d__canvas')!;
   const carregando = raiz.querySelector<HTMLElement>('.showroom__carregando')!;
   let palco: Palco | null = null;
+  let dono: Dono = 'showroom';
+  const ultimos: Record<Dono, string> = { showroom: `/showroom/${aparelho}/sr_00.webp`, aero: `/aero/${aparelho}/A_curva.webp` };
+  const aplicarRender = () => { if (!render.src.endsWith(ultimos[dono])) render.src = ultimos[dono]; };
   const ouvintes: ((p: Palco) => void)[] = [];
 
   const ctx: Contexto = {
@@ -44,7 +49,10 @@ export async function initPalco3D(): Promise<void> {
     usa3D,
     palco: () => palco,
     aoCarregar: (fn) => (palco ? fn(palco) : ouvintes.push(fn)),
-    mostrarRender: (url) => { if (!render.src.endsWith(url)) render.src = url; },
+    mostrarRender: (url, quem) => {
+      ultimos[quem] = url;
+      if (quem === dono) aplicarRender();
+    },
     posesShowroom: (cameras.cameras[aparelho] as PoseBruta[]).map(toPose),
   };
 
@@ -74,6 +82,9 @@ export async function initPalco3D(): Promise<void> {
 
   initShowroom(ctx);
   initAero(ctx);
+  // A Aero assume o fundo quando chega à metade da tela; a volta devolve ao Showroom.
+  const trocarDono = (novo: Dono) => { dono = novo; aplicarRender(); };
+  ScrollTrigger.create({ trigger: '#aero', start: 'top center', onEnter: () => trocarDono('aero'), onLeaveBack: () => trocarDono('showroom') });
 }
 
 /** Troca os renders de desktop pelos de celular quando for o caso. */

@@ -34,7 +34,7 @@ export function initShowroom(ctx: Contexto): void {
       barras[i].dataset.estado = e;
       if (e === 'ativa') barras[i].setAttribute('aria-current', 'step'); else barras[i].removeAttribute('aria-current');
     });
-    ctx.mostrarRender(`/showroom/${ctx.aparelho}/sr_0${nova}.webp`);
+    ctx.mostrarRender(`/showroom/${ctx.aparelho}/sr_0${nova}.webp`, 'showroom');
   };
 
   const desenharHotspots = () => {
