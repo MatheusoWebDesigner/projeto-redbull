@@ -1,0 +1,126 @@
+/* Pintura: chip de cor em CSS que troca de era e, na última, se expande até virar o render do RB22.
+   Geometria do chip em variáveis: o clip-path abre de --chip-* até a tela inteira conforme --x (0..1). */
+.pintura__stage {
+  --chip-t: 20%; --chip-r: var(--gutter); --chip-b: 22%; --chip-l: 40%; --chip-raio: 12px;
+  position: relative; height: 100svh; padding: 3.5rem var(--gutter); overflow: clip;
+  background: radial-gradient(55% 50% at 68% 50%, rgba(11, 21, 56, 0.6), transparent 70%), var(--c-bg);
+}
+.pintura__stage > .kicker { position: relative; z-index: 1; }
+.pintura__nota { position: absolute; z-index: 1; top: 3.5rem; right: var(--gutter); margin: 0; line-height: 1.45; }
+
+/* ---------- Chip ---------- */
+.pintura__chip {
+  --x: 0; --reflexo: 0.5; --brilho: 0;
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-color: #102154; transition: background-color 0.5s ease;
+  clip-path: inset(
+    calc(var(--chip-t) * (1 - var(--x))) calc(var(--chip-r) * (1 - var(--x)))
+    calc(var(--chip-b) * (1 - var(--x))) calc(var(--chip-l) * (1 - var(--x)))
+    round calc(var(--chip-raio) * (1 - var(--x)))
+  );
+}
+.pintura__face { position: absolute; top: var(--chip-t); right: var(--chip-r); bottom: var(--chip-b); left: var(--chip-l); overflow: hidden; opacity: calc(1 - 2 * var(--x)); }
+/* Luz de estúdio: brilho no alto, sombra na base. No fosco o brilho do alto quase some. */
+.pintura__face::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 36%), linear-gradient(0deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0) 48%); transition: opacity 0.5s ease; }
+.pintura__chip[data-acabamento='fosco'] .pintura__face::before { opacity: 0.45; }
+/* Luz difusa + grão: é o que sobra no fosco */
+.pintura__difusa {
+  position: absolute; inset: 0; opacity: 0.2; transition: opacity 0.5s ease;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    radial-gradient(120% 90% at 22% 12%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 62%);
+}
+.pintura__chip[data-acabamento='fosco'] .pintura__difusa { opacity: 1; }
+/* Faixa de reflexo: anda com a rolagem (--reflexo 0 → 1 atravessa o chip). */
+.pintura__reflexo { position: absolute; inset: 0; opacity: 0; transition: opacity 0.5s ease; }
+.pintura__chip.is-reflexo .pintura__reflexo { opacity: 1; }
+.pintura__reflexo span {
+  position: absolute; top: -25%; bottom: -25%; left: 0; width: 38%; will-change: transform;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.42) 47%, rgba(255, 255, 255, 0.7) 50%, rgba(255, 255, 255, 0.42) 53%, rgba(255, 255, 255, 0.1) 70%, rgba(255, 255, 255, 0) 100%);
+  transform: translateX(calc((var(--reflexo) * 425 - 130) * 1%)) skewX(-18deg);
+}
+/* Render do RB22: aparece enquanto o chip termina de abrir; brilho_b cobre brilho_a no scrub. */
+.pintura__render { position: absolute; inset: 0; display: block; opacity: calc(1.6 * var(--x) - 0.6); }
+.pintura__render[data-brilho='b'] { opacity: min(var(--brilho), calc(1.6 * var(--x) - 0.6)); }
+.pintura__render img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ---------- Texto das eras (empilhadas na mesma célula do grid: sem transform para o GSAP herdar) ---------- */
+.pintura__eras { position: absolute; z-index: 1; left: var(--gutter); top: 0; bottom: 0; width: min(26rem, 32vw); display: grid; align-items: center; }
+.era { grid-area: 1 / 1; opacity: 0; pointer-events: none; }
+.era.is-active { opacity: 1; pointer-events: auto; z-index: 1; }
+.era__visual { display: none; }
+.era__ano { margin: 0 0 1rem; color: var(--c-yellow); font: 600 0.8125rem/1.2 var(--f-body); letter-spacing: 0.22em; text-transform: uppercase; }
+.era__titulo { margin: 0 0 1rem; font: italic 800 clamp(2.5rem, 4.4vw, 4rem)/0.95 var(--f-display); text-transform: uppercase; }
+
+.amostras { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.875rem 1.25rem; }
+.amostra { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); column-gap: 0.625rem; align-items: center; }
+.amostra__cor { grid-row: span 2; width: 1.75rem; height: 1.75rem; border-radius: 3px; background: var(--cor); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22); }
+.era[data-acabamento='brilhante'] .amostra__cor { background: linear-gradient(155deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0) 45%), var(--cor); }
+.amostra__nome { font: 500 0.8125rem/1.25 var(--f-body); }
+.amostra__hex { color: var(--c-text-muted); font: 500 0.6875rem/1.25 var(--f-body); letter-spacing: 0.08em; font-variant-numeric: tabular-nums; }
+
+.selo { display: inline-flex; margin: 1.5rem 0 0; padding: 0.5rem 0.875rem; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 999px; font: 600 0.6875rem/1.2 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; }
+/* 2026: o selo pisca uma vez em amarelo quando a era entra */
+html:not(.reduced) .pintura:not(.is-empilhado) .era[data-era='4'].is-active .selo { animation: pintura-selo 0.9s 0.35s ease-in-out 1; }
+@keyframes pintura-selo { 50% { color: var(--c-yellow); border-color: var(--c-yellow); box-shadow: 0 0 0 4px rgba(255, 201, 6, 0.18); } }
+
+/* ---------- Linha do tempo ---------- */
+.pintura__linha { position: absolute; z-index: 1; left: var(--gutter); right: var(--gutter); bottom: 3.5rem; }
+.pintura__linha ol { position: relative; list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; gap: 0.5rem; }
+.pintura__linha ol::before { content: ''; position: absolute; left: 0; right: 0; top: calc(0.5rem + 5px); height: 1px; background: rgba(255, 255, 255, 0.24); }
+.pintura__linha button { position: relative; display: flex; flex-direction: column; gap: 0.75rem; min-height: 2.75rem; padding: 0.5rem 0; background: none; border: 0; color: var(--c-text-muted); font: 500 0.6875rem/1.2 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; text-align: left; cursor: pointer; transition: color 0.3s; }
+.pintura__linha button:hover { color: var(--c-text); }
+.pintura__linha button:focus-visible { outline: 2px solid var(--c-yellow); outline-offset: 4px; }
+.pintura__marco { width: 11px; height: 11px; border-radius: 50%; background: var(--c-bg); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6); transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s var(--ease-out); }
+.pintura__linha [data-estado='passada'] { color: rgba(255, 255, 255, 0.55); }
+.pintura__linha [data-estado='passada'] .pintura__marco { background: rgba(255, 255, 255, 0.35); box-shadow: none; }
+.pintura__linha [data-estado='ativa'] { color: var(--c-text); }
+.pintura__linha [data-estado='ativa'] .pintura__marco { background: var(--c-red); box-shadow: 0 0 0 4px rgba(210, 0, 60, 0.3); transform: scale(1.15); }
+
+/* ---------- Celular ---------- */
+@media (max-aspect-ratio: 1/1) {
+  .pintura__stage { --chip-t: 57%; --chip-b: 14%; --chip-l: var(--gutter); --chip-r: var(--gutter); padding: 4rem var(--gutter) 2rem; }
+  .pintura__nota { top: 4rem; }
+  .pintura__eras { top: 6.75rem; bottom: auto; right: var(--gutter); width: auto; align-items: start; }
+  .era__ano { margin-bottom: 0.75rem; }
+  .era__titulo { font-size: clamp(2.25rem, 10vw, 3rem); margin-bottom: 0.75rem; }
+  .pintura__eras .corpo { font-size: 0.9375rem; line-height: 1.5; }
+  .amostras { margin-top: 1rem; gap: 0.625rem 1rem; }
+  .selo { margin-top: 1rem; }
+  .pintura__linha { bottom: 1.5rem; }
+  .pintura__linha button { letter-spacing: 0.1em; }
+}
+
+/* Tela baixa na horizontal (notebook 1280×720 ou 1366×768): versão compacta para o texto caber com o pin */
+@media (min-aspect-ratio: 1001/1000) and (max-height: 45rem) {
+  .pintura__stage { --chip-t: 16%; --chip-b: 24%; padding-top: 2rem; padding-bottom: 2rem; }
+  .pintura__nota { top: 2rem; }
+  .era__ano { margin-bottom: 0.625rem; }
+  .era__titulo { font-size: clamp(2rem, 3.4vw, 3rem); margin-bottom: 0.625rem; }
+  .pintura__eras .corpo { font-size: 0.9375rem; line-height: 1.5; }
+  .amostras { margin-top: 0.875rem; gap: 0.5rem 1rem; }
+  .selo { margin-top: 0.875rem; }
+  .pintura__linha { bottom: 1.25rem; }
+}
+
+/* ---------- Movimento reduzido e tela que não comporta o pin (is-empilhado): eras empilhadas e paradas ---------- */
+:is(.reduced, .pintura.is-empilhado) .pintura__stage { height: auto; overflow: visible; padding-bottom: 5rem; }
+:is(.reduced, .pintura.is-empilhado) :is(.pintura__chip, .pintura__linha) { display: none; }
+:is(.reduced, .pintura.is-empilhado) .pintura__nota { position: static; margin-top: 1rem; }
+:is(.reduced, .pintura.is-empilhado) .pintura__eras { position: static; width: auto; display: grid; gap: 4rem; margin-top: 2.5rem; }
+:is(.reduced, .pintura.is-empilhado) .era { grid-area: auto; opacity: 1; pointer-events: auto; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(1.5rem, 4vw, 4rem); align-content: center; }
+:is(.reduced, .pintura.is-empilhado) .era > :not(.era__visual) { grid-column: 2; }
+:is(.reduced, .pintura.is-empilhado) .era__visual { display: block; grid-column: 1; grid-row: 1 / span 6; align-self: center; aspect-ratio: 16 / 10; border-radius: 12px; overflow: hidden; }
+:is(.reduced, .pintura.is-empilhado) .era__chip { background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 36%), linear-gradient(0deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0) 48%), var(--era-cor); }
+/* Reflexo parado no brilhante; luz difusa no fosco */
+:is(.reduced, .pintura.is-empilhado) .era[data-acabamento='brilhante'] .era__chip { background: linear-gradient(72deg, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.4) 49%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.4) 51%, rgba(255, 255, 255, 0) 62%), linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 36%), linear-gradient(0deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0) 48%), var(--era-cor); }
+:is(.reduced, .pintura.is-empilhado) .era[data-acabamento='fosco'] .era__chip { background: radial-gradient(120% 90% at 22% 12%, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0) 62%), linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0) 48%), var(--era-cor); }
+:is(.reduced, .pintura.is-empilhado) .era__render img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; display: block; }
+
+@media (max-aspect-ratio: 1/1), (max-width: 48rem) {
+  :is(.reduced, .pintura.is-empilhado) .pintura__eras { gap: 3.5rem; }
+  :is(.reduced, .pintura.is-empilhado) .era { grid-template-columns: minmax(0, 1fr); }
+  :is(.reduced, .pintura.is-empilhado) .era > :not(.era__visual), :is(.reduced, .pintura.is-empilhado) .era__visual { grid-column: 1; }
+  :is(.reduced, .pintura.is-empilhado) .era__visual { grid-row: auto; margin-bottom: 1.25rem; }
+  :is(.reduced, .pintura.is-empilhado) .era__titulo { font-size: clamp(2rem, 9vw, 2.75rem); overflow-wrap: anywhere; }
+}
