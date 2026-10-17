@@ -1,0 +1,23 @@
+/* Fontes servidas pelo próprio site (subconjunto latino do Google Fonts, licença SIL OFL 1.1).
+   Sem pedidos ao Google: mais rápido e sem enviar o IP de quem visita a terceiros. */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/barlow-condensed-700-italic-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url('../assets/fonts/barlow-condensed-800-italic-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../assets/fonts/inter-variavel-latin.woff2') format('woff2');
+}

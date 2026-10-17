@@ -1,3 +1,4 @@
+import './styles/fontes.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/hero.css';
@@ -10,9 +11,6 @@ import { initNumeros } from './sections/numeros/numeros';
 import { initPintura } from './sections/pintura/pintura';
 import { initLegado } from './sections/legado/legado';
 import { initFechamento } from './sections/fechamento/fechamento';
-
-// Liga as fontes do Google sem bloquear a primeira pintura (ver o <head> do index.html).
-document.querySelector<HTMLLinkElement>('link[data-fontes]')?.setAttribute('media', 'all');
 
 async function start(): Promise<void> {
   try {

@@ -1,6 +1,6 @@
 import {
-  AgXToneMapping, Color, EquirectangularReflectionMapping, MathUtils, Object3D,
-  PerspectiveCamera, PMREMGenerator, RectAreaLight, Scene, Vector3, WebGLRenderer,
+  AgXToneMapping, Color, EquirectangularReflectionMapping, MathUtils, Mesh, Object3D,
+  PerspectiveCamera, PMREMGenerator, RectAreaLight, Scene, Texture, Vector3, WebGLRenderer,
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 import { DRACO_GLTF_CONFIG, DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
@@ -127,6 +127,14 @@ export function criarEstudio(
       pmrem.dispose();
       scene.add(modelo.scene);
       onProgresso(1);
+      // Sobe as texturas para a GPU e compila os shaders agora, longe da rolagem: o primeiro quadro do 3D
+      // levava de 0,2 a 1 s (upload das texturas de 4K + compilação) e travava a página.
+      modelo.scene.traverse((o) => {
+        const m = (o as Mesh).material;
+        for (const mat of Array.isArray(m) ? m : m ? [m] : []) {
+          for (const v of Object.values(mat)) if (v instanceof Texture) renderer.initTexture(v);
+        }
+      });
       await renderer.compileAsync(scene, camera);
       pedirQuadro();
       return modelo.scene;

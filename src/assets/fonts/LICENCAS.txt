@@ -1,0 +1,6 @@
+Fontes redistribuídas sem modificação (subconjunto latino, como servido pelo Google Fonts):
+
+Barlow Condensed — Copyright 2017 The Barlow Project Authors (https://github.com/jpt/barlow)
+Inter — Copyright 2020 The Inter Project Authors (https://github.com/rsms/inter)
+
+Ambas sob a SIL Open Font License, Version 1.1: https://openfontlicense.org
