@@ -3,7 +3,7 @@ import {
   PerspectiveCamera, PMREMGenerator, RectAreaLight, Scene, Vector3, WebGLRenderer,
 } from 'three';
 import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
-import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
+import { DRACO_GLTF_CONFIG, DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { blenderToThree, fitFov, radianciaArea, viewOffset, type Vec3 } from './convert';
@@ -99,7 +99,7 @@ export function criarPalco(canvas: HTMLCanvasElement, ambiente: { rotacaoGraus: 
 
   return {
     async carregar(onProgresso) {
-      const draco = new DRACOLoader().setDecoderPath('/draco/');
+      const draco = new DRACOLoader().setDecoderPath(DRACO_GLTF_CONFIG) // decodificador do próprio three, empacotado pelo Vite;
       const gltf = new GLTFLoader().setDRACOLoader(draco);
       const pmrem = new PMREMGenerator(renderer);
       // finally: o worker do Draco e o PMREM são liberados mesmo se o carregamento falhar
