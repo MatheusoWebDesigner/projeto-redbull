@@ -236,17 +236,17 @@
               <h3 class="etapa-dm01__titulo etapa-dm01__titulo--fogo">Fogo.</h3>
               <p class="corpo">V6 1.6 turbo com cerca de 400 kW. Só usa combustível 100% sustentável, e o limite agora é de energia: 3.000 MJ por hora.</p>
               <dl class="dados dados--dm01">
-                <div><dt class="rotulo">V6 1.6 L turbo</dt><dd>≈ <span data-contar>400</span> kW</dd></div>
-                <div><dt class="rotulo">combustível sustentável</dt><dd><span data-contar>100</span>%</dd></div>
-                <div><dt class="rotulo">limite</dt><dd><span data-contar>15.000</span> rpm</dd></div>
+                <div><dt class="rotulo">V6 1.6 L turbo</dt><dd><span aria-hidden="true">≈ <span data-contar>400</span> kW</span><span class="sr-only">cerca de 400 kW</span></dd></div>
+                <div><dt class="rotulo">combustível sustentável</dt><dd><span aria-hidden="true"><span data-contar>100</span>%</span><span class="sr-only">100%</span></dd></div>
+                <div><dt class="rotulo">limite</dt><dd><span aria-hidden="true"><span data-contar>15.000</span> rpm</span><span class="sr-only">15.000 rpm</span></dd></div>
               </dl>
             </article>
             <article class="etapa-dm01" data-etapa="2">
               <h3 class="etapa-dm01__titulo etapa-dm01__titulo--faisca">Faísca.</h3>
               <p class="corpo">O MGU-K, ligado ao virabrequim, quase triplicou. Ele recupera energia nas freadas e devolve na reta. O MGU-H, do turbo, foi aposentado.</p>
               <dl class="dados dados--dm01">
-                <div><dt class="rotulo">MGU-K (era 120 kW)</dt><dd><span data-contar>350</span> kW</dd></div>
-                <div><dt class="rotulo">recuperados por volta</dt><dd>≈ <span data-contar>8,5</span> MJ</dd></div>
+                <div><dt class="rotulo">MGU-K (era 120 kW)</dt><dd><span aria-hidden="true"><span data-contar>350</span> kW</span><span class="sr-only">350 kW</span></dd></div>
+                <div><dt class="rotulo">recuperados por volta</dt><dd><span aria-hidden="true">≈ <span data-contar>8,5</span> MJ</span><span class="sr-only">cerca de 8,5 MJ</span></dd></div>
                 <div><dt class="rotulo">MGU-H</dt><dd>0</dd></div>
               </dl>
             </article>
@@ -265,7 +265,7 @@
                 <p class="rotulo barra-5050__rotulos"><span class="barra-5050__fogo">Fogo · V6 ≈ 400 kW</span><span class="barra-5050__faisca">Faísca · MGU-K 350 kW</span></p>
                 <div class="barra-5050__trilho" aria-hidden="true"><span class="barra-5050__parte barra-5050__parte--fogo"></span><span class="barra-5050__parte barra-5050__parte--faisca"></span></div>
               </div>
-              <p class="dm01__total"><span class="dm01__total-valor">+<span data-contar-total>1.000</span> cv</span> <span class="rotulo">combinados (≈ 750 kW)</span></p>
+              <p class="dm01__total"><span class="dm01__total-valor" aria-hidden="true">+<span data-contar-total>1.000</span> cv</span> <span class="rotulo" aria-hidden="true">combinados (≈ 750 kW)</span><span class="sr-only">Mais de 1.000 cv combinados, cerca de 750 kW</span></p>
               <p class="rotulo dm01__nota so-reduzido">Representação esquemática · não é o desenho real do DM01</p>
             </article>
           </div>
@@ -305,6 +305,7 @@
         <div class="pintura__stage">
           <h2 id="pintura-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Pintura</h2>
           <p class="rotulo pintura__nota">Cores aproximadas</p>
+          <p class="sr-only" aria-live="polite" data-anuncio-era></p>
           <div class="pintura__chip" data-acabamento="brilhante" aria-hidden="true">
             <span class="pintura__face"><span class="pintura__difusa"></span><span class="pintura__reflexo"><span></span></span></span>
             <picture class="pintura__render" data-brilho="a"><source media="(max-aspect-ratio: 1/1)" srcset="/pintura/mobile/brilho_a.webp" width="1080" height="2340" /><img src="/pintura/desktop/brilho_a.webp" alt="" width="1920" height="1200" loading="lazy" decoding="async" /></picture>

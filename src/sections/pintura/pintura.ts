@@ -71,8 +71,17 @@ export function initPintura(): void {
     render(0);
   };
 
+  // Quem usa a linha do tempo pelo teclado ouve a era nova (o texto dela fica antes do nav no DOM).
+  const anuncio = section.querySelector<HTMLElement>('[data-anuncio-era]');
   const irPara = (i: number) => {
-    if (st) lenis.scrollTo(st.start + encaixeDaEra(i) * (st.end - st.start), { duration: 0.8 });
+    if (!st) return;
+    const era = eras[i];
+    lenis.scrollTo(st.start + encaixeDaEra(i) * (st.end - st.start), {
+      duration: 0.8,
+      onComplete: () => {
+        if (anuncio && era) anuncio.textContent = `${era.querySelector('.era__ano')?.textContent ?? ''}: ${era.querySelector('.era__titulo')?.textContent ?? ''}`;
+      },
+    });
   };
 
   ScrollTrigger.addEventListener('scrollEnd', () => {

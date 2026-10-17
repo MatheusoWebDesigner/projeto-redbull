@@ -49,6 +49,8 @@
 .era { grid-area: 1 / 1; opacity: 0; pointer-events: none; }
 .era.is-active { opacity: 1; pointer-events: auto; z-index: 1; }
 .era__visual { display: none; }
+/* No modo animado o render aparece no chip (decorativo); a descrição dele fica para o leitor de tela */
+.era__render { display: block; position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .era__ano { margin: 0 0 1rem; color: var(--c-yellow); font: 600 0.8125rem/1.2 var(--f-body); letter-spacing: 0.22em; text-transform: uppercase; }
 .era__titulo { margin: 0 0 1rem; font: italic 800 clamp(2.5rem, 5vw, 4.5rem)/0.95 var(--f-display); text-transform: uppercase; }
 
@@ -135,3 +137,5 @@ html:not(.reduced) .pintura:not(.is-empilhado) .era[data-era='4'].is-active .sel
   :is(.reduced, .pintura.is-empilhado) .era__visual { grid-row: auto; margin-bottom: 1.25rem; }
   :is(.reduced, .pintura.is-empilhado) .era__titulo { font-size: clamp(2rem, 9vw, 2.75rem); overflow-wrap: anywhere; }
 }
+/* Empilhado/reduzido: o render volta a ser visível (desfaz o sr-only do modo animado) */
+:is(.reduced, .pintura.is-empilhado) .era__render { position: static; width: auto; height: auto; clip: auto; white-space: normal; }

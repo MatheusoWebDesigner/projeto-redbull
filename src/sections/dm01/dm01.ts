@@ -33,6 +33,7 @@ export async function initDm01(): Promise<void> {
   const canvas = stage.querySelector<HTMLCanvasElement>('.dm01__canvas')!;
   const guias = stage.querySelector<SVGSVGElement>('.dm01__guias')!;
   const carga = stage.querySelector<HTMLElement>('.dm01__carga')!;
+  const caixaEtapas = stage.querySelector<HTMLElement>('.dm01__etapas')!;
   const etapas = Array.from(stage.querySelectorAll<HTMLElement>('.etapa-dm01'));
   const marcas = Array.from(stage.querySelectorAll<HTMLElement>('.dm01__progresso span'));
   const rotulos = Array.from(stage.querySelectorAll<HTMLElement>('.rotulo-peca'));
@@ -93,10 +94,14 @@ export async function initDm01(): Promise<void> {
   const posicionarRotulos = (e: number) => {
     const { quadro, etapas: pos } = POSICOES_ROTULOS[aparelho];
     const vis = rotulosVisiveis(e);
+    // Celular mais baixo ou mais estreito que o quadro do Figma (390×844): o texto da etapa desce até a altura
+    // do rótulo do Turbo e ficava coberto por ele. Nenhum rótulo começa acima do fim do texto; a linha guia acompanha.
+    const piso = aparelho === 'mobile' ? caixaEtapas.offsetTop + etapas[e].offsetTop + etapas[e].offsetHeight + 12 : 0;
     for (const r of rotulos) {
       const [x, y] = pos[e][r.dataset.peca!];
-      r.style.setProperty('--rx', `${(x / quadro[0]) * 100}%`);
-      r.style.setProperty('--ry', `${(y / quadro[1]) * 100}%`);
+      // nunca passa da borda direita do palco (o rótulo da Eletrônica era cortado em celulares estreitos)
+      r.style.setProperty('--rx', `min(${(x / quadro[0]) * 100}%, calc(100% - ${r.offsetWidth}px - var(--gutter)))`);
+      r.style.setProperty('--ry', `max(${(y / quadro[1]) * 100}%, ${piso}px)`);
       r.classList.toggle('is-visivel', r.dataset.grupo === 'termico' ? vis.termico : vis.eletrico);
     }
   };
@@ -169,11 +174,13 @@ export async function initDm01(): Promise<void> {
       const alvo = st.start + encaixeMaisProximo(st.progress, PONTOS_DM01) * (st.end - st.start);
       if (Math.abs(alvo - window.scrollY) > 2) lenis.scrollTo(alvo, { duration: 0.5 });
     };
+    // No resize o texto pode quebrar em outra altura: reposiciona os rótulos antes de redesenhar as guias.
+    const aoRedimensionar = () => { if (etapa >= 0) posicionarRotulos(etapa); desenharGuias(); };
     ScrollTrigger.addEventListener('scrollEnd', encaixar);
-    window.addEventListener('resize', desenharGuias);
+    window.addEventListener('resize', aoRedimensionar);
     return () => {
       ScrollTrigger.removeEventListener('scrollEnd', encaixar);
-      window.removeEventListener('resize', desenharGuias);
+      window.removeEventListener('resize', aoRedimensionar);
     };
   });
   trocarEtapa(0);
