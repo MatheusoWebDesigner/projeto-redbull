@@ -1,5 +1,47 @@
 import { describe, expect, it } from 'vitest';
-import { frameUrl, getFrameStore, nearestLoaded, splitLoadOrder } from './frames';
+import { emParalelo, frameUrl, getFrameStore, nearestLoaded, splitLoadOrder } from './frames';
+
+describe('emParalelo', () => {
+  const adiado = () => {
+    let resolver!: () => void;
+    const promessa = new Promise<void>((r) => (resolver = r));
+    return { promessa, resolver };
+  };
+  const tick = () => new Promise((r) => setTimeout(r, 0));
+
+  it('nunca passa do limite de tarefas em andamento e processa cada item uma vez', async () => {
+    let emCurso = 0;
+    let pico = 0;
+    const feitos: number[] = [];
+    await emParalelo([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 3, async (i) => {
+      emCurso++;
+      pico = Math.max(pico, emCurso);
+      await tick();
+      feitos.push(i);
+      emCurso--;
+    });
+    expect(pico).toBe(3);
+    expect([...feitos].sort((a, b) => a - b)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+
+  it('um item lento não segura os outros (fila contínua, não lotes fechados)', async () => {
+    const lento = adiado();
+    const iniciados: number[] = [];
+    const fim = emParalelo([0, 1, 2, 3, 4], 2, async (i) => {
+      iniciados.push(i);
+      if (i === 0) await lento.promessa;
+      else await tick();
+    });
+    for (let k = 0; k < 10; k++) await tick();
+    expect(iniciados).toEqual([0, 1, 2, 3, 4]);
+    lento.resolver();
+    await fim;
+  });
+
+  it('lista vazia resolve na hora', async () => {
+    await expect(emParalelo([], 6, async () => {})).resolves.toBeUndefined();
+  });
+});
 
 describe('frameUrl', () => {
   it('usa numeração de 3 dígitos a partir de 1', () => {

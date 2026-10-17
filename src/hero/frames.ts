@@ -26,7 +26,17 @@ export function nearestLoaded(loaded: ReadonlySet<number>, wanted: number, count
   return null;
 }
 
-const BATCH = 6;
+/** Roda `tarefa` para cada item, com no máximo `limite` em andamento: quem termina já puxa o próximo. */
+export async function emParalelo<T>(itens: readonly T[], limite: number, tarefa: (item: T) => Promise<void>): Promise<void> {
+  let proximo = 0;
+  const trabalhador = async () => {
+    while (proximo < itens.length) await tarefa(itens[proximo++]);
+  };
+  await Promise.all(Array.from({ length: Math.min(limite, itens.length) }, trabalhador));
+}
+
+/** Downloads simultâneos: o limite do Chrome por servidor em HTTP/1.1. */
+const PARALELO = 6;
 
 export class FrameStore {
   private readonly images: (HTMLImageElement | null)[];
@@ -49,20 +59,12 @@ export class FrameStore {
   private async loadAll(onPriorityProgress: (fraction: number) => void): Promise<void> {
     const { priority, rest } = splitLoadOrder(this.count);
     let done = 0;
-    for (let k = 0; k < priority.length; k += BATCH) {
-      await Promise.all(
-        priority.slice(k, k + BATCH).map(async (i) => {
-          await this.loadOne(i);
-          done++;
-          onPriorityProgress(done / priority.length);
-        }),
-      );
-    }
-    void (async () => {
-      for (let k = 0; k < rest.length; k += BATCH) {
-        await Promise.all(rest.slice(k, k + BATCH).map((i) => this.loadOne(i)));
-      }
-    })();
+    await emParalelo(priority, PARALELO, async (i) => {
+      await this.loadOne(i);
+      done++;
+      onPriorityProgress(done / priority.length);
+    });
+    void emParalelo(rest, PARALELO, (i) => this.loadOne(i));
   }
 
   get(index: number): HTMLImageElement | null {
