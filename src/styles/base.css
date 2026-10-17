@@ -14,3 +14,4 @@
 .btn--primario { background: var(--c-yellow); color: var(--c-bg); }
 .btn--secundario { background: transparent; color: var(--c-text); border-color: var(--c-text); }
 .btn:focus-visible { outline: 3px solid var(--c-yellow); outline-offset: 3px; }
+.btn[hidden] { display: none; }

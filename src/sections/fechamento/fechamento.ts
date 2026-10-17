@@ -41,7 +41,12 @@ export async function initFechamento(): Promise<void> {
   const ctx = canvas?.getContext('2d');
   if (!section || !stage || !canvas || !ctx) return;
 
-  section.querySelector<HTMLAnchorElement>('[data-link="estudo-de-caso"]')?.setAttribute('href', LINKS.estudoDeCaso);
+  // O botão só aparece quando existir o link do estudo de caso.
+  const estudo = section.querySelector<HTMLAnchorElement>('[data-link="estudo-de-caso"]');
+  if (estudo && LINKS.estudoDeCaso) {
+    estudo.href = LINKS.estudoDeCaso;
+    estudo.hidden = false;
+  }
   section.querySelector<HTMLButtonElement>('[data-topo]')?.addEventListener('click', () => {
     const focarTitulo = () => document.querySelector<HTMLElement>('h1')?.focus();
     if (prefersReducedMotion()) {
