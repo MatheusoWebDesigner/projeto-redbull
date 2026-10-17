@@ -7,7 +7,9 @@
     <meta name="description" content="Landing conceitual do Red Bull RB22, o carro de Fórmula 1 de 2026. Projeto de portfólio, não afiliado à Red Bull." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <!-- Fontes fora do caminho crítico: baixam já, mas só valem quando o main.ts troca media para all (sem handler inline, por causa da CSP). -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Inter:wght@400;500;600&display=swap" media="print" data-fontes />
     <link rel="preload" as="image" href="/hero/frames/poster_desktop.webp" media="(min-aspect-ratio: 1/1)" />
     <link rel="preload" as="image" href="/hero/frames/poster_mobile.webp" media="(max-aspect-ratio: 1/1)" />
   </head>
