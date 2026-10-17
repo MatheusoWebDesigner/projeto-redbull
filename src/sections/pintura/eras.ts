@@ -47,9 +47,9 @@ export function progressoNaEra(p: number): number {
   return posicaoNoPin(p).u;
 }
 
-/** Ponto do pin (0..1) onde a era `i` fica encaixada. */
+/** Ponto do pin (0..1) onde a era `i` fica encaixada. NaN vai para a primeira era. */
 export function encaixeDaEra(i: number): number {
-  return PONTOS_PINTURA[Math.min(ULTIMA, Math.max(0, Math.round(i)))];
+  return PONTOS_PINTURA[Math.min(ULTIMA, Math.max(0, Math.round(i) || 0))];
 }
 
 /** Posição da faixa de reflexo: 0 = antes da borda esquerda do chip, 1 = depois da direita. */

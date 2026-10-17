@@ -34,6 +34,11 @@ describe('eraAtiva', () => {
     expect(eraAtiva(-1)).toBe(0);
     expect(eraAtiva(2)).toBe(4);
   });
+  it('nunca volta para uma era anterior enquanto o pin avança, e passa pelas 5', () => {
+    const v = amostras(1000).map(eraAtiva);
+    v.slice(1).forEach((e, k) => expect(e).toBeGreaterThanOrEqual(v[k]));
+    expect([...new Set(v)]).toEqual([0, 1, 2, 3, 4]);
+  });
 });
 
 describe('PONTOS_PINTURA e encaixeDaEra', () => {
@@ -46,6 +51,17 @@ describe('PONTOS_PINTURA e encaixeDaEra', () => {
     expect(encaixeDaEra(4)).toBe(0.9);
     expect(encaixeDaEra(9)).toBe(0.9);
     expect(encaixeDaEra(-3)).toBe(0.1);
+  });
+  it('encaixeDaEra(NaN) vai para o encaixe da primeira era, nunca undefined', () => {
+    expect(encaixeDaEra(Number.NaN)).toBe(0.1);
+  });
+  it('em cada encaixe, a era mostrada, o marco ativo e o reflexo parado no centro do chip batem', () => {
+    ERAS.forEach((_, i) => {
+      const p = encaixeDaEra(i);
+      expect(eraAtiva(p)).toBe(i);
+      expect(estadoBarras(eraAtiva(p))[i]).toBe('ativa');
+      if (i < ERAS.length - 1) expect(posicaoReflexo(p)).toBeCloseTo(0.5, 10);
+    });
   });
 });
 
@@ -88,6 +104,15 @@ describe('reflexoVisivel', () => {
     expect([0.1, 0.3, 0.5, 0.7].map(reflexoVisivel)).toEqual([true, true, false, false]);
     expect(reflexoVisivel(0.81)).toBe(true);
     expect(reflexoVisivel(0.9)).toBe(false);
+  });
+});
+
+describe('NaN e p fora de 0..1 no reflexo e no render', () => {
+  it('antes do pin: chip da primeira era, faixa na borda esquerda; depois: render no brilho_b', () => {
+    expect([Number.NaN, -1, 2].map(posicaoReflexo)).toEqual([0, 0, 1]);
+    expect([Number.NaN, -1, 2].map(reflexoVisivel)).toEqual([true, true, false]);
+    expect([Number.NaN, -1, 2].map(opacidadeRender)).toEqual([0, 0, 1]);
+    expect([-1, 2].map(brilhoRender)).toEqual([0, 1]);
   });
 });
 

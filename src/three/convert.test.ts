@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { alvoAreaBlender, blenderToThree, fitFov, radianciaArea, viewOffset } from './convert';
+import { alvoAreaBlender, blenderToThree, fitFov, radianciaArea, type Vec3, viewOffset } from './convert';
 
 describe('blenderToThree', () => {
   it('troca Z para cima por Y para cima: (x, y, z) -> (x, z, -y)', () => {
@@ -64,5 +64,24 @@ describe('alvoAreaBlender', () => {
   it('euler XYZ (72,6°, 0, 119,8°) do recorte traseiro aponta para o carro', () => {
     const a = alvoAreaBlender([0, 0, 0], [72.6, 0, 119.8]);
     [-0.828, -0.474, -0.299].forEach((v, k) => expect(a[k]).toBeCloseTo(v, 3));
+  });
+  it('só 90° em Y: o −Z local passa a apontar para −X', () => {
+    const a = alvoAreaBlender([0, 0, 0], [0, 90, 0]);
+    [-1, 0, 0].forEach((v, k) => expect(a[k]).toBeCloseTo(v, 12));
+  });
+  it('só 90° em X: o −Z local passa a apontar para +Y', () => {
+    const a = alvoAreaBlender([0, 0, 0], [90, 0, 0]);
+    [0, 1, 0].forEach((v, k) => expect(a[k]).toBeCloseTo(v, 12));
+  });
+  it('aplica Y antes de Z, como o euler XYZ do Blender: (0, 90°, 90°) aponta para −Y', () => {
+    const a = alvoAreaBlender([0, 0, 0], [0, 90, 90]);
+    [0, -1, 0].forEach((v, k) => expect(a[k]).toBeCloseTo(v, 12));
+  });
+  it('o alvo fica sempre a 1 m da luz, em qualquer rotação', () => {
+    const eulers: Vec3[] = [[0, 0, 0], [72.6, 0, 119.8], [65.8, 0, -8], [61.9, 0, 144.3], [55.6, 0, -79.7], [33, -47, 211], [-120, 75, 15], [360, 540, -720]];
+    for (const e of eulers) {
+      const a = alvoAreaBlender([3, -2, 7], e);
+      expect(Math.hypot(a[0] - 3, a[1] + 2, a[2] - 7)).toBeCloseTo(1, 12);
+    }
   });
 });

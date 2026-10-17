@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
+import dados from '../../data/dm01.json';
 import type { Vec3 } from '../../three/convert';
-import { barra5050, estadoContinuo, etapaDm01, giroGraus, interpolarNumero, interpolarVetor, rotulosVisiveis } from './estados';
+import { barra5050, type Estado, ESTADOS, estadoContinuo, etapaDm01, giroGraus, interpolarNumero, interpolarVetor, PONTOS_DM01, rotulosVisiveis } from './estados';
+
+const tab: Record<Estado, Vec3> = { E0: [0, 0, 0], E1: [1, 0, 0], E2: [2, 0, 0], E3: [3, 1, 0] };
+const amostras = (n: number) => Array.from({ length: n + 1 }, (_, k) => k / n);
 
 describe('etapaDm01', () => {
   it('divide o pin em quatro e trata NaN como início', () => {
@@ -28,15 +32,50 @@ describe('estadoContinuo', () => {
 });
 
 describe('interpolarVetor e interpolarNumero', () => {
-  const tab: Record<'E0' | 'E1' | 'E2' | 'E3', Vec3> = { E0: [0, 0, 0], E1: [1, 0, 0], E2: [2, 0, 0], E3: [3, 1, 0] };
   it('segue os estados ao longo do pin', () => {
     expect(interpolarVetor(tab, 0.1)).toEqual([0, 0, 0]);
     expect(interpolarVetor(tab, 0.3)).toEqual([0.5, 0, 0]);
     expect(interpolarVetor(tab, 0.45)).toEqual([1, 0, 0]);
     expect(interpolarVetor(tab, 0.9)).toEqual([3, 1, 0]);
   });
+  it('não salta nas fronteiras das janelas: um passo de 1e-4 no pin move no máximo 3 mm', () => {
+    // inclinação máxima: easeInOut (2) × rampa (1 / 0,1) × maior salto da tabela (√2) ≈ 2,83e-3 por passo
+    const v = amostras(10_000).map((p) => interpolarVetor(tab, p));
+    const maiorPasso = Math.max(...v.slice(1).map((b, k) => Math.hypot(b[0] - v[k][0], b[1] - v[k][1], b[2] - v[k][2])));
+    expect(maiorPasso).toBeLessThan(3e-3);
+  });
+  it('com as tabelas reais do dm01.json, nenhuma peça volta em direção ao motor enquanto o pin avança', () => {
+    const pecas = dados.pecas as unknown as Record<string, Record<Estado, Vec3>>;
+    const voltas: string[] = [];
+    for (const [nome, t] of Object.entries(pecas)) {
+      const d = amostras(1000).map((p) => Math.hypot(...interpolarVetor(t, p)));
+      d.slice(1).forEach((b, k) => { if (b < d[k] - 1e-12) voltas.push(`${nome} em p=${(k + 1) / 1000}`); });
+    }
+    expect(voltas).toEqual([]);
+  });
   it('números, como a potência das luzes', () => {
     expect(interpolarNumero({ E0: 650, E1: 650, E2: 650, E3: 480 }, 0.8)).toBeCloseTo(565, 10);
+  });
+});
+
+describe('PONTOS_DM01', () => {
+  it('cada encaixe mostra a sua etapa, com o motor já no estado dela', () => {
+    PONTOS_DM01.forEach((p, i) => {
+      expect(etapaDm01(p)).toBe(i);
+      expect(interpolarVetor(tab, p)).toEqual(tab[ESTADOS[i]]);
+    });
+  });
+});
+
+describe('NaN e p fora de 0..1', () => {
+  it('estadoContinuo para no motor montado antes do pin e no E3 depois dele', () => {
+    for (const p of [Number.NaN, -1, -Infinity]) expect(estadoContinuo(p)).toEqual({ de: 'E0', para: 'E1', t: 0 });
+    for (const p of [1.5, Infinity]) expect(estadoContinuo(p)).toEqual({ de: 'E2', para: 'E3', t: 1 });
+  });
+  it('etapa, giro e barra também param nas pontas', () => {
+    expect([-1, 2].map(etapaDm01)).toEqual([0, 3]);
+    expect([Number.NaN, -1, 2].map(giroGraus)).toEqual([0, 0, 8]);
+    expect([Number.NaN, -1, 2].map(barra5050)).toEqual([0, 0, 1]);
   });
 });
 

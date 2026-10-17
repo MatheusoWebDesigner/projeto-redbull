@@ -12,6 +12,9 @@ describe('pontoDeSaida', () => {
   it('peça à esquerda e acima: sai do canto superior esquerdo', () => {
     expect(pontoDeSaida(caixa, [10, 10])).toEqual([100, 100]);
   });
+  it('peça atrás da caixa: a linha guia sai do próprio alvo', () => {
+    expect(pontoDeSaida(caixa, [150, 120])).toEqual([150, 120]);
+  });
 });
 
 describe('pontoNoCover', () => {
@@ -22,6 +25,15 @@ describe('pontoNoCover', () => {
     const [x, y] = pontoNoCover([0, 0], [1920, 1200], [1920, 900]);
     expect(x).toBe(0);
     expect(y).toBe(-150);
+  });
+  it('tela mais alta (celular): corta nas laterais, por igual, e preenche a altura', () => {
+    // escala 844/1200: o render fica com 1350,4 px de largura, sobram 480,2 px de cada lado
+    const cantoA = pontoNoCover([0, 0], [1920, 1200], [390, 844]);
+    const cantoB = pontoNoCover([1920, 1200], [1920, 1200], [390, 844]);
+    const centro = pontoNoCover([960, 600], [1920, 1200], [390, 844]);
+    [-480.2, 0].forEach((v, k) => expect(cantoA[k]).toBeCloseTo(v, 9));
+    [870.2, 844].forEach((v, k) => expect(cantoB[k]).toBeCloseTo(v, 9));
+    [195, 422].forEach((v, k) => expect(centro[k]).toBeCloseTo(v, 9));
   });
 });
 
@@ -35,6 +47,7 @@ describe('POSICOES_ROTULOS', () => {
         for (const [x, y] of Object.values(e)) {
           expect(x).toBeGreaterThanOrEqual(0);
           expect(x).toBeLessThan(quadro[0]);
+          expect(y).toBeGreaterThanOrEqual(0);
           expect(y).toBeLessThan(quadro[1]);
         }
       }

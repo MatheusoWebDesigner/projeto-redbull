@@ -14,4 +14,7 @@ describe('pontosBezier', () => {
     const [, p1] = pontosBezier([0, 0, 0], [0, 0, 1], [0.01, 0, 0], [1, 0, 0]);
     expect(p1[2]).toBeCloseTo(0.05, 10);
   });
+  it('pontas no mesmo lugar (L = 0): alças mínimas, sem NaN', () => {
+    expect(pontosBezier([1, 2, 3], [1, 0, 0], [1, 2, 3], [0, 0, 1])).toEqual([[1, 2, 3], [1.05, 2, 3], [1, 2, 2.95], [1, 2, 3]]);
+  });
 });
