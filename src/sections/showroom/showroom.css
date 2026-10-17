@@ -50,6 +50,20 @@
   .showroom__carregando { left: var(--gutter); top: 72%; }
 }
 
+
+/* Tela baixa na horizontal (notebook 1280×720 ou 1366×768): versão compacta para o texto caber com o pin */
+@media (min-aspect-ratio: 1001/1000) and (max-height: 45rem) {
+  .showroom__stage { padding-top: 2rem; padding-bottom: 2rem; }
+  .showroom__dica { top: 2rem; }
+  .parada__titulo { font-size: clamp(2rem, 3.4vw, 3rem); margin-bottom: 0.625rem; }
+  .parada__titulo--grande { font-size: clamp(2.5rem, 4.6vw, 4rem); }
+  .parada__indice { margin-bottom: 0.5rem; }
+  .showroom__paradas .corpo { font-size: 0.9375rem; line-height: 1.5; }
+  .dados { margin-top: 0.875rem; }
+  .dados dd { font-size: 1.75rem; }
+  .showroom__barras { bottom: 1.5rem; }
+}
+
 :is(.reduced, .is-empilhado) .showroom__stage { height: auto; padding-bottom: 5rem; cursor: auto; }
 :is(.reduced, .is-empilhado) .showroom__paradas { position: static; transform: none; width: auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3rem 1.5rem; margin-top: 2rem; }
 :is(.reduced, .is-empilhado) .parada:not([data-parada='0']) .parada__titulo { font-size: clamp(1.75rem, 2.4vw, 2.25rem); }

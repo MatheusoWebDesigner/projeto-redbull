@@ -48,6 +48,21 @@
   .aero__angulo { left: auto; right: var(--gutter); top: 55%; }
 }
 
+
+/* Tela baixa na horizontal: título, cartão e seletor menores para não se sobreporem */
+@media (min-aspect-ratio: 1001/1000) and (max-height: 45rem) {
+  .aero__stage { padding-top: 2rem; padding-bottom: 2rem; }
+  .aero__progresso { top: 2.25rem; }
+  .etapa__titulo { font-size: clamp(2rem, 3.4vw, 3rem); margin-bottom: 0.625rem; }
+  .aero__etapas .corpo { font-size: 0.9375rem; line-height: 1.5; }
+  .aero__cartoes { margin-top: 0.875rem; }
+  .cartao-modo { padding: 0.875rem 1rem; }
+  .cartao-modo__texto { margin-bottom: 0.625rem; }
+  .cartao-modo__medidores { gap: 0.5rem; }
+  .aero__controle { bottom: 1.5rem; }
+  .seletor-modo button { padding: 0.625rem 1rem; }
+}
+
 :is(.reduced, .is-empilhado) .aero__stage { height: auto; padding-bottom: 5rem; }
 :is(.reduced, .is-empilhado) .aero__etapas { position: static; transform: none; width: auto; margin-top: 2rem; display: grid; gap: 4rem; }
 :is(.reduced, .is-empilhado) .etapa { position: static; transform: none; opacity: 1; pointer-events: auto; }

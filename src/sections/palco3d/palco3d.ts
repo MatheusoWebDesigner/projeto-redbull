@@ -26,7 +26,7 @@ export type Fixar = () => () => void;
  * celular pequeno — as duas seções ficam empilhadas como no movimento reduzido (classe is-empilhado).
  * Reavaliada a cada mudança de zoom ou de janela pelo gsap.matchMedia.
  */
-export const PALCO_CABE = '(min-aspect-ratio: 1001/1000) and (min-height: 40rem), (max-aspect-ratio: 1/1) and (min-height: 37.5rem) and (min-width: 17.5rem)';
+export const PALCO_CABE = '(min-aspect-ratio: 1001/1000) and (min-height: 35rem), (max-aspect-ratio: 1/1) and (min-height: 37.5rem) and (min-width: 17.5rem)';
 
 /** O que as seções compartilham: o palco 3D (quando houver) e o render de fundo. */
 export interface Contexto {
