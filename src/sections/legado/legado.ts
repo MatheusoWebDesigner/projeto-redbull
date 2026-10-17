@@ -44,18 +44,23 @@ export function initLegado(): void {
   const titulo = section.querySelector<HTMLElement>('.legado__titulo');
   const valores = Array.from(section.querySelectorAll<HTMLElement>('[data-contar]'));
   const alvos = valores.map((v) => parseValue(v.textContent ?? '0'));
-  valores.forEach((v) => { v.textContent = '0'; v.setAttribute('aria-hidden', 'true'); });
-  valores.forEach((v, i) => v.insertAdjacentHTML('afterend', `<span class="sr-only">${alvos[i].number}</span>`));
+  // O número animado fica oculto; o leitor de tela lê o valor final, dentro do próprio <dd>.
+  const contadores = valores.map((v, i) => {
+    v.innerHTML = `<span aria-hidden="true">0</span><span class="sr-only">${alvos[i].number}</span>`;
+    return v.firstElementChild as HTMLElement;
+  });
+  // O SplitText em linhas some com o <br>; o título ganha um nome com espaço entre as frases.
+  if (titulo) titulo.setAttribute('aria-label', (titulo.innerHTML.replace(/<br\s*\/?>/gi, ' ').replace(/<[^>]+>/g, '')).replace(/\s+/g, ' ').trim());
 
   ScrollTrigger.create({
     trigger: section,
     start: 'top 60%',
     once: true,
     onEnter: () => {
-      if (titulo) gsap.from(SplitText.create(titulo, { type: 'lines', mask: 'lines' }).lines, { yPercent: 100, duration: 0.8, stagger: 0.08, ease: 'power3.out' });
-      valores.forEach((v, i) => {
+      if (titulo) gsap.from(SplitText.create(titulo, { type: 'lines', mask: 'lines', aria: 'hidden' }).lines, { yPercent: 100, duration: 0.8, stagger: 0.08, ease: 'power3.out' });
+      contadores.forEach((c, i) => {
         const estado = { t: 0 };
-        gsap.to(estado, { t: 1, duration: 1.4, onUpdate: () => { v.textContent = countFrame(alvos[i], estado.t); } });
+        gsap.to(estado, { t: 1, duration: 1.4, onUpdate: () => { c.textContent = countFrame(alvos[i], estado.t); } });
       });
       gsap.delayedCall(0.6, () => section.classList.add('is-visto'));
     },
