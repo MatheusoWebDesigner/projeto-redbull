@@ -218,7 +218,68 @@
           </div>
         </section>
       </div>
-      <!-- Fase 5: #dm01 entra aqui -->
+      <section id="dm01" class="secao dm01" aria-labelledby="dm01-titulo">
+        <div class="dm01__stage">
+          <img class="dm01__render" src="/dm01/desktop/E0.webp" alt="" width="1920" height="1200" aria-hidden="true" />
+          <canvas class="dm01__canvas" aria-hidden="true"></canvas>
+          <svg class="dm01__guias" aria-hidden="true"></svg>
+          <h2 id="dm01-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Red Bull Ford DM01</h2>
+          <div class="dm01__progresso" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div class="dm01__etapas">
+            <article class="etapa-dm01 is-active" data-etapa="0">
+              <h3 class="etapa-dm01__titulo">50% fogo.<br />50% faísca.</h3>
+              <p class="corpo">O primeiro motor feito pela Red Bull: um V6 1.6 turbo com um motor elétrico quase tão forte quanto ele.</p>
+              <p class="rotulo dm01__nota">Representação esquemática · não é o desenho real do DM01</p>
+              <figure class="dm01__figura so-reduzido"><img src="/dm01/desktop/E0.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
+            </article>
+            <article class="etapa-dm01" data-etapa="1">
+              <h3 class="etapa-dm01__titulo etapa-dm01__titulo--fogo">Fogo.</h3>
+              <p class="corpo">V6 1.6 turbo com cerca de 400 kW. Só usa combustível 100% sustentável, e o limite agora é de energia: 3.000 MJ por hora.</p>
+              <dl class="dados dados--dm01">
+                <div><dt class="rotulo">V6 1.6 L turbo</dt><dd>≈ <span data-contar>400</span> kW</dd></div>
+                <div><dt class="rotulo">combustível sustentável</dt><dd><span data-contar>100</span>%</dd></div>
+                <div><dt class="rotulo">limite</dt><dd><span data-contar>15.000</span> rpm</dd></div>
+              </dl>
+            </article>
+            <article class="etapa-dm01" data-etapa="2">
+              <h3 class="etapa-dm01__titulo etapa-dm01__titulo--faisca">Faísca.</h3>
+              <p class="corpo">O MGU-K, ligado ao virabrequim, quase triplicou. Ele recupera energia nas freadas e devolve na reta. O MGU-H, do turbo, foi aposentado.</p>
+              <dl class="dados dados--dm01">
+                <div><dt class="rotulo">MGU-K (era 120 kW)</dt><dd><span data-contar>350</span> kW</dd></div>
+                <div><dt class="rotulo">recuperados por volta</dt><dd>≈ <span data-contar>8,5</span> MJ</dd></div>
+                <div><dt class="rotulo">MGU-H</dt><dd>0</dd></div>
+              </dl>
+            </article>
+            <article class="etapa-dm01" data-etapa="3">
+              <h3 class="etapa-dm01__titulo">Meio a meio.</h3>
+              <p class="corpo so-animado">Pela primeira vez, quase metade da força de um F1 vem da bateria.</p>
+              <figure class="dm01__figura so-reduzido"><img src="/dm01/desktop/E3.webp" alt="" width="1920" height="1200" loading="lazy" /></figure>
+              <dl class="dm01__pecas">
+                <div data-grupo="termico"><dt>V6 1.6 turbo</dt><dd>≈ 400 kW</dd></div>
+                <div data-grupo="termico"><dt>Turbo</dt><dd>um só, sem MGU-H</dd></div>
+                <div data-grupo="eletrico"><dt>MGU-K</dt><dd>350 kW</dd></div>
+                <div data-grupo="eletrico"><dt>Bateria</dt><dd>armazena a energia</dd></div>
+                <div data-grupo="eletrico"><dt>Eletrônica de controle</dt><dd>gerencia o fluxo</dd></div>
+              </dl>
+              <div class="barra-5050">
+                <p class="rotulo barra-5050__rotulos"><span class="barra-5050__fogo">Fogo · V6 ≈ 400 kW</span><span class="barra-5050__faisca">Faísca · MGU-K 350 kW</span></p>
+                <div class="barra-5050__trilho" aria-hidden="true"><span class="barra-5050__parte barra-5050__parte--fogo"></span><span class="barra-5050__parte barra-5050__parte--faisca"></span></div>
+              </div>
+              <p class="dm01__total"><span class="dm01__total-valor">+<span data-contar-total>1.000</span> cv</span> <span class="rotulo">combinados (≈ 750 kW)</span></p>
+              <p class="rotulo dm01__nota so-reduzido">Representação esquemática · não é o desenho real do DM01</p>
+            </article>
+          </div>
+          <ul class="dm01__rotulos" aria-hidden="true">
+            <li class="rotulo-peca" data-peca="v6" data-grupo="termico"><strong>V6 1.6 turbo</strong><span>≈ 400 kW</span></li>
+            <li class="rotulo-peca" data-peca="turbo" data-grupo="termico"><strong>Turbo</strong><span>um só, sem MGU-H</span></li>
+            <li class="rotulo-peca" data-peca="mgu-k" data-grupo="eletrico"><strong>MGU-K</strong><span>350 kW</span></li>
+            <li class="rotulo-peca" data-peca="eletronica" data-grupo="eletrico"><strong>Eletrônica <span class="rotulo-peca__resto">de controle</span></strong><span>gerencia o fluxo</span></li>
+            <li class="rotulo-peca" data-peca="bateria" data-grupo="eletrico"><strong>Bateria</strong><span>armazena a energia</span></li>
+          </ul>
+          <p class="rotulo dm01__dica so-animado" aria-hidden="true">Role para desmontar o motor</p>
+          <p class="rotulo dm01__carga" role="status" hidden>Carregando o motor em 3D</p>
+        </div>
+      </section>
       <section id="numeros" class="secao numeros" aria-labelledby="numeros-titulo">
         <div class="numeros__stage">
           <header class="numeros__topo">
