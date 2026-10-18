@@ -11,7 +11,11 @@ const NS = 'http://www.w3.org/2000/svg';
 
 function svgEl<K extends keyof SVGElementTagNameMap>(tag: K, attrs: Record<string, string | number>): SVGElementTagNameMap[K] {
   const el = document.createElementNS(NS, tag);
-  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, String(v));
+  // `--i` vai pelo CSSOM (não por atributo style), para a CSP não precisar liberar estilo inline.
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === '--i') el.style.setProperty('--i', String(v));
+    else el.setAttribute(k, String(v));
+  }
   return el;
 }
 
@@ -28,8 +32,8 @@ function desenharFaixa(svg: SVGSVGElement, mobile: boolean): void {
       t.textContent = mobile ? String(m.ano) : `’${String(m.ano).slice(2)}`;
       svg.append(t);
     }
-    if (m.construtores) svg.append(svgEl('rect', { class: 'legado__marca', style: `--i:${i}`, x: x - 7, y: meio - 26, width: 14, height: 14, rx: 2, fill: '#d2003c' }));
-    if (m.pilotos) svg.append(svgEl('circle', { class: 'legado__marca', style: `--i:${i}`, cx: x, cy: m.construtores ? meio - 38 : meio - 18, r: 6, fill: '#ffc906' }));
+    if (m.construtores) svg.append(svgEl('rect', { class: 'legado__marca', '--i': i, x: x - 7, y: meio - 26, width: 14, height: 14, rx: 2, fill: '#d2003c' }));
+    if (m.pilotos) svg.append(svgEl('circle', { class: 'legado__marca', '--i': i, cx: x, cy: m.construtores ? meio - 38 : meio - 18, r: 6, fill: '#ffc906' }));
   });
 }
 

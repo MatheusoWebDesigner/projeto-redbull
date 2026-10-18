@@ -39,7 +39,8 @@
   .showroom__stage { padding: 4rem var(--gutter) 2.5rem; }
   .showroom__barras { top: 2.5rem; bottom: auto; gap: 0.375rem; }
   .showroom__barras::before { content: none; } /* no celular as barras não têm rótulo visível */
-  .showroom__barras button { flex: 1; font-size: 0; gap: 0; }
+  /* área de toque de 44px sem mudar onde a barra aparece */
+  .showroom__barras button { flex: 1; font-size: 0; gap: 0; padding-block: 1.25rem; margin-block: -1.25rem; }
   .showroom__stage > .kicker { margin-top: 1.5rem; }
   .showroom__paradas { top: 9rem; transform: none; width: auto; right: var(--gutter); }
   .parada { top: 0; transform: none; }

@@ -56,7 +56,6 @@ Abra o endereço, role a página inteira e confira o console. Ctrl+C encerra.
 | `Content-Security-Policy` | Só deixa rodar script, CSS, fonte, imagem e conexão do próprio site; bloqueia script injetado. |
 | ↳ `script-src 'self' 'wasm-unsafe-eval'` | Scripts só do site; `wasm-unsafe-eval` libera **só** WebAssembly (o decodificador Draco do 3D), não `eval` de JavaScript. |
 | ↳ `worker-src 'self' blob:` | O Draco roda num Worker criado a partir de um Blob. |
-| ↳ `style-src-attr 'unsafe-inline'` | Libera só atributos `style="…"` (as cores das eras e o atraso das marcas do Legado); folhas e `<style>` continuam só do site. |
 | ↳ `frame-ancestors 'none'` | Ninguém consegue embutir o site num `<iframe>` (contra clickjacking). |
 | `Strict-Transport-Security` | Navegador passa a usar sempre HTTPS neste domínio por 2 anos. |
 | `X-Content-Type-Options: nosniff` | Navegador não "adivinha" o tipo do arquivo; um arquivo que não é script nunca roda como script. |

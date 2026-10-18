@@ -20,6 +20,9 @@ const CELULAR = '(max-aspect-ratio: 1/1)';
 /** Seção Pintura: 5 eras contadas por um chip de cor; na última, o chip vira o render do RB22. */
 export function initPintura(): void {
   const section = document.querySelector<HTMLElement>('#pintura');
+  // As cores vêm de data-* (e não de style="" no HTML) para a CSP não precisar liberar estilo inline.
+  section?.querySelectorAll<HTMLElement>('[data-era-cor]').forEach((el) => el.style.setProperty('--era-cor', el.dataset.eraCor!));
+  section?.querySelectorAll<HTMLElement>('[data-cor]').forEach((el) => el.style.setProperty('--cor', el.dataset.cor!));
   const stage = section?.querySelector<HTMLElement>('.pintura__stage');
   const chip = stage?.querySelector<HTMLElement>('.pintura__chip');
   // Movimento reduzido: o CSS (.reduced) já mostra as eras empilhadas e paradas.

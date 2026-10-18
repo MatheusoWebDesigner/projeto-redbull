@@ -27,7 +27,7 @@
 .palco3d__perfil-svg { opacity: var(--palco-perfil, 0); }
 .aero__controle { position: absolute; left: var(--gutter); bottom: 3.5rem; display: flex; align-items: center; gap: 1.25rem; }
 .seletor-modo { display: flex; gap: 0.25rem; padding: 0.25rem; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.24); }
-.seletor-modo button { padding: 0.75rem 1.25rem; border: 0; border-radius: 999px; background: transparent; color: var(--c-text); font: 600 0.8125rem/1 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
+.seletor-modo button { min-height: 2.75rem; padding: 0.75rem 1.25rem; border: 0; border-radius: 999px; background: transparent; color: var(--c-text); font: 600 0.8125rem/1 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; }
 .seletor-modo button[aria-checked='true'] { background: var(--c-yellow); color: #000; }
 .seletor-modo button:focus-visible { outline: 2px solid var(--c-yellow); outline-offset: 3px; }
 
