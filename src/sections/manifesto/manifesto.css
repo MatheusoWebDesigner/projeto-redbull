@@ -7,6 +7,9 @@
 .manifesto__content { position: relative; display: grid; gap: 2.5rem; max-width: 65.5rem; }
 .manifesto__frase { margin: 0; font: italic 800 clamp(2.375rem, 4.72vw, 4.25rem)/0.98 var(--f-display); text-transform: uppercase; }
 .manifesto__dm01 { color: var(--c-red); }
+/* Com a frase dividida (modo animado), DM01 apaga em branco como as outras palavras e acende em vermelho. */
+.manifesto__dm01 > * { color: var(--c-text); transition: color 0.3s var(--ease-out); }
+.manifesto__dm01 > .is-aceso { color: var(--c-red); }
 .manifesto__assinatura { display: grid; gap: 0.5rem; opacity: 0; transform: translateY(12px); }
 .manifesto__assinatura .rotulo, .manifesto__assinatura .corpo { margin: 0; }
 .manifesto.is-assinado .manifesto__assinatura { opacity: 1; transform: none; transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }

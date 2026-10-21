@@ -1,5 +1,5 @@
 /** Opacidade das palavras ainda não lidas. */
-export const DIM = 0.2;
+export const DIM = 0.4; // 3,7:1 sobre o fundo (mínimo de 3:1 para texto grande)
 /** Progresso em que a última palavra termina de acender (o resto é pausa). */
 export const LIT_END = 0.8;
 

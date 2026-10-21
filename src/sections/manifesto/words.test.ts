@@ -41,3 +41,9 @@ describe('wordOpacity', () => {
     expect(wordOpacity(0, 1, LIT_END)).toBe(1);
   });
 });
+
+describe('DIM', () => {
+  it('palavra apagada a 40%: 3,7:1 sobre o fundo, acima do mínimo de 3:1 para texto grande (decisão de 2026-10-17)', () => {
+    expect(DIM).toBe(0.4);
+  });
+});

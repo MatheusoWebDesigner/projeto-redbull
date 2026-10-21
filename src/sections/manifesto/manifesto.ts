@@ -24,7 +24,12 @@ export function initManifesto(): void {
   const mobile = window.matchMedia('(max-aspect-ratio: 1/1)').matches;
 
   const render = (p: number) => {
-    words.forEach((w, i) => { w.style.opacity = String(wordOpacity(i, words.length, p)); });
+    words.forEach((w, i) => {
+      const op = wordOpacity(i, words.length, p);
+      w.style.opacity = String(op);
+      // "DM01" só fica vermelho quando acende por inteiro: vermelho apagado teria contraste de 1,4:1.
+      if (w.parentElement?.classList.contains('manifesto__dm01')) w.classList.toggle('is-aceso', op >= 1);
+    });
     stage.style.setProperty('--mf-glow', String(p));
     stage.style.setProperty('--mf-wm-x', `${-80 * p}px`);
     stage.style.setProperty('--mf-wm-op', String(0.05 + 0.09 * p));

@@ -79,9 +79,18 @@ function updateLoader(loader: HTMLElement, fraction: number): void {
   loader.setAttribute('aria-valuenow', String(Math.round(fraction * 100)));
 }
 
+/**
+ * Enquanto as luzes de largada estão na tela, o resto da página fica fora do alcance do teclado e do leitor de
+ * tela (inert): o foco não cai em links escondidos atrás do loader. Decisão de 2026-10-17.
+ */
+function bloquearPagina(sim: boolean): void {
+  document.querySelectorAll<HTMLElement>('.skip-link, main, footer').forEach((el) => { el.inert = sim; });
+}
+
 function dismissLoader(loader: HTMLElement): void {
   loader.classList.add('is-done');
   loader.setAttribute('aria-hidden', 'true');
+  bloquearPagina(false);
 }
 
 async function lightsOut(loader: HTMLElement): Promise<void> {
@@ -99,6 +108,7 @@ const LIMITE_TEXTO_CELULAR = 0.55;
 
 export async function initHero(): Promise<void> {
   const loader = qs<HTMLElement>('.loader');
+  if (!loader.classList.contains('is-done')) bloquearPagina(true);
   try {
     await montarHero(loader);
   } catch (err) {
