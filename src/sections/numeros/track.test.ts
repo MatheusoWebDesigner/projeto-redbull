@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cardEntrou, rangeLabel, trackShift, visibleRange } from './track';
+import { cardEntrou, trackShift } from './track';
 
 describe('trackShift', () => {
   it('não anda no início e anda tudo no fim', () => {
@@ -12,42 +12,6 @@ describe('trackShift', () => {
     expect(trackShift(-0.5, 3048, 1296)).toBeCloseTo(0);
     expect(trackShift(NaN, 3048, 1296)).toBeCloseTo(0);
   });
-});
-
-describe('visibleRange', () => {
-  it('início, meio e fim com 3 por vez', () => {
-    expect(visibleRange(0, 8, 3)).toEqual([1, 3]);
-    expect(visibleRange(0.5, 8, 3)).toEqual([4, 6]);
-    expect(visibleRange(1, 8, 3)).toEqual([6, 8]);
-  });
-  it('um por vez no celular', () => expect(visibleRange(1, 8, 1)).toEqual([8, 8]));
-  it('troca de faixa na metade do caminho entre duas posições', () => {
-    expect(visibleRange(0.09, 8, 3)).toEqual([1, 3]);
-    expect(visibleRange(0.1, 8, 3)).toEqual([2, 4]);
-  });
-  it('a faixa fica dentro de 1..count, tem o tamanho da vista e só avança', () => {
-    for (const perView of [1, 3]) {
-      let primeiroAnterior = 1;
-      for (let p = -0.5; p <= 1.5; p += 0.01) {
-        const [a, b] = visibleRange(p, 8, perView);
-        expect(a).toBeGreaterThanOrEqual(primeiroAnterior);
-        expect(b - a + 1).toBe(perView);
-        expect(b).toBeLessThanOrEqual(8);
-        primeiroAnterior = a;
-      }
-    }
-  });
-  it('progresso inválido mostra a primeira faixa', () => expect(visibleRange(NaN, 8, 3)).toEqual([1, 3]));
-  it('com menos cartões que a vista, mostra todos a partir do 1', () => {
-    expect(visibleRange(0, 2, 3)).toEqual([1, 2]);
-    expect(visibleRange(1, 2, 3)).toEqual([1, 2]);
-    expect(visibleRange(1, 1, 3)).toEqual([1, 1]);
-  });
-});
-
-describe('rangeLabel', () => {
-  it('faixa no desktop', () => expect(rangeLabel(1, 3, 8)).toBe('01–03 / 08'));
-  it('um cartão no celular', () => expect(rangeLabel(6, 6, 8)).toBe('06 / 08'));
 });
 
 describe('cardEntrou', () => {

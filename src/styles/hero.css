@@ -27,7 +27,6 @@ html, body { margin: 0; background: var(--c-bg); color: var(--c-text); font-fami
 .chapter { position: absolute; left: 0; bottom: 0; width: 100%; opacity: 0; }
 /* O ativo fica por cima dos outros (invisíveis, mas presentes para leitor de tela) */
 .chapter.is-active { opacity: 1; z-index: 1; }
-.chapter__kicker { margin: 0 0 0.75rem; color: var(--c-yellow); font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.22em; }
 .chapter__title { margin: 0 0 1rem; font-family: var(--f-display); font-style: italic; font-weight: 800; font-size: clamp(3rem, 7vw, 6.5rem); line-height: 0.92; text-transform: uppercase; }
 .chapter__body { margin: 0; max-width: 28rem; color: var(--c-text-muted); font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.6; }
 

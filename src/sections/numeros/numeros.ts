@@ -1,7 +1,7 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { countFrame, parseValue } from '../../core/countup';
-import { cardEntrou, rangeLabel, trackShift, visibleRange } from './track';
+import { cardEntrou, trackShift } from './track';
 import './numeros.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -27,18 +27,14 @@ export function initNumeros(): void {
   const section = document.querySelector<HTMLElement>('.numeros');
   const stage = section?.querySelector<HTMLElement>('.numeros__stage');
   const trilho = section?.querySelector<HTMLElement>('.numeros__trilho');
-  const contador = section?.querySelector<HTMLElement>('.numeros__contador');
-  if (!section || !stage || !trilho || !contador) return;
+  if (!section || !stage || !trilho) return;
   const cards = Array.from(trilho.querySelectorAll<HTMLElement>('.card'));
   const mobile = window.matchMedia('(max-aspect-ratio: 1/1)').matches;
-  const perView = mobile ? 1 : 3;
 
   const render = (p: number) => {
     const visible = stage.clientWidth - 2 * parseFloat(getComputedStyle(stage).paddingLeft);
     gsap.set(trilho, { x: trackShift(p, trilho.scrollWidth, visible) });
     stage.style.setProperty('--nm-p', String(p));
-    const [a, b] = visibleRange(p, cards.length, perView);
-    contador.textContent = rangeLabel(a, b, cards.length);
     cards.forEach((c) => { const r = c.getBoundingClientRect(); if (cardEntrou(r.left, r.width, window.innerWidth)) contar(c); });
   };
 

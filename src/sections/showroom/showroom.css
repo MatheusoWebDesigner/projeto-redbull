@@ -4,7 +4,6 @@
 .showroom__paradas { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(24rem, 32vw); }
 .parada { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; pointer-events: none; }
 .parada.is-active { opacity: 1; pointer-events: auto; z-index: 1; }
-.parada__indice { margin: 0 0 1rem; color: var(--c-yellow); font: 600 0.8125rem/1.2 var(--f-body); letter-spacing: 0.22em; }
 .parada__titulo { margin: 0 0 1rem; font: italic 800 clamp(2.5rem, 4.4vw, 4rem)/0.95 var(--f-display); text-transform: uppercase; }
 .parada__titulo--grande { font-size: clamp(3rem, 6.7vw, 6rem); }
 .dados { margin: 1.5rem 0 0; display: flex; gap: 2.5rem; }
@@ -58,7 +57,6 @@
   .showroom__dica { top: 2rem; }
   .parada__titulo { font-size: clamp(2rem, 3.4vw, 3rem); margin-bottom: 0.625rem; }
   .parada__titulo--grande { font-size: clamp(2.5rem, 4.6vw, 4rem); }
-  .parada__indice { margin-bottom: 0.5rem; }
   .showroom__paradas .corpo { font-size: 0.9375rem; line-height: 1.5; }
   .dados { margin-top: 0.875rem; }
   .dados dd { font-size: 1.75rem; }
