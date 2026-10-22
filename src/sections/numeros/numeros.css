@@ -15,7 +15,7 @@
 .card__risco { position: relative; }
 .card__risco::after { content: ''; position: absolute; left: -0.15em; right: -0.15em; top: 50%; height: 2px; background: var(--c-red); transform: scaleX(0); transform-origin: left; transition: transform 0.4s var(--ease-out); }
 .card--drs.is-contado .card__risco::after { transform: scaleX(1); }
-.numeros__dica { position: absolute; left: var(--gutter); bottom: 3.5rem; margin: 0; }
+.numeros__dica { margin: 0; }
 
 @media (max-aspect-ratio: 1/1) {
   .numeros__stage { padding: 4rem var(--gutter) 2.5rem; }
@@ -23,7 +23,6 @@
   .card { width: 18.75rem; }
   .card__valor { font-size: 5rem; }
   .numeros__trilho { gap: 1rem; max-height: 25rem; }
-  .numeros__dica { bottom: 2.5rem; }
 }
 
 /* Layout empilhado: movimento reduzido ou tela baixa demais para o trilho fixado (is-estatico, ver numeros.ts) */

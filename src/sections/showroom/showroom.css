@@ -1,5 +1,20 @@
 .showroom__stage { position: relative; height: 100svh; padding: 3.5rem var(--gutter); overflow: clip; touch-action: pan-y pinch-zoom; cursor: grab; } /* pinch-zoom: o arraste não pode travar o zoom do celular */
 .showroom__stage.is-arrastando { cursor: grabbing; }
+/* Cursor próprio (mouse, 3D carregado): anel que segue o ponteiro sobre o carro (showroom.ts). */
+.cursor-giro { position: absolute; left: 0; top: 0; z-index: 4; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+.mostra-cursor .cursor-giro { opacity: 1; transition: none; } /* aparece na hora: nunca fica um instante sem ponteiro */
+/* O ponteiro do sistema só some quando nada pede o dele (alto contraste, ponteiro do Windows, movimento reduzido). */
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) and (prefers-contrast: no-preference) {
+  .showroom__stage.mostra-cursor { cursor: none; }
+}
+.cursor-giro__anel { position: absolute; left: -44px; top: -44px; width: 88px; height: 88px; box-sizing: border-box; border: 1.5px solid #fff; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(0, 0, 0, 0.6); transition: transform 0.25s var(--ease-out), background-color 0.25s; }
+.is-arrastando .cursor-giro__anel { transform: scale(0.64); background-color: rgba(210, 0, 60, 0.9); }
+.cursor-giro__texto { position: absolute; top: 54px; left: 0; transform: translateX(-50%); white-space: nowrap; color: #fff; font: 600 0.6875rem/1 var(--f-body); letter-spacing: 0.22em; text-transform: uppercase; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); transition: top 0.25s var(--ease-out); }
+.is-arrastando .cursor-giro__texto { top: 40px; }
+.cursor-giro__girando, .is-arrastando .cursor-giro__parado { display: none; }
+.is-arrastando .cursor-giro__girando { display: inline; }
+@media (prefers-reduced-motion: reduce), (forced-colors: active) { .cursor-giro { display: none; } }
+:is(.reduced, .is-empilhado) .cursor-giro { display: none; }
 .showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); margin: 0; padding: 0.5rem 0.875rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); white-space: nowrap; }
 .showroom__paradas { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(24rem, 32vw); }
 .parada { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; pointer-events: none; }

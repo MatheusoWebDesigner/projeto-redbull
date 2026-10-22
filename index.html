@@ -13,12 +13,18 @@
   <body>
     <a class="skip-link" href="#manifesto" inert>Pular introdução</a>
 
-    <div class="loader" role="progressbar" aria-label="Carregando a experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div class="loader__lights" aria-hidden="true">
+    <div class="loader">
+      <div class="loader__lights" role="progressbar" aria-label="Carregando a experiência" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
         <span></span><span></span><span></span><span></span><span></span>
       </div>
       <p class="loader__label">Aquecendo os motores…</p>
     </div>
+    <!-- Anúncio da largada para leitor de tela: fora do progressbar (filhos dele são apresentacionais) e fora do <main inert>. -->
+    <p class="sr-only" role="status" data-anuncio></p>
+
+    <!-- Efeitos decorativos (Figma, página 11): fundo vivo + linhas de velocidade e faixas diagonais de transição. -->
+    <div class="fundo-vivo" aria-hidden="true"><span class="fundo-vivo__luz"></span><span class="fundo-vivo__linhas"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+    <div class="faixas-transicao" aria-hidden="true"><div class="faixas-transicao__grupo"><span></span><span></span><span></span></div></div>
 
     <main inert>
       <section class="hero" aria-label="Apresentação do RB22">
@@ -141,6 +147,7 @@
               <span class="hotspot" data-peca="assoalho-difusor"><span class="hotspot__rotulo">Assoalho</span><span class="hotspot__ponto"></span></span>
               <span class="hotspot" data-peca="asa-traseira"><span class="hotspot__rotulo">Asa traseira ativa</span><span class="hotspot__ponto"></span></span>
             </div>
+            <div class="cursor-giro" aria-hidden="true"><span class="cursor-giro__anel"></span><span class="cursor-giro__texto"><span class="cursor-giro__parado">Arraste para girar</span><span class="cursor-giro__girando">← Girando →</span></span></div>
             <div class="showroom__carregando" role="status" hidden>
               <span class="rotulo">Carregando o carro em 3D</span>
               <span class="showroom__carga" aria-hidden="true"><span></span></span>
@@ -278,6 +285,7 @@
           </header>
           <h2 id="numeros-titulo" class="titulo-secao">Mais leve. Mais curto. Mais esperto.</h2>
           <p class="corpo">O RB22 resumido em oito números.</p>
+          <p class="rotulo numeros__dica" aria-hidden="true">Role para correr os números →</p>
           <ul class="numeros__trilho">
             <li class="card" data-tema="chassi"><p class="card__numero"><span class="card__valor" aria-hidden="true">768</span><span class="card__unidade" aria-hidden="true">kg</span><span class="sr-only">768 kg</span></p><h3 class="card__rotulo">Peso mínimo</h3><p class="card__desc">30 kg a menos que em 2025.</p></li>
             <li class="card" data-tema="chassi"><p class="card__numero"><span class="card__valor" aria-hidden="true">3.400</span><span class="card__unidade" aria-hidden="true">mm</span><span class="sr-only">3.400 mm</span></p><h3 class="card__rotulo">Entre-eixos máximo</h3><p class="card__desc">200 mm mais curto.</p></li>
@@ -288,7 +296,6 @@
             <li class="card" data-tema="energia"><p class="card__numero"><span class="card__valor" aria-hidden="true">100%</span><span class="sr-only">100%</span></p><h3 class="card__rotulo">Combustível sustentável</h3><p class="card__desc">Sem petróleo novo no tanque.</p></li>
             <li class="card card--drs" data-tema="chassi"><p class="card__numero"><span class="card__valor" aria-hidden="true" data-sem-contagem>0</span><span class="sr-only">zero</span></p><h3 class="card__rotulo"><span class="card__risco">DRS</span></h3><p class="card__desc">Trocado pela aerodinâmica ativa.</p></li>
           </ul>
-          <p class="rotulo numeros__dica" aria-hidden="true">Role para correr os números →</p>
         </div>
       </section>
       <section id="pintura" class="secao pintura" aria-labelledby="pintura-titulo">

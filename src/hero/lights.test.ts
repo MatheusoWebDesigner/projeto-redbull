@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { litLights } from './lights';
+import { combinarProgresso, litLights } from './lights';
 
 describe('litLights', () => {
   it('nenhuma luz no começo', () => {
@@ -28,5 +28,16 @@ describe('litLights nas bordas', () => {
       expect(lit).toBeGreaterThanOrEqual(last);
       last = lit;
     }
+  });
+});
+
+describe('combinarProgresso', () => {
+  it('combina carregamentos pelo peso de cada um', () => {
+    expect(combinarProgresso([{ fracao: 1, peso: 31 }, { fracao: 0, peso: 39 }])).toBeCloseTo(31 / 70);
+    expect(combinarProgresso([{ fracao: 0.5, peso: 10 }, { fracao: 0.5, peso: 30 }])).toBe(0.5);
+  });
+  it('fração fora de 0–1 ou NaN não estraga a soma; sem partes, está carregado', () => {
+    expect(combinarProgresso([{ fracao: 2, peso: 1 }, { fracao: NaN, peso: 1 }])).toBe(0.5);
+    expect(combinarProgresso([])).toBe(1);
   });
 });

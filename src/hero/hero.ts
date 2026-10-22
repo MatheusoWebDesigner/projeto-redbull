@@ -4,8 +4,9 @@ import { SplitText } from 'gsap/SplitText';
 import { formatNumber } from '../core/format';
 import { startSmoothScroll } from '../core/scroll';
 import { coverRect } from './cover';
-import { getFrameStore, type FrameSet } from './frames';
-import { litLights } from './lights';
+import { getAberturaStore, getFrameStore, type FrameSet, type FrameStore } from './frames';
+import { combinarProgresso, litLights } from './lights';
+import { quadroDaAbertura } from './abertura';
 import { textoCabeNoPalco } from './layout';
 import { chapterIndexFor, FRAME_COUNT, frameIndexFor, SNAP_POINTS } from './scrub';
 import { gear, rpm, speedKmh } from './telemetry';
@@ -76,7 +77,7 @@ function loadPoster(set: FrameSet): Promise<HTMLImageElement> {
 function updateLoader(loader: HTMLElement, fraction: number): void {
   const lit = litLights(fraction);
   loader.querySelectorAll('.loader__lights span').forEach((s, i) => s.classList.toggle('is-lit', i < lit));
-  loader.setAttribute('aria-valuenow', String(Math.round(fraction * 100)));
+  qsIn(loader, '.loader__lights').setAttribute('aria-valuenow', String(Math.round(fraction * 100)));
 }
 
 /**
@@ -93,11 +94,45 @@ function dismissLoader(loader: HTMLElement): void {
   bloquearPagina(false);
 }
 
-async function lightsOut(loader: HTMLElement): Promise<void> {
+const esperar = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const ESPERA_MAX_ABERTURA = 4000;
+
+/** Tudo carregado: as 5 vermelhas seguram, viram verdes ("Largada!") e o loader sai. */
+async function largada(loader: HTMLElement): Promise<void> {
   updateLoader(loader, 1);
-  await new Promise((r) => setTimeout(r, 450));
-  loader.querySelectorAll('.loader__lights span').forEach((s) => s.classList.remove('is-lit'));
+  await esperar(450);
+  qsIn<HTMLElement>(loader, '.loader__lights').classList.add('is-verde');
+  qsIn<HTMLElement>(loader, '.loader__label').textContent = 'Largada!';
+  qs<HTMLElement>('[data-anuncio]').textContent = 'Largada! Página carregada.';
+  await esperar(400);
   dismissLoader(loader);
+}
+
+/** Toca a abertura a 30 fps no canvas da Hero; sem nenhum quadro carregado, pula direto. */
+function tocarAbertura(ctx: CanvasRenderingContext2D, abertura: FrameStore, focusX: number): Promise<void> {
+  return new Promise((resolve) => {
+    if (!abertura.get(0)) return resolve();
+    let inicio = -1;
+    let atual = -1;
+    const passo = (agora: number) => {
+      if (inicio < 0) inicio = agora;
+      const i = quadroDaAbertura(agora - inicio);
+      if (i === null) return resolve();
+      if (i !== atual) {
+        const img = abertura.get(i);
+        if (img) draw(ctx, img, focusX);
+        atual = i;
+      }
+      requestAnimationFrame(passo);
+    };
+    requestAnimationFrame(passo);
+  });
+}
+
+/** Durante a abertura a rolagem fica travada e os textos da Hero esperam o pouso no quadro 1. */
+function emAbertura(sim: boolean): void {
+  document.documentElement.classList.toggle('is-abertura', sim);
+  document.querySelector('.hero')?.classList.toggle('hero--abertura', sim);
 }
 
 /** Layout com os 4 capítulos empilhados e pôster estático (ver hero.css). */
@@ -117,6 +152,7 @@ export async function initHero(): Promise<void> {
     throw err;
   } finally {
     if (!loader.classList.contains('is-done')) dismissLoader(loader);
+    emAbertura(false); // nunca deixa a rolagem travada, nem se a montagem falhar
   }
 }
 
@@ -138,8 +174,23 @@ async function montarHero(loader: HTMLElement): Promise<void> {
   }
 
   const store = getFrameStore(set);
-  await store.load((f) => updateLoader(loader, f));
-  await lightsOut(loader);
+  const abertura = getAberturaStore(set);
+  const progresso = { hero: 0, abertura: 0 };
+  const avisar = () => updateLoader(loader, combinarProgresso([
+    { fracao: progresso.hero, peso: store.prioritarios },
+    { fracao: progresso.abertura, peso: abertura.prioritarios },
+  ]));
+  await Promise.all([
+    store.load((f) => { progresso.hero = f; avisar(); }),
+    // A abertura é enfeite: com rede lenta, no máximo 4 s de espera a mais (toca só o que chegou).
+    Promise.race([abertura.load((f) => { progresso.abertura = f; avisar(); }), esperar(ESPERA_MAX_ABERTURA)]),
+  ]);
+  emAbertura(true);
+  await largada(loader);
+  await tocarAbertura(ctx, abertura, FOCUS_X[set]);
+  const pouso = store.get(0);
+  if (pouso) draw(ctx, pouso, FOCUS_X[set]);
+  emAbertura(false);
 
   startSmoothScroll();
 

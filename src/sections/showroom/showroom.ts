@@ -95,6 +95,25 @@ export function initShowroom(ctx: Contexto): Fixar {
     const soltar = () => { inicio = null; stage.classList.remove('is-arrastando'); };
     stage.addEventListener('pointerup', soltar);
     stage.addEventListener('pointercancel', soltar);
+
+    // Cursor próprio (só mouse): anel "arraste para girar" que segue o ponteiro com leve atraso.
+    const cursor = stage.querySelector<HTMLElement>('.cursor-giro');
+    if (cursor && window.matchMedia('(pointer: fine)').matches) {
+      const irX = gsap.quickTo(cursor, 'x', { duration: 0.25, ease: 'power3' });
+      const irY = gsap.quickTo(cursor, 'y', { duration: 0.25, ease: 'power3' });
+      stage.addEventListener('pointermove', (e) => {
+        // Só onde o arraste funciona de verdade: com o pin ativo (no layout empilhado não há giro).
+        const mostrar = !!st && !!ctx.palco() && (inicio !== null || !(e.target as Element).closest('button, a, input, select, textarea, summary, label, [tabindex], .hotspot'));
+        const caixa = stage.getBoundingClientRect();
+        const x = e.clientX - caixa.left;
+        const y = e.clientY - caixa.top;
+        if (mostrar && !stage.classList.contains('mostra-cursor')) gsap.set(cursor, { x, y }); // aparece já no lugar
+        irX(x);
+        irY(y);
+        stage.classList.toggle('mostra-cursor', mostrar);
+      });
+      stage.addEventListener('pointerleave', () => stage.classList.remove('mostra-cursor'));
+    }
   }
 
   ctx.aoCarregar((palco) => {

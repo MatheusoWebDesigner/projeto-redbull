@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { emParalelo, frameUrl, getFrameStore, nearestLoaded, PASSO_PRIORITARIO, splitLoadOrder } from './frames';
+import { emParalelo, FrameStore, frameUrl, getAberturaStore, getFrameStore, nearestLoaded, PASSO_PRIORITARIO, splitLoadOrder } from './frames';
 
 describe('emParalelo', () => {
   const adiado = () => {
@@ -112,5 +112,25 @@ describe('PASSO_PRIORITARIO', () => {
   it('a abertura espera 1 a cada 8 quadros e o último (31 de 240), metade do que esperava antes', () => {
     expect(PASSO_PRIORITARIO).toBe(8);
     expect(splitLoadOrder(240, PASSO_PRIORITARIO).priority).toHaveLength(31);
+  });
+});
+
+describe('abertura', () => {
+  it('mora em /hero/abertura com prefixo a_', () => {
+    expect(frameUrl('mobile', 0, 'avif', 'abertura')).toBe('/hero/abertura/mobile/a_001.avif');
+    expect(frameUrl('desktop', 38, 'webp', 'abertura')).toBe('/hero/abertura/desktop/a_039.webp');
+  });
+  it('a Hero continua em /hero/frames com prefixo f_', () => {
+    expect(frameUrl('desktop', 0, 'avif')).toBe('/hero/frames/desktop/f_001.avif');
+  });
+  it('com passo 1, todos os quadros são prioritários', () => {
+    expect(splitLoadOrder(39, 1).priority).toHaveLength(39);
+    expect(new FrameStore('desktop', 39, 'abertura', 1).prioritarios).toBe(39);
+    expect(new FrameStore('desktop').prioritarios).toBe(splitLoadOrder(240, PASSO_PRIORITARIO).priority.length);
+  });
+  it('um armazenamento por aparelho, separado do da Hero', () => {
+    expect(getAberturaStore('mobile')).toBe(getAberturaStore('mobile'));
+    expect(getAberturaStore('mobile')).not.toBe(getFrameStore('mobile'));
+    expect(getAberturaStore('desktop').prioritarios).toBe(39);
   });
 });

@@ -5,6 +5,7 @@
   --c-text-muted: rgba(255, 255, 255, 0.78);
   --c-red: #d2003c;
   --c-yellow: #ffc906;
+  --c-luz-verde: #00db6b;
   --f-display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --f-body: 'Inter', system-ui, sans-serif;
   --gutter: clamp(1rem, 5vw, 5rem);

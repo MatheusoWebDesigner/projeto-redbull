@@ -1,15 +1,19 @@
 import { FRAME_COUNT } from './scrub';
+import { QUADROS_ABERTURA } from './abertura';
 import { asset } from '../core/url';
 
 export type FrameSet = 'desktop' | 'mobile';
 export type Formato = 'avif' | 'webp';
+/** `frames`: a sequência da Hero; `abertura`: a câmera que atravessa o carro antes dela. */
+export type Pasta = 'frames' | 'abertura';
+const PREFIXO: Record<Pasta, string> = { frames: 'f', abertura: 'a' };
 
 /** A abertura espera 1 a cada 8 quadros (e o último); os outros carregam enquanto a pessoa lê o capítulo 1. */
 export const PASSO_PRIORITARIO = 8;
 
-export function frameUrl(set: FrameSet, index: number, formato: Formato = 'webp'): string {
+export function frameUrl(set: FrameSet, index: number, formato: Formato = 'webp', pasta: Pasta = 'frames'): string {
   const n = String(index + 1).padStart(3, '0');
-  return asset(`/hero/frames/${set}/f_${n}.${formato}`);
+  return asset(`/hero/${pasta}/${set}/${PREFIXO[pasta]}_${n}.${formato}`);
 }
 
 /** AVIF de 1×1 px: se o navegador decodifica, os quadros vêm em AVIF (~45% menores); senão, em WebP. */
@@ -61,8 +65,18 @@ export class FrameStore {
   private loading: Promise<void> | null = null;
   private formato: Formato = 'webp';
 
-  constructor(private readonly set: FrameSet, private readonly count = FRAME_COUNT) {
+  constructor(
+    private readonly set: FrameSet,
+    private readonly count = FRAME_COUNT,
+    private readonly pasta: Pasta = 'frames',
+    private readonly passo = PASSO_PRIORITARIO,
+  ) {
     this.images = new Array(count).fill(null);
+  }
+
+  /** Quantos quadros o carregamento espera antes de resolver (o peso deste conjunto nas luzes). */
+  get prioritarios(): number {
+    return splitLoadOrder(this.count, this.passo).priority.length;
   }
 
   /**
@@ -76,7 +90,7 @@ export class FrameStore {
 
   private async loadAll(onPriorityProgress: (fraction: number) => void): Promise<void> {
     this.formato = await formatoDosQuadros();
-    const { priority, rest } = splitLoadOrder(this.count, PASSO_PRIORITARIO);
+    const { priority, rest } = splitLoadOrder(this.count, this.passo);
     let done = 0;
     await emParalelo(priority, PARALELO, async (i) => {
       await this.loadOne(i);
@@ -101,7 +115,7 @@ export class FrameStore {
         resolve();
       };
       img.onerror = () => resolve();
-      img.src = frameUrl(this.set, i, this.formato);
+      img.src = frameUrl(this.set, i, this.formato, this.pasta);
     });
   }
 }
@@ -114,6 +128,18 @@ export function getFrameStore(set: FrameSet): FrameStore {
   if (!store) {
     store = new FrameStore(set);
     stores.set(set, store);
+  }
+  return store;
+}
+
+const aberturas = new Map<FrameSet, FrameStore>();
+
+/** Quadros da abertura: todos prioritários, porque ela toca inteira logo depois das luzes. */
+export function getAberturaStore(set: FrameSet): FrameStore {
+  let store = aberturas.get(set);
+  if (!store) {
+    store = new FrameStore(set, QUADROS_ABERTURA, 'abertura', 1);
+    aberturas.set(set, store);
   }
   return store;
 }

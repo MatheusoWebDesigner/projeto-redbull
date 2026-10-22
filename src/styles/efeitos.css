@@ -1,0 +1,66 @@
+/* Rodada 2 (Figma, página 11). Tudo decorativo: só transform/opacity, alimentado por --vel e --vel-abs (core/velocidade.ts). */
+
+/* Fundo vivo: as seções têm fundo opaco, então a camada fica por cima, com alfa baixo e sem mix-blend-mode. */
+.fundo-vivo { position: fixed; inset: 0; z-index: 40; pointer-events: none; overflow: hidden; }
+.fundo-vivo::before {
+  content: ''; position: absolute; inset: -50%; opacity: 0.05;
+  background: url('../assets/grao-pintura.webp');
+  animation: grao 0.75s steps(1) infinite paused; /* 9 posições a cada 1/12 s */
+}
+/* Só mexe enquanto a pessoa rola (WCAG 2.2.2: nada se move sozinho por mais de 5 s). */
+.fundo-vivo.is-rolando::before { animation-play-state: running; }
+@keyframes grao {
+  0% { transform: translate(0, 0); }
+  11% { transform: translate(-5%, -8%); }
+  22% { transform: translate(-12%, 4%); }
+  33% { transform: translate(6%, -14%); }
+  44% { transform: translate(-3%, 13%); }
+  55% { transform: translate(11%, 2%); }
+  66% { transform: translate(-14%, -3%); }
+  77% { transform: translate(4%, 9%); }
+  88% { transform: translate(9%, -6%); }
+}
+/* Luz difusa no alto à direita; rolando rápido vira um rastro horizontal. */
+.fundo-vivo__luz {
+  position: absolute; right: -15vw; top: -25vh; width: 70vw; height: 75vh;
+  background: radial-gradient(closest-side, rgba(21, 51, 128, 0.1), rgba(21, 51, 128, 0));
+  transform-origin: 70% 30%;
+  transform: scale(calc(1 + var(--vel-abs, 0) * 1.6), calc(1 - var(--vel-abs, 0) * 0.6));
+}
+.fundo-vivo__linhas i {
+  position: absolute; height: 1px; opacity: var(--vel-abs, 0);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0));
+}
+.fundo-vivo__linhas i:nth-child(1) { top: 20%; left: 4%; width: 36%; }
+.fundo-vivo__linhas i:nth-child(2) { top: 29%; left: 62%; width: 26%; }
+.fundo-vivo__linhas i:nth-child(3) { top: 45%; left: 21%; width: 44%; }
+.fundo-vivo__linhas i:nth-child(4) { top: 58%; left: 72%; width: 21%; }
+.fundo-vivo__linhas i:nth-child(5) { top: 71%; left: 10%; width: 32%; }
+.fundo-vivo__linhas i:nth-child(6) { top: 84%; left: 49%; width: 39%; }
+.fundo-vivo__linhas i:nth-child(7) { top: 33%; left: 29%; width: 18%; }
+
+/* Títulos grandes inclinam e esticam com a velocidade (os da Hero ficam de fora: já entram letra a letra). */
+:is(.titulo-secao, .parada__titulo, .etapa__titulo, .etapa-dm01__titulo, .era__titulo, .legado__titulo) {
+  transform-origin: left center;
+  transform: skewX(calc(var(--vel, 0) * -8deg)) scaleX(calc(1 + var(--vel-abs, 0) * 0.04));
+}
+/* Única seção com título fora de um palco que já corta: o esticão não pode criar rolagem horizontal. */
+.legado { overflow-x: clip; }
+
+/* Faixas diagonais na entrada do DM01 e da Pintura (sections/faixas). O giro e o x vêm do GSAP. */
+.faixas-transicao { position: fixed; inset: 0; z-index: 45; pointer-events: none; overflow: hidden; visibility: hidden; }
+.faixas-transicao.is-ativa { visibility: visible; }
+/* Só aparecem em movimento: parou no meio da passagem, elas somem e não tapam texto; com foco de teclado, nunca. */
+.faixas-transicao { opacity: min(1, calc(var(--vel-abs, 0) * 5)); }
+body:has(:focus-visible) .faixas-transicao { visibility: hidden; }
+.faixas-transicao__grupo { position: absolute; left: 0; top: calc(50% - 90vmax); height: 180vmax; display: flex; will-change: transform; }
+/* Larguras limitadas pela largura da tela: em pé (vmax = altura), a faixa escura nunca cobre mais de ~40% (spec). */
+.faixas-transicao__grupo span:nth-child(1) { width: min(1.2vmax, 2vw); background: var(--c-yellow); }
+.faixas-transicao__grupo span:nth-child(2) { width: min(6vmax, 9vw); background: var(--c-red); }
+.faixas-transicao__grupo span:nth-child(3) { width: min(26vmax, 30vw); background: var(--c-bg); }
+
+@media (forced-colors: active) { .fundo-vivo, .faixas-transicao { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .fundo-vivo::before { animation: none; }
+  .fundo-vivo__linhas, .faixas-transicao { display: none; }
+}

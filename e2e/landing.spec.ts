@@ -37,6 +37,18 @@ test.describe('Landing RB22', () => {
     await expect(landing.page.locator('.palco3d #showroom + #aero, .palco3d #showroom ~ #aero')).toHaveCount(1);
   });
 
+  test('largada: as luzes ficam verdes antes de o loader sair e a abertura pousa no capítulo 1', async ({ page }) => {
+    await page.goto('/');
+    // O verde dura 400 ms antes de o loader sair: confere a cada quadro, para não perder a janela.
+    await page.waitForFunction(() => document.querySelector('.loader__lights')!.classList.contains('is-verde')
+      && !document.querySelector('.loader')!.classList.contains('is-done'), null, { polling: 'raf', timeout: 30_000 });
+    await expect(page.locator('.loader__label')).toHaveText('Largada!');
+    await expect(page.locator('.loader')).toHaveClass(/\bis-done\b/);
+    await expect(page.locator('html')).not.toHaveClass(/\bis-abertura\b/, { timeout: 5_000 });
+    await expect(page.locator('.chapter[data-chapter="0"]')).toHaveClass(/\bis-active\b/);
+    expect(landing.requisicoes.filter((u) => u.includes('/hero/abertura/')).length).toBeGreaterThan(0);
+  });
+
   test('Showroom: as barras levam às paradas', async () => {
     // Sem o 3D: no WebGL por software do headless cada quadro com a câmera em movimento leva ~1,4 s, e um quadro
     // acima de 200 ms dispara o encaixe no meio do lenis.scrollTo (bug documentado no teste "corrida" abaixo).
@@ -213,6 +225,7 @@ test.describe('Landing RB22 · movimento reduzido', () => {
     await landing.abrir();
     await expect(page.locator('html')).toHaveClass(/\breduced\b/);
     await expect(page.locator('.pin-spacer')).toHaveCount(0);
+    expect(landing.requisicoes.filter((u) => u.includes('/hero/abertura/'))).toHaveLength(0); // sem abertura no movimento reduzido
 
     // Blocos que no modo animado entram e saem por opacidade: aqui ficam todos à mostra.
     const blocosApagados = await page.locator('main :is(article, .etapa, .etapa-dm01, .era, .parada, .chapter)').evaluateAll((els) =>
