@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Vec3 } from '../../three/convert';
-import { arrasto, GIRO_MAX, INCLINA_MAX, orbitar } from './orbit';
+import { arrasto, GIRO_MAX, GIRO_PASSO, girarPasso, INCLINA_MAX, orbitar } from './orbit';
 
 const dist = (a: Vec3, b: Vec3) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
 
@@ -64,5 +64,16 @@ describe('orbitar nas bordas', () => {
     expect(dist(r, alvo)).toBeCloseTo(3, 10);
     expect(horizontal(r)).toBeGreaterThan(0.1);
     expect(r[0] - alvo[0]).toBeGreaterThan(0);
+  });
+});
+
+describe('girarPasso (botões, sem arrastar)', () => {
+  it('cada clique gira um passo para o lado pedido, sem mexer na inclinação', () => {
+    expect(girarPasso({ giro: 0, inclina: 4 }, 1)).toEqual({ giro: GIRO_PASSO, inclina: 4 });
+    expect(girarPasso({ giro: 0, inclina: 0 }, -1).giro).toBe(-GIRO_PASSO);
+  });
+  it('respeita o mesmo limite do arraste', () => {
+    expect(girarPasso({ giro: GIRO_MAX - 1, inclina: 0 }, 1).giro).toBe(GIRO_MAX);
+    expect(girarPasso({ giro: -GIRO_MAX, inclina: 0 }, -1).giro).toBe(-GIRO_MAX);
   });
 });

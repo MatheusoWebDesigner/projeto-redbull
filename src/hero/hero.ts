@@ -11,6 +11,7 @@ import { textoCabeNoPalco } from './layout';
 import { chapterIndexFor, FRAME_COUNT, frameIndexFor, SNAP_POINTS } from './scrub';
 import { gear, rpm, speedKmh } from './telemetry';
 import { asset } from '../core/url';
+import { prefersReducedMotion } from '../core/motion';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -91,6 +92,7 @@ function bloquearPagina(sim: boolean): void {
 function dismissLoader(loader: HTMLElement): void {
   loader.classList.add('is-done');
   loader.setAttribute('aria-hidden', 'true');
+  loader.inert = true; // o botão "Reduzir movimento" do loader não pode ficar no Tab depois que ele some
   bloquearPagina(false);
 }
 
@@ -158,7 +160,7 @@ export async function initHero(): Promise<void> {
 
 async function montarHero(loader: HTMLElement): Promise<void> {
   const set: FrameSet = window.matchMedia(CELULAR).matches ? 'mobile' : 'desktop';
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reduced = prefersReducedMotion();
   const hero = qs<HTMLElement>('.hero');
   const stage = qs<HTMLElement>('.hero__stage');
   const canvas = qs<HTMLCanvasElement>('.hero__canvas');

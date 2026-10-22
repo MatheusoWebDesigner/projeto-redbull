@@ -12,6 +12,7 @@ html, body { margin: 0; background: var(--c-bg); color: var(--c-text); font-fami
 .loader__lights span.is-lit { background: #ff1a3c; box-shadow: 0 0 24px #ff1a3c, inset 0 0 0 3px #7a0018; }
 /* Largada: com tudo carregado as 5 viram verdes juntas (licença criativa; na F1 real elas apagam). */
 .loader__lights.is-verde span.is-lit { background: var(--c-luz-verde); box-shadow: 0 0 24px var(--c-luz-verde), inset 0 0 0 3px #00602f; transition-duration: 0.12s; }
+.loader__movimento { margin-top: 0.5rem; }
 .loader__label { margin: 0; text-align: center; color: var(--c-text-muted); font-size: 0.875rem; letter-spacing: 0.2em; text-transform: uppercase; }
 
 /* Hero */

@@ -18,6 +18,7 @@
         <span></span><span></span><span></span><span></span><span></span>
       </div>
       <p class="loader__label">Aquecendo os motores…</p>
+      <button type="button" class="btn btn--secundario loader__movimento" data-alternar-movimento hidden>Reduzir movimento</button>
     </div>
     <!-- Anúncio da largada para leitor de tela: fora do progressbar (filhos dele são apresentacionais) e fora do <main inert>. -->
     <p class="sr-only" role="status" data-anuncio></p>
@@ -90,7 +91,11 @@
         <section id="showroom" class="secao showroom" aria-labelledby="showroom-titulo">
           <div class="showroom__stage">
             <h2 id="showroom-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Showroom 3D</h2>
-            <p class="rotulo showroom__dica" aria-hidden="true">← Arraste para girar →</p>
+            <div class="rotulo showroom__dica" role="group" aria-label="Girar o carro">
+              <button type="button" class="showroom__girar" data-girar="-1" aria-label="Girar o carro para a esquerda"><span aria-hidden="true">←</span></button>
+              <span aria-hidden="true">Arraste para girar</span>
+              <button type="button" class="showroom__girar" data-girar="1" aria-label="Girar o carro para a direita"><span aria-hidden="true">→</span></button>
+            </div>
             <div class="showroom__paradas">
               <article class="parada is-active" data-parada="0">
                 <h3 class="parada__titulo parada__titulo--grande">O carro. Por inteiro.</h3>
@@ -422,7 +427,7 @@
         <div><h2 class="kicker">Créditos</h2><p>Modelo 3D: “F1 2026 Concept” por Qvist_designs (Sketchfab), licença CC BY 4.0 — modificado: pintura, UV da asa dianteira, flaps móveis. Iluminação: “Studio Small 09” por Sergej Majboroda (Poly Haven, CC0). Motor DM01: representação esquemática própria. Fontes: Barlow Condensed e Inter (SIL OFL).</p></div>
         <div><h2 class="kicker">Dados</h2><p>Números de fontes públicas, conferidos em outubro de 2026. Valores marcados “aprox.” são aproximados; cores das pinturas antigas também.</p></div>
       </div>
-      <div class="rodape__base"><p class="kicker">RB22 · 2026</p><p class="rotulo">Design e desenvolvimento: Matheus Reis</p></div>
+      <div class="rodape__base"><p class="kicker">RB22 · 2026</p><button type="button" class="btn btn--secundario" data-alternar-movimento hidden>Reduzir movimento</button><p class="rotulo">Design e desenvolvimento: Matheus Reis</p></div>
     </footer>
 
     <script type="module" src="/src/main.ts"></script>

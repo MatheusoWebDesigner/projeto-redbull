@@ -2,6 +2,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { countFrame, parseValue } from '../../core/countup';
 import { cardEntrou, trackShift } from './track';
+import { prefersReducedMotion } from '../../core/motion';
 import './numeros.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -39,7 +40,7 @@ export function initNumeros(): void {
   };
 
   gsap.matchMedia().add({ fixar: PIN_CABE, sempre: 'all' }, (ctx) => {
-    if (!ctx.conditions?.fixar) {
+    if (!ctx.conditions?.fixar || prefersReducedMotion()) { // a escolha da página também desliga o pin
       section.classList.add('is-estatico');
       return () => section.classList.remove('is-estatico');
     }

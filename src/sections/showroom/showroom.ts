@@ -3,7 +3,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { startSmoothScroll } from '../../core/scroll';
 import hotspotsData from '../../data/hotspots.json';
 import type { Contexto, Fixar } from '../palco3d/palco3d';
-import { arrasto, type Orbita } from './orbit';
+import { arrasto, girarPasso, type Orbita } from './orbit';
 import { estadoHotspot, ladoDoRotulo, PECAS } from './hotspots';
 import { estadoBarras, paradaAtiva, poseNoTrilho, PONTOS_SHOWROOM } from './rail';
 import { asset } from '../../core/url';
@@ -95,6 +95,12 @@ export function initShowroom(ctx: Contexto): Fixar {
     const soltar = () => { inicio = null; stage.classList.remove('is-arrastando'); };
     stage.addEventListener('pointerup', soltar);
     stage.addEventListener('pointercancel', soltar);
+
+    // Alternativa ao arraste (WCAG 2.5.7): as setas da dica giram o carro um passo por clique.
+    stage.querySelectorAll<HTMLButtonElement>('[data-girar]').forEach((b) => b.addEventListener('click', () => {
+      if (!st || !ctx.palco()) return;
+      gsap.to(orbita, { ...girarPasso(orbita, Number(b.dataset.girar) as 1 | -1), duration: 0.5, ease: 'power2.out', overwrite: true, onUpdate: render });
+    }));
 
     // Cursor próprio (só mouse): anel "arraste para girar" que segue o ponteiro com leve atraso.
     const cursor = stage.querySelector<HTMLElement>('.cursor-giro');

@@ -49,6 +49,20 @@ test.describe('Landing RB22', () => {
     expect(landing.requisicoes.filter((u) => u.includes('/hero/abertura/')).length).toBeGreaterThan(0);
   });
 
+  test('"Reduzir movimento" do rodapé recarrega sem pins e "Ativar movimento" volta', async ({ page }) => {
+    await landing.abrir();
+    const botao = page.locator('footer [data-alternar-movimento]');
+    await expect(botao).toHaveText('Reduzir movimento');
+    await botao.click();
+    await expect(page.locator('html')).toHaveClass(/\breduced\b/, { timeout: 30_000 });
+    await expect(page.locator('.pin-spacer')).toHaveCount(0);
+    await expect(botao).toHaveText('Ativar movimento');
+    await expect(page.locator('.loader [data-alternar-movimento]')).toBeHidden();
+    await botao.click();
+    await expect(page.locator('.pin-spacer .fechamento__stage')).toBeAttached({ timeout: 30_000 });
+    await expect(page.locator('html')).not.toHaveClass(/\breduced\b/);
+  });
+
   test('Showroom: as barras levam às paradas', async () => {
     // Sem o 3D: no WebGL por software do headless cada quadro com a câmera em movimento leva ~1,4 s, e um quadro
     // acima de 200 ms dispara o encaixe no meio do lenis.scrollTo (bug documentado no teste "corrida" abaixo).

@@ -15,7 +15,10 @@
 .is-arrastando .cursor-giro__girando { display: inline; }
 @media (prefers-reduced-motion: reduce), (forced-colors: active) { .cursor-giro { display: none; } }
 :is(.reduced, .is-empilhado) .cursor-giro { display: none; }
-.showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); margin: 0; padding: 0.5rem 0.875rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); white-space: nowrap; }
+.showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); z-index: 5; margin: 0; padding: 0.25rem; display: flex; align-items: center; gap: 0.5rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); white-space: nowrap; }
+.showroom__girar { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; background: transparent; color: var(--c-text); font-size: 1rem; cursor: pointer; }
+.showroom__girar:hover { border-color: var(--c-text); }
+.showroom__girar:focus-visible { outline: 3px solid var(--c-yellow); outline-offset: 2px; }
 .showroom__paradas { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); width: min(24rem, 32vw); }
 .parada { position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 100%; opacity: 0; pointer-events: none; }
 .parada.is-active { opacity: 1; pointer-events: auto; z-index: 1; }

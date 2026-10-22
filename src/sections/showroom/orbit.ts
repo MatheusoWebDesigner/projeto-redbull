@@ -3,6 +3,8 @@ import type { Vec3 } from '../../three/convert';
 export const GIRO_MAX = 25;
 export const INCLINA_MAX = 10;
 const GRAUS_POR_PX = 0.15;
+/** Giro de cada clique nos botões de girar (a alternativa ao arraste). */
+export const GIRO_PASSO = 12.5;
 const POLO = 0.05; // nunca alinha a câmera com o eixo vertical
 
 export interface Orbita { giro: number; inclina: number }
@@ -15,6 +17,11 @@ export function arrasto(base: Orbita, dx: number, dy: number): Orbita {
     giro: limitar(base.giro + dx * GRAUS_POR_PX, GIRO_MAX),
     inclina: limitar(base.inclina + dy * GRAUS_POR_PX, INCLINA_MAX),
   };
+}
+
+/** Um passo de giro pelos botões, com o mesmo limite do arraste. */
+export function girarPasso(base: Orbita, sentido: 1 | -1): Orbita {
+  return { giro: limitar(base.giro + sentido * GIRO_PASSO, GIRO_MAX), inclina: base.inclina };
 }
 
 /** Gira a posição da câmera em torno do alvo: giro no eixo vertical e inclinação para cima. */
