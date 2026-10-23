@@ -151,17 +151,20 @@ test.describe('Landing RB22', () => {
     }
   });
 
-  test('Pintura: o nav leva à era 2026 e o render aparece', async () => {
+  test('Pintura: o carro aparece com as cores de 2005 e o nav leva ao de 2026', async () => {
     await landing.abrir();
     await landing.rolarPara(await landing.topoDe('#pintura'));
     await expect(landing.eraAtiva).toHaveAttribute('data-era', '0');
-    expect(await landing.opacidade('.pintura__render[data-brilho="a"]')).toBe(0);
+    // O carro aparece desde 2005, já com as cores da era; o de 2026 ainda escondido.
+    expect(await landing.opacidade('.pintura__render[data-era="0"]')).toBe(1);
+    expect(await landing.opacidade('.pintura__render[data-era="4"]')).toBe(0);
 
     const botao = landing.botaoEra('2026 RB22');
     await botao.click();
     await expect(landing.eraAtiva).toHaveAttribute('data-era', '4');
     await expect(botao).toHaveAttribute('aria-current', 'step');
-    await expect.poll(() => landing.opacidade('.pintura__render[data-brilho="a"]')).toBeGreaterThan(0.99);
+    await expect.poll(() => landing.opacidade('.pintura__render[data-era="4"]')).toBeGreaterThan(0.99);
+    expect(await landing.opacidade('.pintura__render[data-era="0"]')).toBe(0);
     await landing.esperarRolagemParar();
     await expect(landing.eraAtiva).toHaveAttribute('data-era', '4');
   });

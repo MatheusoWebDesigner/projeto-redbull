@@ -1,31 +1,26 @@
-export type Acabamento = 'brilhante' | 'fosco';
-
 export interface Era {
   ano: string;
   modelo: string;
-  acabamento: Acabamento;
-  /** Cor-base do chip (a primeira amostra da era). */
-  cor: string;
 }
 
-/** As 5 eras da spec (cores aproximadas). Os textos ficam no HTML, que também serve ao movimento reduzido. */
+/** As 5 eras (o RB22 com as cores de cada uma). Textos, cores e acabamentos ficam no HTML e nos renders. */
 export const ERAS: readonly Era[] = [
-  { ano: '2005', modelo: 'RB1', acabamento: 'brilhante', cor: '#102154' },
-  { ano: '2010–2013', modelo: 'RB6 → RB9', acabamento: 'brilhante', cor: '#14204A' },
-  { ano: '2016', modelo: 'RB12', acabamento: 'fosco', cor: '#1B2A6B' },
-  { ano: '2023', modelo: 'RB19', acabamento: 'fosco', cor: '#121F45' },
-  { ano: '2026', modelo: 'RB22', acabamento: 'brilhante', cor: '#153380' },
+  { ano: '2005', modelo: 'RB1' },
+  { ano: '2010–2013', modelo: 'RB6 → RB9' },
+  { ano: '2016', modelo: 'RB12' },
+  { ano: '2023', modelo: 'RB19' },
+  { ano: '2026', modelo: 'RB22' },
 ];
 
 const TOTAL = ERAS.length;
 const ULTIMA = TOTAL - 1;
 const EMPATE = 1e-9; // absorve o erro de ponto flutuante nas fronteiras (0,87 × 5 ≠ 4,35)
 
-/** Encaixe no meio de cada era: a faixa de reflexo para no centro do chip. */
+/** Encaixe no meio de cada era, longe das passadas de tinta. */
 export const PONTOS_PINTURA = ERAS.map((_, i) => (i + 0.5) / TOTAL);
 
-/** Na última era, fração do trecho em que o reflexo atravessa o chip; ao fim dela o chip vira render. */
-export const FIM_TRAVESSIA = 0.35;
+/** Meia largura (em eras) da passada de tinta em volta de cada fronteira: de 3/4 de uma era a 1/4 da seguinte. */
+const MEIA_PASSADA = 0.25;
 /** Na última era, o brilho começa a passar pela carroceria a partir do encaixe. */
 const INICIO_BRILHO = 0.5;
 
@@ -52,27 +47,23 @@ export function encaixeDaEra(i: number): number {
   return PONTOS_PINTURA[Math.min(ULTIMA, Math.max(0, Math.round(i) || 0))];
 }
 
-/** Posição da faixa de reflexo: 0 = antes da borda esquerda do chip, 1 = depois da direita. */
-export function posicaoReflexo(p: number): number {
-  const { era, u } = posicaoNoPin(p);
-  return era === ULTIMA ? Math.min(1, u / FIM_TRAVESSIA) : u;
-}
-
-/** Opacidade-alvo do render final: o chip vira o RB22 quando o reflexo termina de atravessar a última era. */
-export function opacidadeRender(p: number): number {
-  const { era, u } = posicaoNoPin(p);
-  return era === ULTIMA && u >= FIM_TRAVESSIA - EMPATE ? 1 : 0;
-}
-
-/** A faixa só existe no acabamento brilhante e enquanto o chip ainda é chip. */
-export function reflexoVisivel(p: number): boolean {
-  return ERAS[eraAtiva(p)].acabamento === 'brilhante' && opacidadeRender(p) === 0;
-}
-
 /** Crossfade do render: 0 = brilho_a, 1 = brilho_b. Começa no encaixe da última era e termina no fim do pin. */
 export function brilhoRender(p: number): number {
   const { era, u } = posicaoNoPin(p);
   return era === ULTIMA ? clamp01((u - INICIO_BRILHO) / (1 - INICIO_BRILHO)) : 0;
+}
+
+/**
+ * Pistola de tinta: perto da fronteira entre duas eras, a pintura nova (`para`) cobre a antiga (`de`) por uma
+ * frente que vai de 0 a 1. Fora dessas janelas — inclusive nos encaixes — não há passada (null).
+ */
+export function pistola(p: number): { de: number; para: number; frente: number } | null {
+  if (!Number.isFinite(p)) return null;
+  const s = clamp01(p) * TOTAL;
+  const k = Math.round(s);
+  if (k < 1 || k > ULTIMA) return null;
+  const frente = (s - (k - MEIA_PASSADA)) / (2 * MEIA_PASSADA);
+  return frente > EMPATE && frente < 1 - EMPATE ? { de: k - 1, para: k, frente } : null;
 }
 
 export type EstadoBarra = 'passada' | 'ativa' | 'futura';
