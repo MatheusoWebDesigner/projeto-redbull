@@ -1,4 +1,11 @@
 .fechamento__stage { position: relative; min-height: 100svh; display: grid; place-items: center; align-content: center; gap: 2.5rem; padding: 0 var(--gutter); overflow: hidden; }
+/* Horizonte de luz (vermelho → amarelo) nascendo atrás do "TE DÁ ASAS.": um círculo enorme com borda brilhante, só o topo à vista. */
+.fechamento__stage::before {
+  /* topo a 82%: os botões terminam por volta de 72–74% da altura da tela (medido em 1440×900, 1280×720 e 390×844) */
+  content: ''; position: absolute; left: 50%; top: 82%; width: max(180vw, 1600px); aspect-ratio: 1; border-radius: 50%; transform: translateX(-50%); pointer-events: none;
+  background: radial-gradient(closest-side, var(--c-bg) 98.9%, rgba(255, 201, 6, 0.22) 99.35%, rgba(210, 0, 60, 0.6) 99.7%, rgba(210, 0, 60, 0) 100%);
+  box-shadow: 0 0 70px 6px rgba(210, 0, 60, 0.14);
+}
 .fechamento__canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 .fechamento__titulo { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .fechamento__acoes { position: relative; display: grid; gap: 1.5rem; justify-items: center; text-align: center; margin-top: 34vh; opacity: 0; transform: translateY(16px); transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out); }

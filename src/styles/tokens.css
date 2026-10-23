@@ -1,5 +1,5 @@
 :root {
-  --c-bg: #03050d;
+  --c-bg: #050a1c; /* azul-marinho que se percebe (antes #03050d, quase preto) */
   --c-navy: #0b1538;
   --c-text: #ffffff;
   --c-text-muted: rgba(255, 255, 255, 0.78);

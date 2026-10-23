@@ -4,7 +4,8 @@
 .numeros__barra { position: relative; width: 12.5rem; height: 2px; background: rgba(255, 255, 255, 0.18); }
 .numeros__barra span { position: absolute; inset: 0 auto 0 0; width: calc(var(--nm-p, 0) * 100%); background: var(--c-red); }
 .numeros__trilho { list-style: none; margin: auto 0 0; padding: 0; display: flex; gap: 1.5rem; will-change: transform; flex: 1 1 0%; min-height: 0; max-height: 28.75rem; }
-.card { flex: none; width: 22.5rem; display: flex; flex-direction: column; justify-content: space-between; padding: 0 2rem 2rem; border-radius: 12px; background: var(--c-navy); border: 1px solid #153380; position: relative; overflow: hidden; }
+/* Canto superior direito chanfrado (22 px), com o filete azul acompanhando a diagonal: peça de corrida. */
+.card { flex: none; width: 22.5rem; display: flex; flex-direction: column; justify-content: space-between; padding: 0 2rem 2rem; border-radius: 12px; background: linear-gradient(225deg, transparent 15px, #153380 15px, #153380 16.5px, transparent 16.5px), var(--c-navy); border: 1px solid #153380; position: relative; overflow: hidden; clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%); }
 .card::before { content: ''; height: 4px; background: var(--c-red); }
 .card[data-tema='energia']::before { background: #3b6cff; }
 .card__numero { margin: auto 0 0.75rem; display: flex; align-items: baseline; gap: 0.5rem; }

@@ -15,7 +15,7 @@
 .is-arrastando .cursor-giro__girando { display: inline; }
 @media (prefers-reduced-motion: reduce), (forced-colors: active) { .cursor-giro { display: none; } }
 :is(.reduced, .is-empilhado) .cursor-giro { display: none; }
-.showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); z-index: 5; margin: 0; padding: 0.25rem; display: flex; align-items: center; gap: 0.5rem; border-radius: 999px; background: rgba(3, 5, 13, 0.6); white-space: nowrap; }
+.showroom__dica { position: absolute; top: 3.5rem; right: var(--gutter); z-index: 5; margin: 0; padding: 0.25rem; display: flex; align-items: center; gap: 0.5rem; border-radius: 999px; background: rgba(5, 10, 28, 0.6); white-space: nowrap; }
 .showroom__girar { width: 2.75rem; height: 2.75rem; display: grid; place-items: center; padding: 0; border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 50%; background: transparent; color: var(--c-text); font-size: 1rem; cursor: pointer; }
 .showroom__girar:hover { border-color: var(--c-text); }
 .showroom__girar:focus-visible { outline: 3px solid var(--c-yellow); outline-offset: 2px; }
@@ -32,7 +32,7 @@
 .parada__render { display: none; }
 .showroom__barras { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 3.5rem; display: flex; gap: 1rem; }
 /* Véu atrás dos rótulos: sobre a carroceria clara (parada 02) o texto caía para 1,5:1. Com ele, ≥ 4,5:1. */
-.showroom__barras::before { content: ''; position: absolute; z-index: -1; left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter)); top: -1.5rem; bottom: -3.5rem; background: linear-gradient(to top, rgba(3, 5, 13, 0.8) 70%, rgba(3, 5, 13, 0)); pointer-events: none; }
+.showroom__barras::before { content: ''; position: absolute; z-index: -1; left: calc(-1 * var(--gutter)); right: calc(-1 * var(--gutter)); top: -1.5rem; bottom: -3.5rem; background: linear-gradient(to top, rgba(5, 10, 28, 0.8) 70%, rgba(5, 10, 28, 0)); pointer-events: none; }
 .showroom__barras button { flex: 0 1 10rem; display: flex; flex-direction: column; gap: 0.75rem; padding: 0.5rem 0; background: none; border: 0; color: var(--c-text-muted); font: 500 0.6875rem/1.2 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; text-align: left; cursor: pointer; }
 .showroom__barra { height: 3px; background: rgba(255, 255, 255, 0.18); }
 .showroom__barras [data-estado='vista'] .showroom__barra { background: rgba(255, 255, 255, 0.5); }
@@ -41,10 +41,10 @@
 .showroom__hotspots { position: absolute; inset: 0; pointer-events: none; }
 .hotspot { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 0.75rem; transform: translate(var(--hx, 0), var(--hy, 0)); opacity: 0; transition: opacity 0.25s; }
 .hotspot.is-visivel { opacity: 1; }
-.hotspot__ponto { width: 1.25rem; height: 1.25rem; margin: -0.625rem; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.8); background: rgba(3, 5, 13, 0.5); }
-.hotspot__rotulo { position: absolute; right: 1.5rem; white-space: nowrap; padding: 0.375rem 0.625rem; border-radius: 4px; background: rgba(3, 5, 13, 0.85); font: 600 0.6875rem/1.2 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; opacity: 0; }
+.hotspot__ponto { width: 1.25rem; height: 1.25rem; margin: -0.625rem; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.8); background: rgba(5, 10, 28, 0.5); }
+.hotspot__rotulo { position: absolute; right: 1.5rem; white-space: nowrap; padding: 0.375rem 0.625rem; border-radius: 4px; background: rgba(5, 10, 28, 0.85); font: 600 0.6875rem/1.2 var(--f-body); letter-spacing: 0.18em; text-transform: uppercase; opacity: 0; }
 .hotspot[data-lado='direita'] .hotspot__rotulo { right: auto; left: 1.5rem; }
-.hotspot.is-ativo .hotspot__ponto { border-color: var(--c-yellow); background: radial-gradient(circle, var(--c-yellow) 0 40%, rgba(3, 5, 13, 0.5) 42%); box-shadow: 0 0 0 6px rgba(255, 201, 6, 0.25); }
+.hotspot.is-ativo .hotspot__ponto { border-color: var(--c-yellow); background: radial-gradient(circle, var(--c-yellow) 0 40%, rgba(5, 10, 28, 0.5) 42%); box-shadow: 0 0 0 6px rgba(255, 201, 6, 0.25); }
 .hotspot.is-ativo .hotspot__rotulo { opacity: 1; }
 .showroom__carregando[hidden] { display: none; }
 .showroom__carregando { position: absolute; left: 62%; top: 46%; display: grid; gap: 0.5rem; justify-items: start; }

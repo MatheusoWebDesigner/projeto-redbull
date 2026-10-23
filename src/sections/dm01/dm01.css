@@ -48,7 +48,7 @@
 .rotulo-peca {
   position: absolute; z-index: 2; left: var(--rx, 50%); top: var(--ry, 50%);
   display: grid; gap: 0.125rem; padding: 0.5rem 0.75rem; border-radius: 4px; border: 1px solid var(--c-red);
-  background: rgba(3, 5, 13, 0.85); opacity: 0; pointer-events: none;
+  background: rgba(5, 10, 28, 0.85); opacity: 0; pointer-events: none;
   transition: opacity 0.4s var(--ease-out), left 0.4s var(--ease-out), top 0.4s var(--ease-out);
 }
 .rotulo-peca[data-grupo='eletrico'] { border-color: var(--dm01-azul); }

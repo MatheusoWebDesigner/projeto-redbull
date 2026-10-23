@@ -1,4 +1,5 @@
-.legado { padding: 6rem var(--gutter) 4.5rem; background: radial-gradient(70% 90% at 50% 120%, rgba(11, 21, 56, 0.9), var(--c-bg) 70%); }
+.legado { padding: 6rem var(--gutter) 4.5rem; background: url('../../assets/fluxo-ar.svg') 50% 50% / cover no-repeat, radial-gradient(70% 90% at 50% 120%, rgba(11, 21, 56, 0.9), var(--c-bg) 70%); }
+@media (max-aspect-ratio: 1/1) { .legado { background-position: 40% 50%, 0 0; } }
 .legado__inner { display: grid; gap: 2.5rem; }
 .legado__titulo { margin: 0; font: italic 800 clamp(2.9rem, 6.1vw, 5.5rem)/0.92 var(--f-display); text-transform: uppercase; }
 .legado__corpo { max-width: 40rem; }

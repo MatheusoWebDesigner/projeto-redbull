@@ -22,7 +22,7 @@
 .cartao-modo__nota { margin: 0.75rem 0 0; }
 .aero__nota { margin-top: 1.25rem; max-width: 24rem; }
 .aero__legenda-perfil { position: absolute; left: 31%; top: 65%; margin: 0; opacity: var(--palco-perfil, 0); }
-.aero__angulo { position: absolute; left: 66%; top: 38%; margin: 0; display: grid; gap: 0.25rem; padding: 0.5rem 0.625rem; background: rgba(3, 5, 13, 0.85); opacity: var(--palco-perfil, 0); }
+.aero__angulo { position: absolute; left: 66%; top: 38%; margin: 0; display: grid; gap: 0.25rem; padding: 0.5rem 0.625rem; background: rgba(5, 10, 28, 0.85); opacity: var(--palco-perfil, 0); }
 .aero__angulo-titulo { color: var(--c-yellow); }
 .palco3d__perfil-svg { opacity: var(--palco-perfil, 0); }
 .aero__controle { position: absolute; left: var(--gutter); bottom: 3.5rem; display: flex; align-items: center; gap: 1.25rem; }

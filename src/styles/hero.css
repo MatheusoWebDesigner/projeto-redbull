@@ -22,8 +22,8 @@ html, body { margin: 0; background: var(--c-bg); color: var(--c-text); font-fami
 .hero__shade {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg, rgba(3, 5, 13, 0) 71%, rgba(3, 5, 13, 0.82) 100%),
-    linear-gradient(90deg, rgba(3, 5, 13, 0.92) 0%, rgba(3, 5, 13, 0.55) 38%, rgba(3, 5, 13, 0) 62%);
+    linear-gradient(180deg, rgba(5, 10, 28, 0) 71%, rgba(5, 10, 28, 0.82) 100%),
+    linear-gradient(90deg, rgba(5, 10, 28, 0.92) 0%, rgba(5, 10, 28, 0.55) 38%, rgba(5, 10, 28, 0) 62%);
 }
 
 .hero__chapters { position: absolute; left: var(--gutter); bottom: clamp(4rem, 14vh, 9rem); width: min(32rem, 40vw); }
@@ -51,8 +51,8 @@ html.is-abertura { overflow: hidden; }
 @media (max-aspect-ratio: 1/1) {
   .hero__shade {
     background:
-      linear-gradient(180deg, rgba(3, 5, 13, 0) 64%, rgba(3, 5, 13, 0.82) 100%),
-      linear-gradient(180deg, rgba(3, 5, 13, 0.92) 0%, rgba(3, 5, 13, 0.86) 30%, rgba(3, 5, 13, 0.4) 42%, rgba(3, 5, 13, 0) 55%);
+      linear-gradient(180deg, rgba(5, 10, 28, 0) 64%, rgba(5, 10, 28, 0.82) 100%),
+      linear-gradient(180deg, rgba(5, 10, 28, 0.92) 0%, rgba(5, 10, 28, 0.86) 30%, rgba(5, 10, 28, 0.4) 42%, rgba(5, 10, 28, 0) 55%);
   }
   .hero__progress { top: clamp(3.5rem, 8.5vh, 4.5rem); bottom: auto; left: var(--gutter); right: var(--gutter); }
   .hero__progress span { flex: 1; width: auto; }

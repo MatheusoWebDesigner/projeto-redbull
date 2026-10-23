@@ -20,6 +20,13 @@
   77% { transform: translate(4%, 9%); }
   88% { transform: translate(9%, -6%); }
 }
+/* Vinheta: as bordas da tela escurecem (cinema), o centro fica no azul-marinho da base. */
+.fundo-vivo__vinheta { position: absolute; inset: 0; background: radial-gradient(ellipse 75% 70% at 50% 45%, transparent 55%, rgba(1, 2, 8, 0.45) 100%); }
+/* Linhas de fluxo de ar (escoamento real em volta de um perfil de asa invertido): atrás do conteúdo de seções sem render/3D. */
+/* (o Legado leva as linhas no próprio legado.css, junto do degradê dele) */
+.manifesto__stage, .numeros__stage { background-image: url('../assets/fluxo-ar.svg'); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
+@media (max-aspect-ratio: 1/1) { .manifesto__stage, .numeros__stage { background-position: 40% 50%; } }
+
 /* Luz difusa no alto à direita; rolando rápido vira um rastro horizontal. */
 .fundo-vivo__luz {
   position: absolute; right: -15vw; top: -25vh; width: 70vw; height: 75vh;
