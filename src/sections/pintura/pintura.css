@@ -16,7 +16,8 @@
 .pintura__render.is-nova { opacity: 1; clip-path: polygon(0 0, calc(var(--x) + var(--incl)) 0, calc(var(--x) - var(--incl)) 100%, 0 100%); }
 /* 2026: brilho_b cobre brilho_a no fim do pin */
 .pintura__render[data-brilho='b'] { opacity: var(--brilho); }
-/* Névoa na borda da tinta: só aparece durante a passada */
+/* Névoa na borda da tinta: só aparece durante a passada e só sobre o carro (a área esmaece por cima do texto). */
+.pintura__nevoa-area { position: absolute; inset: 0; overflow: hidden; mask-image: linear-gradient(90deg, transparent 34%, #000 50%); }
 .pintura__nevoa {
   position: absolute; top: -10%; bottom: -10%; left: var(--x); width: 4rem; margin-left: -2rem;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0));
@@ -62,6 +63,7 @@ html:not(.reduced) .pintura:not(.is-empilhado) .era[data-era='4'].is-active .sel
 @media (max-aspect-ratio: 1/1) {
   .pintura__stage { padding: 4rem var(--gutter) 2rem; }
   .pintura__carro { --incl: 39%; }
+  .pintura__nevoa-area { mask-image: linear-gradient(180deg, transparent 52%, #000 64%); }
   .pintura__stage > .kicker { margin-top: 1rem; }
   .pintura__nota { bottom: 0.75rem; }
   .pintura__eras { top: 6.75rem; bottom: auto; right: var(--gutter); width: auto; align-items: start; }

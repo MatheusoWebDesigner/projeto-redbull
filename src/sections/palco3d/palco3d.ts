@@ -10,11 +10,11 @@ import { initAero } from '../aero/aero';
 import './palco3d.css';
 import '../showroom/showroom.css';
 import '../aero/aero.css';
-import { asset } from '../../core/url';
+import { asset, carregarImagensDoAparelho, type Aparelho } from '../../core/url';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export type Aparelho = 'desktop' | 'mobile';
+export type { Aparelho } from '../../core/url';
 /** Seção que manda no render de fundo: a que está ocupando a tela. */
 export type Dono = 'showroom' | 'aero';
 
@@ -44,7 +44,7 @@ export async function initPalco3D(): Promise<void> {
   const raiz = document.querySelector<HTMLElement>('[data-palco3d]');
   if (!raiz || prefersReducedMotion()) return;
   const aparelho: Aparelho = window.matchMedia('(max-aspect-ratio: 1/1)').matches ? 'mobile' : 'desktop';
-  trocarImagensDoAparelho(raiz, aparelho);
+  carregarImagensDoAparelho(raiz, aparelho);
   const usa3D = podeUsar3D(lerAmbiente());
   const render = raiz.querySelector<HTMLImageElement>('.palco3d__render')!;
   const canvas = raiz.querySelector<HTMLCanvasElement>('.palco3d__canvas')!;
@@ -107,12 +107,3 @@ export async function initPalco3D(): Promise<void> {
   });
 }
 
-/** Troca os renders de desktop pelos de celular quando for o caso. */
-function trocarImagensDoAparelho(raiz: HTMLElement, aparelho: Aparelho): void {
-  if (aparelho === 'desktop') return;
-  raiz.querySelectorAll<HTMLImageElement>('img[src*="/desktop/"]').forEach((img) => {
-    img.src = img.src.replace('/desktop/', '/mobile/');
-    img.width = 1080;
-    img.height = 2340;
-  });
-}

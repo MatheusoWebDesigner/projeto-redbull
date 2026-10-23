@@ -6,6 +6,8 @@
     <title>RB22 — Uma nova era | Projeto conceitual</title>
     <meta name="description" content="Landing conceitual do Red Bull RB22, o carro de Fórmula 1 de 2026. Projeto de portfólio, não afiliado à Red Bull." />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- A Inter já aparece no loader: pré-carregada, chega antes e o texto não pula ao trocar de fonte. -->
+    <link rel="preload" href="/src/assets/fonts/inter-variavel-latin.woff2" as="font" type="font/woff2" crossorigin />
     <!-- O pôster só aparece logo de cara no movimento reduzido; no resto, o loader espera os quadros. -->
     <link rel="preload" as="image" href="/hero/frames/poster_desktop.webp" media="(prefers-reduced-motion: reduce) and (min-aspect-ratio: 1/1)" />
     <link rel="preload" as="image" href="/hero/frames/poster_mobile.webp" media="(prefers-reduced-motion: reduce) and (max-aspect-ratio: 1/1)" />
@@ -79,11 +81,11 @@
       </section>
       <div class="palco3d" data-palco3d>
         <div class="palco3d__fundo" aria-hidden="true">
-          <img class="palco3d__render" src="/showroom/desktop/sr_00.webp" alt="" width="1920" height="1200" loading="lazy" />
+          <img class="palco3d__render" data-src="/showroom/desktop/sr_00.webp" alt="" width="1920" height="1200" loading="lazy" />
           <canvas class="palco3d__canvas"></canvas>
           <div class="palco3d__perfil">
-            <img data-perfil="curva" src="/aero/desktop/B_curva.webp" alt="" width="1920" height="1200" loading="lazy" />
-            <img data-perfil="reta" src="/aero/desktop/B_reta.webp" alt="" width="1920" height="1200" loading="lazy" />
+            <img data-perfil="curva" data-src="/aero/desktop/B_curva.webp" alt="" width="1920" height="1200" loading="lazy" />
+            <img data-perfil="reta" data-src="/aero/desktop/B_reta.webp" alt="" width="1920" height="1200" loading="lazy" />
             <div class="palco3d__perfil-svg"></div>
           </div>
         </div>
@@ -222,7 +224,7 @@
       </div>
       <section id="dm01" class="secao dm01" aria-labelledby="dm01-titulo">
         <div class="dm01__stage">
-          <img class="dm01__render" src="/dm01/desktop/E0.webp" alt="" width="1920" height="1200" aria-hidden="true" loading="lazy" />
+          <img class="dm01__render" data-src="/dm01/desktop/E0.webp" alt="" width="1920" height="1200" aria-hidden="true" loading="lazy" />
           <canvas class="dm01__canvas" aria-hidden="true"></canvas>
           <svg class="dm01__guias" aria-hidden="true"></svg>
           <h2 id="dm01-titulo" class="kicker"><span class="kicker__rule" aria-hidden="true"></span>Red Bull Ford DM01</h2>
@@ -315,7 +317,7 @@
             <picture class="pintura__render" data-era="3"><source media="(max-aspect-ratio: 1/1)" srcset="/pintura/mobile/era_3.webp" width="1080" height="2340" /><img src="/pintura/desktop/era_3.webp" alt="" width="1920" height="1200" loading="lazy" decoding="async" /></picture>
             <picture class="pintura__render" data-era="4"><source media="(max-aspect-ratio: 1/1)" srcset="/pintura/mobile/brilho_a.webp" width="1080" height="2340" /><img src="/pintura/desktop/brilho_a.webp" alt="" width="1920" height="1200" loading="lazy" decoding="async" /></picture>
             <picture class="pintura__render" data-brilho="b"><source media="(max-aspect-ratio: 1/1)" srcset="/pintura/mobile/brilho_b.webp" width="1080" height="2340" /><img src="/pintura/desktop/brilho_b.webp" alt="" width="1920" height="1200" loading="lazy" decoding="async" /></picture>
-            <span class="pintura__nevoa"></span>
+            <span class="pintura__nevoa-area"><span class="pintura__nevoa"></span></span>
           </div>
           <div class="pintura__eras">
             <article class="era is-active" data-era="0" data-acabamento="brilhante">

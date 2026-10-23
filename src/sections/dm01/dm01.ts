@@ -10,7 +10,7 @@ import { PALCO_CABE } from '../palco3d/palco3d';
 import { barra5050, etapaDm01, PONTOS_DM01, PROPORCAO_FOGO, rotulosVisiveis } from './estados';
 import { POSICOES_ROTULOS, pontoDeSaida, pontoNoCover } from './rotulos';
 import './dm01.css';
-import { asset } from '../../core/url';
+import { asset, carregarImagensDoAparelho } from '../../core/url';
 import { ligarEncaixe } from '../../core/encaixe';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,9 +38,7 @@ export async function initDm01(): Promise<void> {
   const marcas = Array.from(stage.querySelectorAll<HTMLElement>('.dm01__progresso span'));
   const rotulos = Array.from(stage.querySelectorAll<HTMLElement>('.rotulo-peca'));
   const total = stage.querySelector<HTMLElement>('[data-contar-total]')!;
-  if (aparelho === 'mobile') {
-    stage.querySelectorAll<HTMLImageElement>('img[src*="/desktop/"]').forEach((img) => { img.src = img.src.replace('/desktop/', '/mobile/'); img.width = 1080; img.height = 2340; });
-  }
+  carregarImagensDoAparelho(stage, aparelho);
   stage.style.setProperty('--dm01-fogo', String(PROPORCAO_FOGO));
   const pose = toPose(dados.cameras[aparelho] as PoseBruta);
   let palco: PalcoDm01 | null = null;
